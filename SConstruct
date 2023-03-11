@@ -18,14 +18,14 @@ sources = Glob("src/*.cpp")
 
 if env["platform"] == "macos":
     library = env.SharedLibrary(
-        "demo/bin/libgdexample.{}.{}.framework/libgdexample.{}.{}".format(
+        "project/addons/discord-rpc-gd/bin/libgd-discordrpc.{}.{}.framework/discord-rpc-gd.{}.{}".format(
             env["platform"], env["target"], env["platform"], env["target"]
         ),
         source=sources,
     )
 else:
     library = env.SharedLibrary(
-        "demo/bin/libgdexample{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        "project/addons/discord-rpc-gd/bin/libgd-discordrpc{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
 
