@@ -48,9 +48,7 @@ int Example::def_args(int p_a, int p_b) {
 	return p_a + p_b;
 }
 
-void Example::_notification(int p_what) {
-	UtilityFunctions::print("Notification: ", String::num(p_what));
-}
+
 
 bool Example::_set(const StringName &p_name, const Variant &p_value) {
 	String name = p_name;
@@ -334,4 +332,7 @@ bool Example::_has_point(const Vector2 &point) const {
 	label->set_text("Got point: " + Variant(point).stringify());
 
 	return false;
+}
+void Example::_ready() {
+	UtilityFunctions::print("this is a test");
 }

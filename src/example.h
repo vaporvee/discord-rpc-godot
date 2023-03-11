@@ -122,6 +122,7 @@ public:
 
 	// Virtual function override (no need to bind manually).
 	virtual bool _has_point(const Vector2 &point) const override;
+    void _ready();
 };
 
 VARIANT_ENUM_CAST(Example::Constants);
