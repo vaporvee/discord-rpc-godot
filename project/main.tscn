@@ -9,6 +9,6 @@ offset_right = 79.0
 offset_bottom = 29.0
 text = "Click me!"
 
-[node name="GDExample" type="GDExample" parent="."]
-position = Vector2(0.0676828, 0.462702)
+[node name="DiscordRPC" type="DiscordRPC" parent="."]
+position = Vector2(0.847451, 10.8162)
 texture = ExtResource("1_qdvaq")

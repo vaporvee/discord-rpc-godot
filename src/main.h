@@ -1,12 +1,12 @@
-#ifndef GDEXAMPLE_H
-#define GDEXAMPLE_H
+#ifndef DISCORDRPC_H
+#define DISCORDRPC_H
 
 #include <godot_cpp/classes/sprite2d.hpp>
 
 namespace godot {
 
-class GDExample : public Sprite2D {
-    GDCLASS(GDExample, Sprite2D)
+class DiscordRPC : public Sprite2D {
+    GDCLASS(DiscordRPC, Sprite2D)
 
 private:
     float time_passed;
@@ -15,8 +15,8 @@ protected:
     static void _bind_methods();
 
 public:
-    GDExample();
-    ~GDExample();
+    DiscordRPC();
+    ~DiscordRPC();
 
     void _process(float delta);
 };
