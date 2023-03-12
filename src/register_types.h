@@ -1,16 +1,7 @@
-/* godot-cpp integration testing project.
- *
- * This is free and unencumbered software released into the public domain.
- */
+#ifndef GDEXAMPLE_REGISTER_TYPES_H
+#define GDEXAMPLE_REGISTER_TYPES_H
 
-#ifndef EXAMPLE_REGISTER_TYPES_H
-#define EXAMPLE_REGISTER_TYPES_H
+void initialize_example_module();
+void uninitialize_example_module();
 
-#include <godot_cpp/core/class_db.hpp>
-
-using namespace godot;
-
-void initialize_example_module(ModuleInitializationLevel p_level);
-void uninitialize_example_module(ModuleInitializationLevel p_level);
-
-#endif // EXAMPLE_REGISTER_TYPES_H
+#endif // GDEXAMPLE_REGISTER_TYPES_H
