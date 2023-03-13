@@ -7,5 +7,5 @@ git submodule update --init
 ```
 <br>
 
-## Credit
+### Credit
 [@Pukimaa](https://github.com/pukimaa) - Logo Design
