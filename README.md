@@ -5,3 +5,7 @@ dont forget to run the following command if you clone this project or the godot-
 ```sh
 git submodule update --init
 ```
+<br>
+
+## Credit
+[@Pukimaa](https://github.com/pukimaa) - Logo Design
