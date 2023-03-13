@@ -1,12 +1,13 @@
 #ifndef DISCORDRPC_H
 #define DISCORDRPC_H
 
-#include <godot_cpp/classes/sprite2d.hpp>
+
+#include <godot_cpp/classes/node.hpp>
 
 namespace godot {
 
-class DiscordRPC : public Sprite2D {
-    GDCLASS(DiscordRPC, Sprite2D)
+class DiscordRPC : public Node {
+    GDCLASS(DiscordRPC, Node)
 
 private:
     float time_passed;
@@ -18,9 +19,10 @@ public:
     DiscordRPC();
     ~DiscordRPC();
 
+    void _ready();
     void _process(float delta);
 };
-
 }
+
 
 #endif
