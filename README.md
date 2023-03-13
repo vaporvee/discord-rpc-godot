@@ -1,4 +1,3 @@
-<br>
 <img width=275px src="https://raw.githubusercontent.com/vaporvee/discord-rpc-godot/main/project/assets/Logo_V2_Clyde.png?token=GHSAT0AAAAAAB74MRVSELJELBXVMZKQSNCCZAPTCRA">
 
 # discord-rpc-godot
