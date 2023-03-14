@@ -4,8 +4,9 @@
 #include "./discord-game-sdk-cpp/discord.h"
 
 using namespace godot;
+using namespace discord;
 
-discord::Core* core{};
+Core* core{};
 
 void DiscordRPC::_bind_methods() {
 }
@@ -20,13 +21,12 @@ DiscordRPC::~DiscordRPC() {
 }
 
 void DiscordRPC::_ready() {
-    UtilityFunctions::print("HELLO MOM");
-    discord::Result res /*= discord::Core::Create(53908232506183680, DiscordCreateFlags_NoRequireDiscord, &core)*/;
-	//discord::Activity activity{};
+    UtilityFunctions::print(core);
+    //auto res = Core::Create(53908232506183680, DiscordCreateFlags_NoRequireDiscord, &core);
+	Activity activity{};
 	//activity.SetState("Testing");
 	//activity.SetDetails("Fruit Loops");
-	//core->ActivityManager().UpdateActivity(activity, [](discord::Result res) {
-
+	//core->ActivityManager().UpdateActivity(activity, [](Result res) {
     //});
 }
 

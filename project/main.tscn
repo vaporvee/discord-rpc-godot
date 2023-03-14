@@ -1,6 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmx2xuigcpvt4"]
-
-[ext_resource type="Texture2D" uid="uid://cswr8vy4lt7dt" path="res://icon.png" id="1_qdvaq"]
+[gd_scene format=3 uid="uid://dmx2xuigcpvt4"]
 
 [node name="Node" type="Node"]
 
@@ -10,5 +8,3 @@ offset_bottom = 29.0
 text = "Click me!"
 
 [node name="DiscordRPC" type="DiscordRPC" parent="."]
-position = Vector2(0.847451, 10.8162)
-texture = ExtResource("1_qdvaq")
