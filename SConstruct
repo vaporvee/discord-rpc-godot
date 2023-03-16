@@ -13,9 +13,13 @@ env = SConscript("./godot-cpp/SConstruct")
 # - LINKFLAGS are for linking flags
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
-env.Append(CPPPATH=["src/"])
-sources = Glob("src/*.cpp")
 
+env.Append(CPPPATH=["src/","src/discord-game-sdk-cpp"])
+
+env.Append(LIBPATH=[ "./godot-cpp/bin", "src/discord-game-sdk-cpp/lib"])
+env.Append(LIBS=[ "libgodot-cpp{}{}".format(env["suffix"], env["SHLIBSUFFIX"]), "discord_game_sdk"])
+
+sources = Glob("src/*.cpp")
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         "project/addons/discord-rpc-gd/bin/libgd-discordrpc.{}.{}.framework/discord-rpc-gd.{}.{}".format(
@@ -28,5 +32,6 @@ else:
         "project/addons/discord-rpc-gd/bin/libgd-discordrpc{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
         source=sources,
     )
+
 
 Default(library)

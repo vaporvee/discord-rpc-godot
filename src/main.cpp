@@ -21,10 +21,10 @@ DiscordRPC::~DiscordRPC() {
 }
 
 void DiscordRPC::_ready() {
-    UtilityFunctions::print(core);
     discord::Result res /*= Core::Create(53908232506183680, DiscordCreateFlags_NoRequireDiscord, &core)*/;
-	/*Activity activity{};
-	activity.SetState("Testing");
+	Activity activity{};
+    UtilityFunctions::print(core);
+	/*activity.SetState("Testing");
 	activity.SetDetails("Fruit Loops");
 	core->ActivityManager().UpdateActivity(activity, [](Result res) {
     });*/
