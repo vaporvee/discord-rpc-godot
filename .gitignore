@@ -10,8 +10,5 @@
 # MacOS
 .DS_Store
 
-# Editors
-.vscode/
-
 #Cmake
 build/
