@@ -14,10 +14,9 @@ env = SConscript("./godot-cpp/SConstruct")
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 
-env.Append(CPPPATH=["src/","src/discord-game-sdk-cpp"])
-
-env.Append(LIBPATH=[ "./godot-cpp/bin", "src/discord-game-sdk-cpp/lib"])
-env.Append(LIBS=[ "libgodot-cpp{}{}".format(env["suffix"], env["SHLIBSUFFIX"]), "discord_game_sdk"])
+env.Append(CPPPATH=["src/"])
+env.Append(LIBS=["discord_game_sdk"])
+env.Append(LIBPATH=["project/addons/discord-rpc-gd/lib"])
 
 sources = Glob("src/*.cpp")
 if env["platform"] == "macos":
