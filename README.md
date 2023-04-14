@@ -5,7 +5,11 @@ dont forget to run the following command if you clone this project or the godot-
 ```sh
 git submodule update --init
 ```
-<br>
+<br />
 
 ### Credit
 [@Pukimaa](https://github.com/pukimaa) - Logo Design
+
+<br />
+
+*This project is not endorsed or affiliated with Discord Inc. or the Godot Foundation.*
