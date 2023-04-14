@@ -1,8 +1,20 @@
-#!/usr/bin/env python
+#!python
 import os
-import sys
 
-env = SConscript("./godot-cpp/SConstruct")
+opts = Variables([], ARGUMENTS)
+
+# Gets the standard flags CC, CCX, etc.
+env = SConscript("godot-cpp/SConstruct")
+
+# Define our options
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'project/addons/discord-rpc-gd/bin'))
+opts.Add(PathVariable('target_name', 'The library name.', 'discord_game_sdk', PathVariable.PathAccept))
+
+# Local dependency paths, adapt them to your setup
+discord_lib_path = "project/addons/discord-rpc-gd/bin"
+
+# Updates the environment with the option variables.
+opts.Update(env)
 
 # For the reference:
 # - CCFLAGS are compilation flags shared between C and C++
@@ -12,25 +24,38 @@ env = SConscript("./godot-cpp/SConstruct")
 # - CPPDEFINES are for pre-processor defines
 # - LINKFLAGS are for linking flags
 
+# Check our platform specifics
+if env['platform'] == "macos":
+    # Set the correct library
+    discord_library = 'discord_game_sdk.dylib'
+
+elif env['platform'] in ('linuxbsd', 'linux'):
+    # Set correct library
+    discord_library = 'discord_game_sdk.so'
+
+elif env['platform'] == "windows":
+    # This makes sure to keep the session environment variables on windows,
+    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
+    # env.Append(ENV=os.environ)
+
+    # Set correct library
+    discord_library = 'discord_game_sdk.dll'
+
+# make sure our binding library is properly includes
+env.Append(LIBPATH=[discord_lib_path])
+env.Append(CPPPATH=['src\discord-game-sdk-cpp'])
+env.Append(LIBS=[
+    discord_library.replace(".dll", "")
+])
+
 # tweak this if you want to use different folders, or more folders, to store your source code in.
+env.Append(CPPPATH=['src/'])
+sources = Glob('src/*.cpp')
 
-env.Append(CPPPATH=["src/"])
-env.Append(LIBS=["discord_game_sdk"])
-env.Append(LIBPATH=["project/addons/discord-rpc-gd/lib"])
-
-sources = Glob("src/*.cpp")
-if env["platform"] == "macos":
-    library = env.SharedLibrary(
-        "project/addons/discord-rpc-gd/bin/libgd-discordrpc.{}.{}.framework/discord-rpc-gd.{}.{}".format(
-            env["platform"], env["target"], env["platform"], env["target"]
-        ),
-        source=sources,
-    )
-else:
-    library = env.SharedLibrary(
-        "project/addons/discord-rpc-gd/bin/libgd-discordrpc{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
-        source=sources,
-    )
-
+library = env.SharedLibrary(target=env['target_path'] + env['target_name'] + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
+env.Depends(library, Command("project/addons/discord-rpc-gd/bin" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
 
 Default(library)
+
+# Generates help for the -h scons option.
+Help(opts.GenerateHelpText(env))
