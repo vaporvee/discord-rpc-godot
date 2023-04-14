@@ -12,3 +12,7 @@
 
 #Cmake
 build/
+
+#Cleanup unused build files
+project/addons/discord-rpc-gd/bin/*exp
+project/addons/discord-rpc-gd/bin/*lib
