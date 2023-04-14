@@ -1,7 +1,7 @@
 #include "main.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include "discord.h"
+#include "discord-game-sdk-cpp/discord.h"
 
 using namespace godot;
 

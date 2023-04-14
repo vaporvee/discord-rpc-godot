@@ -43,6 +43,7 @@ elif env['platform'] == "windows":
 
 # make sure our binding library is properly includes
 env.Append(LIBPATH=[discord_lib_path])
+sources = Glob('src/discord-game-sdk-cpp/*.cpp')
 env.Append(CPPPATH=['src/discord-game-sdk-cpp'])
 env.Append(LIBS=[
     discord_library.replace(".dll", "")
@@ -50,7 +51,7 @@ env.Append(LIBS=[
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['src/'])
-sources = Glob('src/*.cpp')
+sources += Glob('src/*.cpp')
 
 library = env.SharedLibrary(target="project/addons/discord-rpc-gd/bin/libgd-discordrpc" + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
 #env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))

@@ -2,7 +2,6 @@
 #define DISCORDRPC_H
 
 #include <godot_cpp/classes/node.hpp>
-#include "discord.h"
 
 namespace godot
 {
