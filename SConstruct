@@ -54,16 +54,8 @@ env.Append(LIBS=[
 env.Append(CPPPATH=['src/'])
 sources += Glob('src/*.cpp')
 
-mytarget = "project/addons/discord-rpc-gd/bin/discordrpc" + env["suffix"] + env["SHLIBSUFFIX"]
-
-def finish( target, source, env ):
-    if env['platform'] == "windows":
-        os.remove((mytarget + ".exp").replace(".dll", ""))
-        os.remove((mytarget + ".lib").replace(".dll", ""))
-library = env.SharedLibrary(target=mytarget, source=sources)
+library = env.SharedLibrary(target="project/addons/discord-rpc-gd/bin/discordrpc" + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
 env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
-
-Depends(library,Command(finish))
 
 Default(library)
 
