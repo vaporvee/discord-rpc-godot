@@ -8,9 +8,3 @@ offset_bottom = 29.0
 text = "Click me!"
 
 [node name="DiscordRPC" type="DiscordRPC" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-editor_description = ""
-script = null
