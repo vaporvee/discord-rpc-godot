@@ -43,7 +43,7 @@ elif env['platform'] == "windows":
 
 # make sure our binding library is properly includes
 env.Append(LIBPATH=[discord_lib_path])
-env.Append(CPPPATH=['src\discord-game-sdk-cpp'])
+env.Append(CPPPATH=['src/discord-game-sdk-cpp'])
 env.Append(LIBS=[
     discord_library.replace(".dll", "")
 ])
@@ -52,8 +52,8 @@ env.Append(LIBS=[
 env.Append(CPPPATH=['src/'])
 sources = Glob('src/*.cpp')
 
-library = env.SharedLibrary(target=env['target_path'] + env['target_name'] + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
-env.Depends(library, Command("project/addons/discord-rpc-gd/bin" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
+library = env.SharedLibrary(target="project/addons/discord-rpc-gd/bin/libgd-discordrpc" + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
+#env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
 
 Default(library)
 

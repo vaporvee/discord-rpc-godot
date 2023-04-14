@@ -2,11 +2,10 @@
 #define DISCORDRPC_H
 
 #include <godot_cpp/classes/node.hpp>
-#include "./discord-game-sdk-cpp/discord.h"
+#include "discord.h"
 
 namespace godot
 {
-
     class DiscordRPC : public Node
     {
         GDCLASS(DiscordRPC, Node)
