@@ -26,8 +26,8 @@ void DiscordRPC::_ready()
 {
     auto result = discord::Core::Create(461618159171141643, DiscordCreateFlags_Default, &core);
     discord::Activity activity{};
-    activity.SetState("Testing");
-    activity.SetDetails("Fruit Loops");
+    activity.SetState("Test from Godot!");
+    activity.SetDetails("I worked months on this");
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {
 
     });
