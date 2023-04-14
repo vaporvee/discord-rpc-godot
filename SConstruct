@@ -11,7 +11,7 @@ opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'pr
 opts.Add(PathVariable('target_name', 'The library name.', 'discord_game_sdk', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
-discord_lib_path = "project/addons/discord-rpc-gd/bin"
+discord_lib_path = "lib/discord-game-sdk"
 
 # Updates the environment with the option variables.
 opts.Update(env)
@@ -41,6 +41,7 @@ elif env['platform'] == "windows":
     # Set correct library
     discord_library = 'discord_game_sdk.dll'
 
+
 # make sure our binding library is properly includes
 env.Append(LIBPATH=[discord_lib_path])
 sources = Glob('src/discord-game-sdk-cpp/*.cpp')
@@ -53,8 +54,16 @@ env.Append(LIBS=[
 env.Append(CPPPATH=['src/'])
 sources += Glob('src/*.cpp')
 
-library = env.SharedLibrary(target="project/addons/discord-rpc-gd/bin/libgd-discordrpc" + env["suffix"] + env["SHLIBSUFFIX"], source=sources)
-#env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
+mytarget = "project/addons/discord-rpc-gd/bin/discordrpc" + env["suffix"] + env["SHLIBSUFFIX"]
+
+def finish( target, source, env ):
+    if env['platform'] == "windows":
+        os.remove((mytarget + ".exp").replace(".dll", ""))
+        os.remove((mytarget + ".lib").replace(".dll", ""))
+library = env.SharedLibrary(target=mytarget, source=sources)
+env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + discord_library, discord_lib_path + "/" + discord_library, Copy("$TARGET", "$SOURCE")))
+
+Depends(library,Command(finish))
 
 Default(library)
 
