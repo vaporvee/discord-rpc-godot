@@ -16,5 +16,5 @@ build/
 #Cleanup unused build files
 src/*obj
 src/discord-game-sdk-cpp/*obj
-project/addons/discord-rpc-gd/bin/*exp
-project/addons/discord-rpc-gd/bin/*lib
+project/addons/discord-rpc-gd/bin/windows/*exp
+project/addons/discord-rpc-gd/bin/windows/*lib
