@@ -4,3 +4,11 @@
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 457.0
+offset_top = 237.0
+offset_right = 729.0
+offset_bottom = 333.0
+bbcode_enabled = true
+text = "[font s=60][rainbow]RPC Test[/rainbow][/font]"
