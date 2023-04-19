@@ -11,6 +11,7 @@ discord::Core *core{};
 void DiscordSDK::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("debug"), &DiscordSDK::debug);
+    ClassDB::bind_method(D_METHOD("updatedebug"), &DiscordSDK::updatedebug);
 }
 
 DiscordSDK *DiscordSDK::get_singleton()
@@ -40,5 +41,8 @@ void DiscordSDK::debug()
     assets.SetLargeImage("test1");
     assets.SetSmallImage("godot");
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+}
+void DiscordSDK::updatedebug()
+{
     ::core->RunCallbacks();
 }
