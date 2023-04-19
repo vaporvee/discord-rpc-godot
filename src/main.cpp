@@ -14,7 +14,6 @@ void DiscordRPC::_bind_methods()
 DiscordRPC::DiscordRPC()
 {
     // initialize any variables here
-    time_passed = 0.0;
 }
 
 DiscordRPC::~DiscordRPC()
@@ -24,13 +23,14 @@ DiscordRPC::~DiscordRPC()
 
 void DiscordRPC::_ready()
 {
-    auto result = discord::Core::Create(461618159171141643, DiscordCreateFlags_Default, &core);
+    auto result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_Default, &core);
     discord::Activity activity{};
     activity.SetState("Test from Godot!");
     activity.SetDetails("I worked months on this");
-    core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {
-
-    });
+    discord::ActivityAssets assets = activity.GetAssets();
+    assets.SetLargeImage("test1");
+    assets.SetSmallImage("godot");
+    core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }
 
 void DiscordRPC::_process(float delta)
