@@ -1,27 +1,27 @@
-#ifndef DISCORDRPC_H
-#define DISCORDRPC_H
+#ifndef MAIN_H
+#define MAIN_H
 
-#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/core/class_db.hpp>
 
-namespace godot
+using namespace godot;
+
+class DiscordSDK : public Object
 {
-    class DiscordRPC : public Node
-    {
-        GDCLASS(DiscordRPC, Node)
+    GDCLASS(DiscordSDK, Object);
 
-    private:
-        float time_passed;
+    static DiscordSDK *singleton;
 
-    protected:
-        static void _bind_methods();
+protected:
+    static void _bind_methods();
 
-    public:
-        DiscordRPC();
-        ~DiscordRPC();
+public:
+    static DiscordSDK *get_singleton();
 
-        void _ready();
-        void _process(float delta);
-    };
-}
+    DiscordSDK();
+    ~DiscordSDK();
+
+    void debug();
+};
 
 #endif

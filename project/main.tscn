@@ -1,10 +1,6 @@
-[gd_scene format=3 uid="uid://dmx2xuigcpvt4"]
+[gd_scene load_steps=2 format=3 uid="uid://dmx2xuigcpvt4"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
 
 [node name="Node" type="Node"]
-
-[node name="Button" type="Button" parent="."]
-offset_right = 79.0
-offset_bottom = 29.0
-text = "Click me!"
-
-[node name="DiscordRPC" type="DiscordRPC" parent="."]
+script = ExtResource("1_kl8ri")

@@ -1,27 +1,36 @@
 #include "main.h"
+#include "./discord-game-sdk-cpp/discord.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include "discord-game-sdk-cpp/discord.h"
 
 using namespace godot;
 
+DiscordSDK *DiscordSDK::singleton = nullptr;
 discord::Core *core{};
 
-void DiscordRPC::_bind_methods()
+void DiscordSDK::_bind_methods()
 {
+    ClassDB::bind_method(D_METHOD("debug"), &DiscordSDK::debug);
 }
 
-DiscordRPC::DiscordRPC()
+DiscordSDK *DiscordSDK::get_singleton()
 {
-    // initialize any variables here
+    return singleton;
 }
 
-DiscordRPC::~DiscordRPC()
+DiscordSDK::DiscordSDK()
 {
-    // add your cleanup here
+    ERR_FAIL_COND(singleton != nullptr);
+    singleton = this;
 }
 
-void DiscordRPC::_ready()
+DiscordSDK::~DiscordSDK()
+{
+    ERR_FAIL_COND(singleton != this);
+    singleton = nullptr;
+}
+
+void DiscordSDK::debug()
 {
     auto result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_Default, &core);
     discord::Activity activity{};
@@ -31,9 +40,5 @@ void DiscordRPC::_ready()
     assets.SetLargeImage("test1");
     assets.SetSmallImage("godot");
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
-}
-
-void DiscordRPC::_process(float delta)
-{
     ::core->RunCallbacks();
 }
