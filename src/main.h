@@ -22,7 +22,7 @@ public:
     ~DiscordSDK();
 
     void debug();
-    void updatedebug();
+    void update();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "main.h"
 #include "./discord-game-sdk-cpp/discord.h"
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
@@ -11,7 +12,7 @@ discord::Core *core{};
 void DiscordSDK::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("debug"), &DiscordSDK::debug);
-    ClassDB::bind_method(D_METHOD("updatedebug"), &DiscordSDK::updatedebug);
+    ClassDB::bind_method(D_METHOD("update"), &DiscordSDK::update);
 }
 
 DiscordSDK *DiscordSDK::get_singleton()
@@ -42,7 +43,7 @@ void DiscordSDK::debug()
     assets.SetSmallImage("godot");
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }
-void DiscordSDK::updatedebug()
+void DiscordSDK::update()
 {
     ::core->RunCallbacks();
 }

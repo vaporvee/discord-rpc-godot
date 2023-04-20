@@ -17,9 +17,17 @@ boot_splash/bg_color=Color(0.341176, 0.415686, 0.929412, 1)
 boot_splash/image="res://assets/Logo_V2.png"
 config/icon="res://assets/Logo_V2.png"
 
+[autoload]
+
+Discord="*res://addons/discord-rpc-gd/loadaddon.gd"
+
 [dotnet]
 
 project/assembly_name="GDExtension Test Project"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg")
 
 [native_extensions]
 
