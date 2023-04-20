@@ -24,7 +24,7 @@ public:
 
     void debug();
     void coreupdate();
-    void refresh_activity();
+    void refresh();
     void set_app_id(int64_t appid);
     void set_state(String state);
     void set_details(String details);

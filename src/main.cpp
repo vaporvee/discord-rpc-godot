@@ -19,7 +19,7 @@ void DiscordSDK::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_app_id"), &DiscordSDK::set_app_id);
     ClassDB::bind_method(D_METHOD("set_state"), &DiscordSDK::set_state);
     ClassDB::bind_method(D_METHOD("set_details"), &DiscordSDK::set_details);
-    ClassDB::bind_method(D_METHOD("refresh_activity"), &DiscordSDK::refresh_activity);
+    ClassDB::bind_method(D_METHOD("refresh"), &DiscordSDK::refresh);
 }
 
 DiscordSDK *DiscordSDK::get_singleton()
@@ -70,7 +70,7 @@ void DiscordSDK::set_details(String details)
     activity.SetDetails(details.utf8().get_data());
 }
 
-void DiscordSDK::refresh_activity()
+void DiscordSDK::refresh()
 {
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }
