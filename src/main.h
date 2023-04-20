@@ -1,6 +1,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <stdio.h>
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -22,7 +23,11 @@ public:
     ~DiscordSDK();
 
     void debug();
-    void update();
+    void coreupdate();
+    void refresh_activity();
+    void set_app_id(int64_t appid);
+    void set_state(String state);
+    void set_details(String details);
 };
 
 #endif

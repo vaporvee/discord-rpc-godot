@@ -7,12 +7,19 @@
 using namespace godot;
 
 DiscordSDK *DiscordSDK::singleton = nullptr;
+
 discord::Core *core{};
+discord::Result result;
+discord::Activity activity{};
 
 void DiscordSDK::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("debug"), &DiscordSDK::debug);
-    ClassDB::bind_method(D_METHOD("update"), &DiscordSDK::update);
+    ClassDB::bind_method(D_METHOD("coreupdate"), &DiscordSDK::coreupdate);
+    ClassDB::bind_method(D_METHOD("set_app_id"), &DiscordSDK::set_app_id);
+    ClassDB::bind_method(D_METHOD("set_state"), &DiscordSDK::set_state);
+    ClassDB::bind_method(D_METHOD("set_details"), &DiscordSDK::set_details);
+    ClassDB::bind_method(D_METHOD("refresh_activity"), &DiscordSDK::refresh_activity);
 }
 
 DiscordSDK *DiscordSDK::get_singleton()
@@ -34,16 +41,36 @@ DiscordSDK::~DiscordSDK()
 
 void DiscordSDK::debug()
 {
-    auto result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_Default, &core);
-    discord::Activity activity{};
-    activity.SetState("Test from Godot!");
-    activity.SetDetails("I worked months on this");
-    discord::ActivityAssets assets = activity.GetAssets();
-    assets.SetLargeImage("test1");
-    assets.SetSmallImage("godot");
-    core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+    auto debugresult = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
+    discord::Activity debugactivity{};
+    debugactivity.SetState("Test from Godot!");
+    debugactivity.SetDetails("I worked months on this");
+    discord::ActivityAssets debugassets = debugactivity.GetAssets();
+    debugassets.SetLargeImage("test1");
+    debugassets.SetSmallImage("godot");
+    core->ActivityManager().UpdateActivity(debugactivity, [](discord::Result debugresult) {});
 }
-void DiscordSDK::update()
+
+void DiscordSDK::coreupdate()
 {
     ::core->RunCallbacks();
+}
+
+void DiscordSDK::set_app_id(int64_t appid)
+{
+    result = discord::Core::Create(appid, DiscordCreateFlags_NoRequireDiscord, &core);
+}
+
+void DiscordSDK::set_state(String state)
+{
+    activity.SetState(state.utf8().get_data());
+}
+void DiscordSDK::set_details(String details)
+{
+    activity.SetDetails(details.utf8().get_data());
+}
+
+void DiscordSDK::refresh_activity()
+{
+    core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }

@@ -19,7 +19,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-Discord="*res://addons/discord-rpc-gd/loadaddon.gd"
+discord_coreupdater="*res://addons/discord-rpc-gd/discord_coreupdater.gd"
 
 [dotnet]
 
