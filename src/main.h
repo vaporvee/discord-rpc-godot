@@ -22,11 +22,18 @@ public:
     DiscordSDK();
     ~DiscordSDK();
 
+    int p_appid;
+    String p_state;
+    String p_details;
+
     void debug();
     void coreupdate();
     void refresh();
-    void set_app_id(int64_t appid);
+    int get_app_id();
+    void set_app_id(int appid);
+    String get_state();
     void set_state(String state);
+    String get_details();
     void set_details(String details);
 };
 
