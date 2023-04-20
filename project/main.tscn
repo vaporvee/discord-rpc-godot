@@ -1,14 +1,40 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmx2xuigcpvt4"]
+[gd_scene load_steps=3 format=3 uid="uid://dmx2xuigcpvt4"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
+[ext_resource type="Texture2D" uid="uid://dhuttdaet6q1u" path="res://assets/Logo_V2_Clyde.png" id="2_1hv5q"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+color = Color(0.345098, 0.396078, 0.94902, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(565, 308)
+scale = Vector2(0.408203, 0.408203)
+texture = ExtResource("2_1hv5q")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 457.0
-offset_top = 237.0
-offset_right = 729.0
-offset_bottom = 333.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -136.0
+offset_top = 69.0
+offset_right = 136.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 bbcode_enabled = true
 text = "[font s=60][rainbow]RPC Test[/rainbow][/font]"
