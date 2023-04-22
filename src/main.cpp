@@ -17,14 +17,14 @@ void DiscordSDK::_bind_methods()
     ClassDB::bind_method(D_METHOD("debug"), &DiscordSDK::debug);
     ClassDB::bind_method(D_METHOD("coreupdate"), &DiscordSDK::coreupdate);
 
+    ClassDB::bind_method(D_METHOD("get_app_id"), &DiscordSDK::get_app_id);
     ClassDB::bind_method(D_METHOD("set_app_id", "app_id"), &DiscordSDK::set_app_id);
-    ClassDB::bind_method(D_METHOD("get_app_id", "app_id"), &DiscordSDK::get_app_id);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "app_id"), "set_app_id", "get_app_id");
+    ClassDB::bind_method(D_METHOD("get_state"), &DiscordSDK::get_state);
     ClassDB::bind_method(D_METHOD("set_state", "state"), &DiscordSDK::set_state);
-    ClassDB::bind_method(D_METHOD("get_state", "state"), &DiscordSDK::get_state);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "state"), "set_state", "get_state");
+    ClassDB::bind_method(D_METHOD("get_details"), &DiscordSDK::get_details);
     ClassDB::bind_method(D_METHOD("set_details", "details"), &DiscordSDK::set_details);
-    ClassDB::bind_method(D_METHOD("get_details", "details"), &DiscordSDK::get_details);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "details"), "set_details", "get_details");
 
     ClassDB::bind_method(D_METHOD("refresh"), &DiscordSDK::refresh);
@@ -64,33 +64,33 @@ void DiscordSDK::coreupdate()
     ::core->RunCallbacks();
 }
 
-void DiscordSDK::set_app_id(int appid)
+void DiscordSDK::set_app_id(const int64_t &appid)
 {
-    p_appid = appid;
-    result = discord::Core::Create(appid, DiscordCreateFlags_NoRequireDiscord, &core);
+    app_id = appid;
+    result = discord::Core::Create(app_id, DiscordCreateFlags_NoRequireDiscord, &core);
 }
-int DiscordSDK::get_app_id()
+int64_t DiscordSDK::get_app_id() const
 {
-    return p_appid;
+    return app_id;
 }
 
-void DiscordSDK::set_state(String state)
+void DiscordSDK::set_state(const String &pstate)
 {
-    p_state = state;
+    state = pstate;
     activity.SetState(state.utf8().get_data());
 }
-String DiscordSDK::get_state()
+String DiscordSDK::get_state() const
 {
-    return p_state;
+    return state;
 }
-void DiscordSDK::set_details(String details)
+void DiscordSDK::set_details(const String &detail)
 {
-    p_details = details;
+    details = detail;
     activity.SetDetails(details.utf8().get_data());
 }
-String DiscordSDK::get_details()
+String DiscordSDK::get_details() const
 {
-    return p_details;
+    return details;
 }
 
 void DiscordSDK::refresh()

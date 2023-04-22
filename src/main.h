@@ -17,7 +17,7 @@ protected:
     static void _bind_methods();
 
 private:
-    int app_id;
+    int64_t app_id;
     String state;
     String details;
 
@@ -27,19 +27,16 @@ public:
     DiscordSDK();
     ~DiscordSDK();
 
-    int p_appid;
-    String p_state;
-    String p_details;
-
     void debug();
     void coreupdate();
     void refresh();
-    int get_app_id();
-    void set_app_id(int appid);
-    String get_state();
-    void set_state(String state);
-    String get_details();
-    void set_details(String details);
+
+    int64_t get_app_id() const;
+    void set_app_id(const int64_t &p_app_id);
+    String get_state() const;
+    void set_state(const String &p_state);
+    String get_details() const;
+    void set_details(const String &p_details);
 };
 
 #endif
