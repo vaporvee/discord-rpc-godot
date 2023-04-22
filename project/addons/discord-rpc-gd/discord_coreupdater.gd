@@ -1,4 +1,4 @@
 extends Node
 
 func _process(delta):
-	DiscordSDK.coreupdate()
+	Discord_Activity.coreupdate()

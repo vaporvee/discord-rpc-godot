@@ -6,19 +6,19 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/godot.hpp>
 
-#include "main.h"
+#include "activity.h"
 using namespace godot;
 
-static DiscordSDK *discordsdk;
+static Discord_Activity *discordactivity;
 
 void gdextension_initialize(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        ClassDB::register_class<DiscordSDK>();
+        ClassDB::register_class<Discord_Activity>();
 
-        discordsdk = memnew(DiscordSDK);
-        Engine::get_singleton()->register_singleton("DiscordSDK", DiscordSDK::get_singleton()); // Cant change the class name in the cpp files for some reason
+        discordactivity = memnew(Discord_Activity);
+        Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton()); // Cant change the class name in the cpp files for some reason
     }
 }
 
@@ -26,8 +26,8 @@ void gdextension_terminate(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        Engine::get_singleton()->unregister_singleton("DiscordSDK");
-        memdelete(discordsdk);
+        Engine::get_singleton()->unregister_singleton("Discord_Activity");
+        memdelete(discordactivity);
     }
 }
 

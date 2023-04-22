@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef ACTIVITY_H
+#define ACTIVITY_H
 
 #include <stdio.h>
 #include <godot_cpp/classes/object.hpp>
@@ -7,11 +7,11 @@
 
 using namespace godot;
 
-class DiscordSDK : public Object
+class Discord_Activity : public Object
 {
-    GDCLASS(DiscordSDK, Object);
+    GDCLASS(Discord_Activity, Object);
 
-    static DiscordSDK *singleton;
+    static Discord_Activity *singleton;
 
 protected:
     static void _bind_methods();
@@ -22,10 +22,10 @@ private:
     String details;
 
 public:
-    static DiscordSDK *get_singleton();
+    static Discord_Activity *get_singleton();
 
-    DiscordSDK();
-    ~DiscordSDK();
+    Discord_Activity();
+    ~Discord_Activity();
 
     void debug();
     void coreupdate();
