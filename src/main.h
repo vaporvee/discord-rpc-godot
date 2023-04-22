@@ -16,6 +16,11 @@ class DiscordSDK : public Object
 protected:
     static void _bind_methods();
 
+private:
+    int app_id;
+    String state;
+    String details;
+
 public:
     static DiscordSDK *get_singleton();
 

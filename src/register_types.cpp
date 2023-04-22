@@ -18,7 +18,7 @@ void gdextension_initialize(ModuleInitializationLevel p_level)
         ClassDB::register_class<DiscordSDK>();
 
         discordsdk = memnew(DiscordSDK);
-        Engine::get_singleton()->register_singleton("DiscordActivity", DiscordSDK::get_singleton()); // Cant change the class name in the cpp files for some reason
+        Engine::get_singleton()->register_singleton("DiscordSDK", DiscordSDK::get_singleton()); // Cant change the class name in the cpp files for some reason
     }
 }
 
