@@ -53,9 +53,10 @@ void DiscordSDK::debug()
     discord::Activity debugactivity{};
     debugactivity.SetState("Test from Godot!");
     debugactivity.SetDetails("I worked months on this");
-    discord::ActivityAssets debugassets = debugactivity.GetAssets();
-    debugassets.SetLargeImage("test1");
-    debugassets.SetSmallImage("godot");
+    debugactivity.GetAssets().SetLargeImage("test1");
+    debugactivity.GetAssets().SetLargeText("wow test text for large image");
+    debugactivity.GetAssets().SetSmallImage("godot");
+    debugactivity.GetAssets().SetSmallText("wow test text for small image");
     core->ActivityManager().UpdateActivity(debugactivity, [](discord::Result debugresult) {});
 }
 
