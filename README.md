@@ -6,7 +6,7 @@ Don't forget to run the following command **if you clone this project** or the g
 git submodule update --init
 ```
 # Addon Usage :rocket:
-1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/)
+1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)
 2. Put the `discord-sdk-gd/` folder in a `addons/` folder in your Godot project
 3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up reopen the project)
 4. Create an Application under https://discord.com/developers/applications and get the Application ID
@@ -34,7 +34,7 @@ func _ready():
 #### Then it should look like this: 
 <img src="https://cdn.discordapp.com/attachments/825019604207927326/1099642861256970311/activity.webp">
 
-### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/download/1.0/Demo-Export.zip)
+### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 
 <br />
 
