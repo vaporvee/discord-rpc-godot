@@ -18,6 +18,7 @@ protected:
 
 private:
     int64_t app_id;
+
     String state;
     String details;
 
@@ -25,6 +26,9 @@ private:
     String large_image_text;
     String small_image;
     String small_image_text;
+
+    int64_t start_timestamp;
+    int64_t end_timestamp;
 
 public:
     static Discord_Activity *get_singleton();
@@ -37,6 +41,7 @@ public:
     void refresh();
 
     int64_t get_app_id() const;
+
     void set_app_id(const int64_t &value);
     String get_state() const;
     void set_state(const String &value);
@@ -51,6 +56,11 @@ public:
     void set_small_image(const String &value);
     String get_small_image_text() const;
     void set_small_image_text(const String &value);
+
+    int64_t get_start_timestamp() const;
+    void set_start_timestamp(const int64_t &value);
+    int64_t get_end_timestamp() const;
+    void set_end_timestamp(const int64_t &value);
 };
 
 #endif

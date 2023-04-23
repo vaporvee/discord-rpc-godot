@@ -3,6 +3,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/classes/time.hpp>
 
 using namespace godot;
 
@@ -40,6 +41,13 @@ void Discord_Activity::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_small_image_text", "large_small_text"), &Discord_Activity::set_small_image_text);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image_text"), "set_small_image_text", "get_small_image_text");
 
+    ClassDB::bind_method(D_METHOD("get_start_timestamp"), &Discord_Activity::get_start_timestamp);
+    ClassDB::bind_method(D_METHOD("set_start_timestamp", "start_timestamp"), &Discord_Activity::set_start_timestamp);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "start_timestamp"), "set_start_timestamp", "get_start_timestamp");
+    ClassDB::bind_method(D_METHOD("get_end_timestamp"), &Discord_Activity::get_end_timestamp);
+    ClassDB::bind_method(D_METHOD("set_end_timestamp", "end_timestamp"), &Discord_Activity::set_end_timestamp);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
+
     ClassDB::bind_method(D_METHOD("refresh"), &Discord_Activity::refresh);
 }
 
@@ -70,6 +78,7 @@ void Discord_Activity::debug()
     debugactivity.GetAssets().SetLargeText("wow test text for large image");
     debugactivity.GetAssets().SetSmallImage("godot");
     debugactivity.GetAssets().SetSmallText("wow test text for small image");
+    debugactivity.GetTimestamps().SetStart(1682242800);
     core->ActivityManager().UpdateActivity(debugactivity, [](discord::Result debugresult) {});
 }
 
@@ -147,4 +156,23 @@ void Discord_Activity::set_small_image_text(const String &value)
 String Discord_Activity::get_small_image_text() const
 {
     return small_image_text;
+}
+
+void Discord_Activity::set_start_timestamp(const int64_t &value)
+{
+    start_timestamp = value;
+    activity.GetTimestamps().SetStart(value);
+}
+int64_t Discord_Activity::get_start_timestamp() const
+{
+    return activity.GetTimestamps().GetStart();
+}
+void Discord_Activity::set_end_timestamp(const int64_t &value)
+{
+    end_timestamp = value;
+    activity.GetTimestamps().SetEnd(value);
+}
+int64_t Discord_Activity::get_end_timestamp() const
+{
+    return activity.GetTimestamps().GetEnd();
 }
