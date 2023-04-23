@@ -33,8 +33,10 @@ env.Append(LIBS=[discord_library.replace(".dll", "")])
 env.Append(CPPPATH=['src/'])
 sources += Glob('src/*.cpp')
 
-#The finished exports
-library = env.SharedLibrary(target="project/addons/discord-rpc-gd/bin/" + libexportfolder + "discord_game_sdk_binding" + debugsuffix, source=sources)
-env.Depends(library, Command("project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library, "lib/discord-game-sdk/" + discord_library, Copy("$TARGET", "$SOURCE")))
+# The finished exports
+library = env.SharedLibrary(target="project/addons/discord-sdk-gd/bin/" +
+                            libexportfolder + "discord_game_sdk_binding" + debugsuffix, source=sources)
+env.Depends(library, Command("project/addons/discord-sdk-gd/bin/" + libexportfolder +
+            discord_library, "lib/discord-game-sdk/" + discord_library, Copy("$TARGET", "$SOURCE")))
 
 Default(library)

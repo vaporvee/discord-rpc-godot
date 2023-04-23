@@ -1,6 +1,6 @@
 [configuration]
 
-entry_symbol = "discordrpcgd_library_init"
+entry_symbol = "discordsdkgd_library_init"
 
 [libraries]
 

@@ -1,6 +1,5 @@
-<img src="https://github.com/vaporvee/discord-rpc-godot/blob/main/project/assets/Banner_v1.png?raw=true">
+<img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
-# discord-rpc-godot
 ### This is version 1.0! In future versions there will be lobbies, invites, linux builds etc. very soon!
 Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
 ```sh
@@ -11,7 +10,7 @@ git submodule update --init
 2. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up reopen the project)
 3. Create an Application under https://discord.com/developers/applications and get the Application ID
 4. (optional) Set images under "Rich Presence" and "Art Assets" and remember the keys
-5. Exporting: You need to copy the `discord_game_sdk.dll` or on linux `discord_game_sdk.so` from `res://addons/discord-rpc-gd/bin/PLATFORM/discord_game_sdk.[dll/.so]` to your exported project in the same directory as `discord_game_sdk_binding_debug.[dll/.so]`
+5. Exporting: You need to copy the `discord_game_sdk.dll` or on linux `discord_game_sdk.so` from `res://addons/discord-sdk-gd/bin/PLATFORM/discord_game_sdk.[dll/.so]` to your exported project in the same directory as `discord_game_sdk_binding_debug.[dll/.so]`
 ```gdscript
 extends Node
 

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GDExtension DiscordRPC Test Project"
+config/name="GDExtension DiscordSDK Test Project"
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0.25098, 0.305882, 0.929412, 1)
@@ -20,7 +20,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-discord_coreupdater="*res://addons/discord-rpc-gd/discord_coreupdater.gd"
+discord_coreupdater="*res://addons/discord-sdk-gd/discord_coreupdater.gd"
 
 [dotnet]
 
@@ -28,7 +28,7 @@ project/assembly_name="GDExtension Test Project"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg")
+enabled=PackedStringArray("res://addons/discord-sdk-gd/plugin.cfg")
 
 [native_extensions]
 

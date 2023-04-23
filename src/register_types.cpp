@@ -33,7 +33,7 @@ void gdextension_terminate(ModuleInitializationLevel p_level)
 
 extern "C"
 {
-    GDExtensionBool GDE_EXPORT discordrpcgd_library_init(const GDExtensionInterface *p_interface, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
+    GDExtensionBool GDE_EXPORT discordsdkgd_library_init(const GDExtensionInterface *p_interface, GDExtensionClassLibraryPtr p_library, GDExtensionInitialization *r_initialization)
     {
         godot::GDExtensionBinding::InitObject init_obj(p_interface, p_library, r_initialization);
 
