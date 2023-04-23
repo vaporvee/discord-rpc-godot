@@ -78,29 +78,29 @@ void Discord_Activity::coreupdate()
     ::core->RunCallbacks();
 }
 
-void Discord_Activity::set_app_id(const int64_t &appid)
+void Discord_Activity::set_app_id(const int64_t &value)
 {
-    app_id = appid;
-    result = discord::Core::Create(app_id, DiscordCreateFlags_NoRequireDiscord, &core);
+    app_id = value;
+    result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core);
 }
 int64_t Discord_Activity::get_app_id() const
 {
     return app_id;
 }
 
-void Discord_Activity::set_state(const String &pstate)
+void Discord_Activity::set_state(const String &value)
 {
-    state = pstate;
-    activity.SetState(state.utf8().get_data());
+    state = value;
+    activity.SetState(value.utf8().get_data());
 }
 String Discord_Activity::get_state() const
 {
     return state;
 }
-void Discord_Activity::set_details(const String &detail)
+void Discord_Activity::set_details(const String &value)
 {
-    details = detail;
-    activity.SetDetails(details.utf8().get_data());
+    details = value;
+    activity.SetDetails(value.utf8().get_data());
 }
 String Discord_Activity::get_details() const
 {
@@ -112,37 +112,37 @@ void Discord_Activity::refresh()
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
 }
 
-void Discord_Activity::set_large_image(const String &p_large_image)
+void Discord_Activity::set_large_image(const String &value)
 {
-    large_image = p_large_image;
-    activity.GetAssets().SetLargeImage(p_large_image.utf8().get_data());
+    large_image = value;
+    activity.GetAssets().SetLargeImage(value.utf8().get_data());
 }
 String Discord_Activity::get_large_image() const
 {
     return large_image;
 }
-void Discord_Activity::set_large_image_text(const String &p_large_image_text)
+void Discord_Activity::set_large_image_text(const String &value)
 {
-    large_image_text = p_large_image_text;
-    activity.GetAssets().SetLargeText(p_large_image_text.utf8().get_data());
+    large_image_text = value;
+    activity.GetAssets().SetLargeText(value.utf8().get_data());
 }
 String Discord_Activity::get_large_image_text() const
 {
     return large_image_text;
 }
-void Discord_Activity::set_small_image(const String &p_small_image)
+void Discord_Activity::set_small_image(const String &value)
 {
-    small_image = p_small_image;
-    activity.GetAssets().SetSmallImage(p_small_image.utf8().get_data());
+    small_image = value;
+    activity.GetAssets().SetSmallImage(value.utf8().get_data());
 }
 String Discord_Activity::get_small_image() const
 {
     return small_image;
 }
-void Discord_Activity::set_small_image_text(const String &p_small_image_text)
+void Discord_Activity::set_small_image_text(const String &value)
 {
-    small_image_text = p_small_image_text;
-    activity.GetAssets().SetSmallText(p_small_image_text.utf8().get_data());
+    small_image_text = value;
+    activity.GetAssets().SetSmallText(value.utf8().get_data());
 }
 String Discord_Activity::get_small_image_text() const
 {

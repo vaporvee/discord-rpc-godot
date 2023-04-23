@@ -37,20 +37,20 @@ public:
     void refresh();
 
     int64_t get_app_id() const;
-    void set_app_id(const int64_t &p_app_id);
+    void set_app_id(const int64_t &value);
     String get_state() const;
-    void set_state(const String &p_state);
+    void set_state(const String &value);
     String get_details() const;
-    void set_details(const String &p_details);
+    void set_details(const String &value);
 
     String get_large_image() const;
-    void set_large_image(const String &p_large_image);
+    void set_large_image(const String &value);
     String get_large_image_text() const;
-    void set_large_image_text(const String &p_large_image_text);
+    void set_large_image_text(const String &value);
     String get_small_image() const;
-    void set_small_image(const String &p_small_image);
+    void set_small_image(const String &value);
     String get_small_image_text() const;
-    void set_small_image_text(const String &p_small_image_text);
+    void set_small_image_text(const String &value);
 };
 
 #endif
