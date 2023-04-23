@@ -27,6 +27,19 @@ void Discord_Activity::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_details", "details"), &Discord_Activity::set_details);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "details"), "set_details", "get_details");
 
+    ClassDB::bind_method(D_METHOD("get_large_image"), &Discord_Activity::get_large_image);
+    ClassDB::bind_method(D_METHOD("set_large_image", "large_image"), &Discord_Activity::set_large_image);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image"), "set_large_image", "get_large_image");
+    ClassDB::bind_method(D_METHOD("get_large_image_text"), &Discord_Activity::get_large_image_text);
+    ClassDB::bind_method(D_METHOD("set_large_image_text", "large_image_text"), &Discord_Activity::set_large_image_text);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image_text"), "set_large_image_text", "get_large_image_text");
+    ClassDB::bind_method(D_METHOD("get_small_image"), &Discord_Activity::get_small_image);
+    ClassDB::bind_method(D_METHOD("set_small_image", "small_image"), &Discord_Activity::set_small_image);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image"), "set_small_image", "get_small_image");
+    ClassDB::bind_method(D_METHOD("get_small_image_text"), &Discord_Activity::get_small_image_text);
+    ClassDB::bind_method(D_METHOD("set_small_image_text", "large_small_text"), &Discord_Activity::set_small_image_text);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image_text"), "set_small_image_text", "get_small_image_text");
+
     ClassDB::bind_method(D_METHOD("refresh"), &Discord_Activity::refresh);
 }
 
@@ -97,4 +110,41 @@ String Discord_Activity::get_details() const
 void Discord_Activity::refresh()
 {
     core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+}
+
+void Discord_Activity::set_large_image(const String &p_large_image)
+{
+    large_image = p_large_image;
+    activity.GetAssets().SetLargeImage(p_large_image.utf8().get_data());
+}
+String Discord_Activity::get_large_image() const
+{
+    return large_image;
+}
+void Discord_Activity::set_large_image_text(const String &p_large_image_text)
+{
+    large_image_text = p_large_image_text;
+    activity.GetAssets().SetLargeText(p_large_image_text.utf8().get_data());
+}
+String Discord_Activity::get_large_image_text() const
+{
+    return large_image_text;
+}
+void Discord_Activity::set_small_image(const String &p_small_image)
+{
+    small_image = p_small_image;
+    activity.GetAssets().SetSmallImage(p_small_image.utf8().get_data());
+}
+String Discord_Activity::get_small_image() const
+{
+    return small_image;
+}
+void Discord_Activity::set_small_image_text(const String &p_small_image_text)
+{
+    small_image_text = p_small_image_text;
+    activity.GetAssets().SetSmallText(p_small_image_text.utf8().get_data());
+}
+String Discord_Activity::get_small_image_text() const
+{
+    return small_image_text;
 }

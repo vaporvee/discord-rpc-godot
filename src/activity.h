@@ -21,6 +21,11 @@ private:
     String state;
     String details;
 
+    String large_image;
+    String large_image_text;
+    String small_image;
+    String small_image_text;
+
 public:
     static Discord_Activity *get_singleton();
 
@@ -37,6 +42,15 @@ public:
     void set_state(const String &p_state);
     String get_details() const;
     void set_details(const String &p_details);
+
+    String get_large_image() const;
+    void set_large_image(const String &p_large_image);
+    String get_large_image_text() const;
+    void set_large_image_text(const String &p_large_image_text);
+    String get_small_image() const;
+    void set_small_image(const String &p_small_image);
+    String get_small_image_text() const;
+    void set_small_image_text(const String &p_small_image_text);
 };
 
 #endif
