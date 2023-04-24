@@ -45,7 +45,7 @@ text = "[center][font s=60][rainbow]DiscordSDK Test[/rainbow][/font]"
 offset_left = 7.0
 offset_top = 6.0
 offset_right = 514.0
-offset_bottom = 399.0
+offset_bottom = 722.0
 text = "Application ID : {id}
 Details: {details}
 State: {state}
@@ -57,3 +57,4 @@ Small image text: {stext}
 
 Start timestamp: {stimestamp}
 End timestamp: {etimestamp}"
+scroll_active = false
