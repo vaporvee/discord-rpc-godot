@@ -35,6 +35,7 @@ func _ready():
 <img src="https://cdn.discordapp.com/attachments/825019604207927326/1099642861256970311/activity.webp">
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
+:incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
 
 <br />
 
