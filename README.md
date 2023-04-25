@@ -8,9 +8,10 @@ git submodule update --init
 # Addon Usage :rocket:
 1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)
 2. Put the `discord-sdk-gd/` folder in a `addons/` folder in your Godot project
-3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up reopen the project)
-4. Create an Application under https://discord.com/developers/applications and get the Application ID
-5. (optional) Set images under "Rich Presence" and "Art Assets" and remember the keys
+3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up restart  your project and try again)
+4. Restart your project
+5. Create an Application under https://discord.com/developers/applications and get the Application ID
+6. (optional) Set images under "Rich Presence" and "Art Assets" and remember the keys
 ```gdscript
 extends Node
 
