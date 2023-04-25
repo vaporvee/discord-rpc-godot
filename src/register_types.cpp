@@ -18,8 +18,7 @@ void gdextension_initialize(ModuleInitializationLevel p_level)
         ClassDB::register_class<Discord_Activity>();
 
         discordactivity = memnew(Discord_Activity);
-        Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton()); // Cant change the class name in the cpp files for some reason
-    }
+        Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton());
 }
 
 void gdextension_terminate(ModuleInitializationLevel p_level)
