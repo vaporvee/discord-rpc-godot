@@ -1,6 +1,6 @@
 <img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
-### This is version 1.0! In future versions there will be lobbies, invites, linux builds etc. very soon!
+### This is an early version! In future versions there will be lobbies, invites, linux builds etc. very soon!
 Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
 ```sh
 git submodule update --init
@@ -11,7 +11,6 @@ git submodule update --init
 3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up reopen the project)
 4. Create an Application under https://discord.com/developers/applications and get the Application ID
 5. (optional) Set images under "Rich Presence" and "Art Assets" and remember the keys
-6. Exporting: You need to copy the `discord_game_sdk.dll` or on linux `discord_game_sdk.so` from `res://addons/discord-sdk-gd/bin/PLATFORM/discord_game_sdk.[dll/.so]` to your exported project in the same directory as `discord_game_sdk_binding_debug.[dll/.so]`
 ```gdscript
 extends Node
 
@@ -40,7 +39,6 @@ func _ready():
 <br />
 
 ## Extra Info
-- "Step 2" (enabling the addon) is needed to add `Discord_Activity.coreupdate()` to a `_process()` function with a singleton. This function is needed by pretty everything but you can it also just add it yourself.
 - The Discord SDK itself doesn't build under Linux for some reason (I don't have a Mac so i don't even know if it's builds under OSX) its not well documented but I try as hard as i can to get it working crossplatform but at the time its only working under Windows... (But feel free to make pull requests btw)
 - Its an early release some features aren't implemented only because i need a small amount of time not because it's not possible
 
