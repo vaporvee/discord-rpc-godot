@@ -16,6 +16,7 @@ extends Node
 
 func _ready():
 	Discord_Activity.app_id = 1099618430065324082 # Application ID
+	print("Discord working: " + str(Discord_Activity.get_is_discord_working())) # A boolean if everything worked
 	Discord_Activity.details = "A demo activity by vaporvee#1231"
 	Discord_Activity.state = "Checkpoint 23/23"
 	
