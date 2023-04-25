@@ -16,7 +16,6 @@ void gdextension_initialize(ModuleInitializationLevel p_level)
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
         ClassDB::register_class<Discord_Activity>();
-
         discordactivity = memnew(Discord_Activity);
         Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton());
     }

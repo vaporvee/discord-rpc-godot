@@ -49,6 +49,8 @@ void Discord_Activity::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
 
     ClassDB::bind_method(D_METHOD("refresh"), &Discord_Activity::refresh);
+
+    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &Discord_Activity::get_is_discord_working);
 }
 
 Discord_Activity *Discord_Activity::get_singleton()
@@ -70,21 +72,26 @@ Discord_Activity::~Discord_Activity()
 
 void Discord_Activity::debug()
 {
-    auto debugresult = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
-    discord::Activity debugactivity{};
-    debugactivity.SetState("Test from Godot!");
-    debugactivity.SetDetails("I worked months on this");
-    debugactivity.GetAssets().SetLargeImage("test1");
-    debugactivity.GetAssets().SetLargeText("wow test text for large image");
-    debugactivity.GetAssets().SetSmallImage("godot");
-    debugactivity.GetAssets().SetSmallText("wow test text for small image");
-    debugactivity.GetTimestamps().SetStart(1682242800);
-    core->ActivityManager().UpdateActivity(debugactivity, [](discord::Result debugresult) {});
+    result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
+    activity.SetState("Test from Godot!");
+    activity.SetDetails("I worked months on this");
+    activity.GetAssets().SetLargeImage("test1");
+    activity.GetAssets().SetLargeText("wow test text for large image");
+    activity.GetAssets().SetSmallImage("godot");
+    activity.GetAssets().SetSmallText("wow test text for small image");
+    activity.GetTimestamps().SetStart(1682242800);
+    if (result == discord::Result::Ok)
+    {
+        core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+    }
+    else
+        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
 void Discord_Activity::coreupdate()
 {
-    ::core->RunCallbacks();
+    if (result == discord::Result::Ok)
+        ::core->RunCallbacks();
 }
 
 void Discord_Activity::set_app_id(const int64_t &value)
@@ -118,7 +125,10 @@ String Discord_Activity::get_details() const
 
 void Discord_Activity::refresh()
 {
-    core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+    if (result == discord::Result::Ok)
+        core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+    else
+        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
 void Discord_Activity::set_large_image(const String &value)
@@ -175,4 +185,9 @@ void Discord_Activity::set_end_timestamp(const int64_t &value)
 int64_t Discord_Activity::get_end_timestamp() const
 {
     return activity.GetTimestamps().GetEnd();
+}
+
+bool Discord_Activity::get_is_discord_working() const
+{
+    return result == discord::Result::Ok;
 }
