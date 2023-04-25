@@ -27,7 +27,7 @@ func _ready():
 	Discord_Activity.small_image_text = "Fighting the end boss! D:"
 	
 	Discord_Activity.start_timestamp = int(Time.get_unix_time_from_system()) # "02:41 elapsed"
-	#Discord_Activity.end_timestamp = 2492978400 # "15:41 left" (but currently 31. 12. 2048 in unix time)
+	# Discord_Activity.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 
 	Discord_Activity.refresh() # Always refresh after changing the values!
 
