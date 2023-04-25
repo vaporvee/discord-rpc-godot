@@ -46,7 +46,9 @@ offset_left = 7.0
 offset_top = 6.0
 offset_right = 514.0
 offset_bottom = 722.0
-text = "Application ID : {id}
+text = "Is Discord working: {isdiscordworking}
+
+Application ID : {id}
 Details: {details}
 State: {state}
 
