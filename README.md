@@ -12,6 +12,7 @@ git submodule update --init
 4. Create an Application under https://discord.com/developers/applications and get the Application ID
 5. (optional) Set images under "Rich Presence" and "Art Assets" and remember the keys
 6. Exporting: You need to copy the `discord_game_sdk.dll` or on linux `discord_game_sdk.so` from `res://addons/discord-sdk-gd/bin/PLATFORM/discord_game_sdk.[dll/.so]` to your exported project in the same directory as `discord_game_sdk_binding_debug.[dll/.so]`
+**Known issue:** on some PCs the project will crash when Discord isn't running. This will be fixed asap!
 ```gdscript
 extends Node
 
