@@ -19,6 +19,7 @@ void gdextension_initialize(ModuleInitializationLevel p_level)
 
         discordactivity = memnew(Discord_Activity);
         Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton());
+    }
 }
 
 void gdextension_terminate(ModuleInitializationLevel p_level)
