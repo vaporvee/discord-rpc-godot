@@ -1,6 +1,8 @@
 #!python
 import os
 
+# TOTAL HOURS WASTED ON LINUX SUPPORT: 22
+
 # Gets the standard flags CC, CCX, etc.
 env = SConscript("godot-cpp/SConstruct")
 
@@ -27,7 +29,7 @@ else:
 env.Append(LIBPATH=["lib/discord-game-sdk/"])
 sources = Glob('src/discord-game-sdk-cpp/*.cpp')
 env.Append(CPPPATH=['src/discord-game-sdk-cpp'])
-env.Append(LIBS=[discord_library.replace(".dll", "")])
+env.Append(LIBS=["discord_game_sdk"])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['src/'])
