@@ -12,6 +12,7 @@ Discord_SDK *Discord_SDK::singleton = nullptr;
 discord::Core *core{};
 discord::Result result;
 discord::Activity activity{};
+discord::User user{};
 
 void Discord_SDK::_bind_methods()
 {
@@ -70,6 +71,16 @@ Discord_SDK::~Discord_SDK()
     singleton = nullptr;
 }
 
+void Discord_SDK::coreupdate()
+{
+    if (result == discord::Result::Ok)
+    {
+        ::core->RunCallbacks();
+        core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                        { core->UserManager().GetCurrentUser(&user); });
+    }
+}
+
 void Discord_SDK::debug()
 {
     result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
@@ -86,12 +97,6 @@ void Discord_SDK::debug()
     }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
-}
-
-void Discord_SDK::coreupdate()
-{
-    if (result == discord::Result::Ok)
-        ::core->RunCallbacks();
 }
 
 void Discord_SDK::set_app_id(const int64_t &value)
