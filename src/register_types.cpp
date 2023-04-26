@@ -7,22 +7,17 @@
 #include <godot_cpp/godot.hpp>
 
 #include "activity.h"
-#include "user.h"
 using namespace godot;
 
-static Discord_Activity *discordactivity;
-static Discord_User *discorduser;
+static Discord_SDK *discordactivity;
 
 void gdextension_initialize(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        ClassDB::register_class<Discord_Activity>();
-        ClassDB::register_class<Discord_User>();
-        discordactivity = memnew(Discord_Activity);
-        discorduser = memnew(Discord_User);
-        Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton());
-        Engine::get_singleton()->register_singleton("Discord_User", Discord_User::get_singleton());
+        ClassDB::register_class<Discord_SDK>();
+        discordactivity = memnew(Discord_SDK);
+        Engine::get_singleton()->register_singleton("Discord_SDK", Discord_SDK::get_singleton());
     }
 }
 
@@ -30,10 +25,8 @@ void gdextension_terminate(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        Engine::get_singleton()->unregister_singleton("Discord_Activity");
-        Engine::get_singleton()->unregister_singleton("Discord_User");
+        Engine::get_singleton()->unregister_singleton("Discord_SDK");
         memdelete(discordactivity);
-        memdelete(discorduser);
     }
 }
 

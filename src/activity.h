@@ -7,11 +7,11 @@
 
 using namespace godot;
 
-class Discord_Activity : public Object
+class Discord_SDK : public Object
 {
-    GDCLASS(Discord_Activity, Object);
+    GDCLASS(Discord_SDK, Object);
 
-    static Discord_Activity *singleton;
+    static Discord_SDK *singleton;
 
 protected:
     static void _bind_methods();
@@ -31,10 +31,10 @@ private:
     int64_t end_timestamp;
 
 public:
-    static Discord_Activity *get_singleton();
+    static Discord_SDK *get_singleton();
 
-    Discord_Activity();
-    ~Discord_Activity();
+    Discord_SDK();
+    ~Discord_SDK();
 
     void debug();
     void coreupdate();
