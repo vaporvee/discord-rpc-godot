@@ -13,7 +13,11 @@ else:
 if choice in yes:
     os.system("scons && scons target=template_release && cd project && godot")
 elif choice in no:
-    os.system(
-        "scons && scons target=template_release && godot project\project.godot")
+    if os.name == 'nt':
+        os.system(
+            "scons && scons target=template_release && godot project\project.godot")
+    else:
+        os.system(
+            "scons && scons target=template_release && godot project/project.godot")
 else:
     sys.stdout.write("Please respond with 'yes' or 'no'")
