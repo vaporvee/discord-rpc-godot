@@ -3,5 +3,8 @@
         "godot-cpp/include",
         "godot-cpp/gen/include",
         "godot-cpp/gdextension",
-    ]
+    ],
+    "files.associations": {
+        "xlocbuf": "cpp"
+    }
 }

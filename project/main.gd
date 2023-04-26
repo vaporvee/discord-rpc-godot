@@ -15,4 +15,6 @@ func _ready():
 
 	Discord_Activity.refresh()
 	
+	print(Discord_User.get_name())
+	
 	$Info.text = $Info.text.replace("{isdiscordworking}",str(Discord_Activity.get_is_discord_working())).replace("{id}",str(Discord_Activity.app_id)).replace("{details}",Discord_Activity.details).replace("{state}",Discord_Activity.state).replace("{lkey}",Discord_Activity.large_image).replace("{ltext}",Discord_Activity.large_image_text).replace("{skey}",Discord_Activity.small_image).replace("{stext}",Discord_Activity.small_image_text).replace("{stimestamp}",str(Discord_Activity.start_timestamp)).replace("{etimestamp}",str(Discord_Activity.end_timestamp))
