@@ -1,5 +1,5 @@
-#ifndef ACTIVITY_H
-#define ACTIVITY_H
+#ifndef DISCORDGODOT_H
+#define DISCORDGODOT_H
 
 #include <stdio.h>
 #include <godot_cpp/classes/object.hpp>
