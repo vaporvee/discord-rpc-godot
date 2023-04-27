@@ -7,7 +7,7 @@ git submodule update --init
 ```
 # Addon Usage :rocket:
 1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)
-2. Put the `discord-sdk-gd/` folder in a `addons/` folder in your Godot project
+2. Put the `addons/` folder in your Godot project
 3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up restart  your project and try again)
 4. Restart your project
 5. Create an Application under https://discord.com/developers/applications and get the Application ID
