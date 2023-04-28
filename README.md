@@ -1,4 +1,5 @@
 <img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
+### Next update: Linux and maybe macos support
 
 ### This is an early version! In future versions there will be invites, user info etc. very soon!
 Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
