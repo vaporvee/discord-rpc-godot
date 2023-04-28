@@ -6,11 +6,11 @@ env = SConscript("godot-cpp/SConstruct")
 
 # Check our platform specifics
 if env['platform'] == "macos":
-    discord_library = 'discord_game_sdk.dylib'
+    discord_library = 'libdiscord_game_sdk.dylib'
     libexportfolder = "/macos/"
 
 elif env['platform'] in ('linuxbsd', 'linux'):
-    discord_library = 'discord_game_sdk.so'
+    discord_library = 'libdiscord_game_sdk.so'
     libexportfolder = "/linux/"
 
 elif env['platform'] == "windows":
@@ -27,7 +27,7 @@ else:
 env.Append(LIBPATH=["lib/discord-game-sdk/"])
 sources = Glob('src/discord-game-sdk-cpp/*.cpp')
 env.Append(CPPPATH=['src/discord-game-sdk-cpp'])
-env.Append(LIBS=[discord_library.replace(".dll", "")])
+env.Append(LIBS=["discord_game_sdk"])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=['src/'])

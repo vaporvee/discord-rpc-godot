@@ -41,12 +41,6 @@ func _ready():
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
 
 <br />
-
-## Extra Info
-- The Discord SDK itself doesn't build under Linux for some reason (I don't have a Mac so i don't even know if it's builds under OSX) its not well documented but I try as hard as i can to get it working crossplatform but at the time its only working under Windows... (But feel free to make pull requests btw)
-- Its an early release some features aren't implemented only because i need a small amount of time not because it's not possible
-
-<br />
 <br />
 
 ### Credit

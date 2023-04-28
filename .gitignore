@@ -14,7 +14,6 @@
 build/
 
 #Cleanup unused build files
-*obj
-*obj
-*exp
-*lib
+*.obj
+*.exp
+*.lib
