@@ -2,6 +2,7 @@
 #define DISCORDGODOT_H
 
 #include <stdio.h>
+#include "discord-game-sdk-cpp/discord.h"
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -62,7 +63,7 @@ public:
     int64_t get_end_timestamp() const;
     void set_end_timestamp(const int64_t &value);
 
-    bool get_is_discord_working() const;
+    int get_result_int() const;
 };
 
 #endif

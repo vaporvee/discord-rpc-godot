@@ -20,7 +20,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-discord_coreupdater="*res://addons/discord-sdk-gd/discord_coreupdater.gd"
+DiscordSDK="*res://addons/discord-sdk-gd/sdk_utility.gd"
 
 [dotnet]
 
