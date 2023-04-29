@@ -1,13 +1,13 @@
 <img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
-### This is an early version! In future versions there will be lobbies, invites, linux builds etc. very soon!
+### This is an early version! In future versions there will be invites, user info etc. very soon!
 Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
 ```sh
 git submodule update --init
 ```
 # Addon Usage :rocket:
 1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)
-2. Put the `discord-sdk-gd/` folder in a `addons/` folder in your Godot project
+2. Put the `addons/` folder in your Godot project
 3. Enable the addon in your Project Settings under "Plugins" and "DiscordSDK". (if it doesn't show up restart  your project and try again)
 4. Restart your project
 5. Create an Application under https://discord.com/developers/applications and get the Application ID
@@ -37,12 +37,6 @@ func _ready():
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
-
-<br />
-
-## Extra Info
-- The Discord SDK itself doesn't build under Linux for some reason (I don't have a Mac so i don't even know if it's builds under OSX) its not well documented but I try as hard as i can to get it working crossplatform but at the time its only working under Windows... (But feel free to make pull requests btw)
-- Its an early release some features aren't implemented only because i need a small amount of time not because it's not possible
 
 <br />
 <br />

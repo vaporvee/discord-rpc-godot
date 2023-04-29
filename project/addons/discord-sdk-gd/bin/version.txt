@@ -1,0 +1,4 @@
+Version: 1.2
+Windows: build-1
+Linux: build-1
+MacOS: build-1

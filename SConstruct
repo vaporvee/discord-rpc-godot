@@ -8,11 +8,11 @@ env = SConscript("godot-cpp/SConstruct")
 
 # Check our platform specifics
 if env['platform'] == "macos":
-    discord_library = 'discord_game_sdk.dylib'
+    discord_library = 'libdiscord_game_sdk.dylib'
     libexportfolder = "/macos/"
 
 elif env['platform'] in ('linuxbsd', 'linux'):
-    discord_library = 'discord_game_sdk.so'
+    discord_library = 'libdiscord_game_sdk.so'
     libexportfolder = "/linux/"
 
 elif env['platform'] == "windows":
