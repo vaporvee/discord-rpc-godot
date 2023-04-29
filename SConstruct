@@ -1,10 +1,8 @@
 #!python
 import os
 
-# TOTAL HOURS WASTED ON LINUX SUPPORT: 22
-
 # Gets the standard flags CC, CCX, etc.
-env = SConscript("godot-cpp/SConstruct")
+env = SConscript("lib/godot-cpp/SConstruct")
 
 # Check our platform specifics
 if env['platform'] == "macos":
@@ -16,7 +14,6 @@ elif env['platform'] in ('linuxbsd', 'linux'):
     libexportfolder = "/linux/"
 
 elif env['platform'] == "windows":
-
     discord_library = 'discord_game_sdk.dll'
     libexportfolder = "/windows/"
 

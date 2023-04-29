@@ -1,9 +1,9 @@
 <img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
 ### This is an early version! In future versions there will be invites, user info etc. very soon!
-Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
+Don't forget to run the following command **if you clone this project** or files will be missing
 ```sh
-git submodule update --init
+python setup.py
 ```
 # Addon Usage :rocket:
 1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)

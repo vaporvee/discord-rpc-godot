@@ -1,0 +1,163 @@
+/**************************************************************************/
+/*  object.hpp                                                            */
+/**************************************************************************/
+/*                         This file is part of:                          */
+/*                             GODOT ENGINE                               */
+/*                        https://godotengine.org                         */
+/**************************************************************************/
+/* Copyright (c) 2014-present Godot Engine contributors (see AUTHORS.md). */
+/* Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.                  */
+/*                                                                        */
+/* Permission is hereby granted, free of charge, to any person obtaining  */
+/* a copy of this software and associated documentation files (the        */
+/* "Software"), to deal in the Software without restriction, including    */
+/* without limitation the rights to use, copy, modify, merge, publish,    */
+/* distribute, sublicense, and/or sell copies of the Software, and to     */
+/* permit persons to whom the Software is furnished to do so, subject to  */
+/* the following conditions:                                              */
+/*                                                                        */
+/* The above copyright notice and this permission notice shall be         */
+/* included in all copies or substantial portions of the Software.        */
+/*                                                                        */
+/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,        */
+/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF     */
+/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. */
+/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY   */
+/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,   */
+/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE      */
+/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
+/**************************************************************************/
+
+#ifndef GODOT_OBJECT_HPP
+#define GODOT_OBJECT_HPP
+
+#include <godot_cpp/core/defs.hpp>
+
+#include <godot_cpp/core/property_info.hpp>
+
+#include <godot_cpp/variant/variant.hpp>
+
+#include <godot_cpp/classes/object.hpp>
+
+#include <godot_cpp/godot.hpp>
+
+#include <gdextension_interface.h>
+
+#include <vector>
+
+#define ADD_SIGNAL(m_signal) godot::ClassDB::add_signal(get_class_static(), m_signal)
+#define ADD_GROUP(m_name, m_prefix) godot::ClassDB::add_property_group(get_class_static(), m_name, m_prefix)
+#define ADD_SUBGROUP(m_name, m_prefix) godot::ClassDB::add_property_subgroup(get_class_static(), m_name, m_prefix)
+#define ADD_PROPERTY(m_property, m_setter, m_getter) godot::ClassDB::add_property(get_class_static(), m_property, m_setter, m_getter)
+
+namespace godot {
+
+struct MethodInfo {
+	StringName name;
+	PropertyInfo return_val;
+	uint32_t flags;
+	int id = 0;
+	std::vector<PropertyInfo> arguments;
+	std::vector<Variant> default_arguments;
+
+	inline bool operator==(const MethodInfo &p_method) const { return id == p_method.id; }
+	inline bool operator<(const MethodInfo &p_method) const { return id == p_method.id ? (name < p_method.name) : (id < p_method.id); }
+
+	operator Dictionary() const;
+
+	static MethodInfo from_dict(const Dictionary &p_dict);
+
+	MethodInfo();
+	MethodInfo(StringName p_name);
+	template <class... Args>
+	MethodInfo(StringName p_name, const Args &...args);
+	MethodInfo(Variant::Type ret);
+	MethodInfo(Variant::Type ret, StringName p_name);
+	template <class... Args>
+	MethodInfo(Variant::Type ret, StringName p_name, const Args &...args);
+	MethodInfo(const PropertyInfo &p_ret, StringName p_name);
+	template <class... Args>
+	MethodInfo(const PropertyInfo &p_ret, StringName p_name, const Args &...);
+};
+
+template <class... Args>
+MethodInfo::MethodInfo(StringName p_name, const Args &...args) :
+		name(p_name), flags(GDEXTENSION_METHOD_FLAG_NORMAL) {
+	arguments = { args... };
+}
+
+template <class... Args>
+MethodInfo::MethodInfo(Variant::Type ret, StringName p_name, const Args &...args) :
+		name(p_name), flags(GDEXTENSION_METHOD_FLAG_NORMAL) {
+	return_val.type = ret;
+	arguments = { args... };
+}
+
+template <class... Args>
+MethodInfo::MethodInfo(const PropertyInfo &p_ret, StringName p_name, const Args &...args) :
+		name(p_name), return_val(p_ret), flags(GDEXTENSION_METHOD_FLAG_NORMAL) {
+	arguments = { args... };
+}
+
+class ObjectID {
+	uint64_t id = 0;
+
+public:
+	_FORCE_INLINE_ bool is_ref_counted() const { return (id & (uint64_t(1) << 63)) != 0; }
+	_FORCE_INLINE_ bool is_valid() const { return id != 0; }
+	_FORCE_INLINE_ bool is_null() const { return id == 0; }
+	_FORCE_INLINE_ operator uint64_t() const { return id; }
+	_FORCE_INLINE_ operator int64_t() const { return id; }
+
+	_FORCE_INLINE_ bool operator==(const ObjectID &p_id) const { return id == p_id.id; }
+	_FORCE_INLINE_ bool operator!=(const ObjectID &p_id) const { return id != p_id.id; }
+	_FORCE_INLINE_ bool operator<(const ObjectID &p_id) const { return id < p_id.id; }
+
+	_FORCE_INLINE_ void operator=(int64_t p_int64) { id = p_int64; }
+	_FORCE_INLINE_ void operator=(uint64_t p_uint64) { id = p_uint64; }
+
+	_FORCE_INLINE_ ObjectID() {}
+	_FORCE_INLINE_ explicit ObjectID(const uint64_t p_id) { id = p_id; }
+	_FORCE_INLINE_ explicit ObjectID(const int64_t p_id) { id = p_id; }
+};
+
+class ObjectDB {
+public:
+	static Object *get_instance(uint64_t p_object_id) {
+		GDExtensionObjectPtr obj = internal::gde_interface->object_get_instance_from_id(p_object_id);
+		if (obj == nullptr) {
+			return nullptr;
+		}
+		return reinterpret_cast<Object *>(internal::gde_interface->object_get_instance_binding(obj, internal::token, &Object::___binding_callbacks));
+	}
+};
+
+template <class T>
+T *Object::cast_to(Object *p_object) {
+	if (p_object == nullptr) {
+		return nullptr;
+	}
+	StringName class_name = T::get_class_static();
+	GDExtensionObjectPtr casted = internal::gde_interface->object_cast_to(p_object->_owner, internal::gde_interface->classdb_get_class_tag(class_name._native_ptr()));
+	if (casted == nullptr) {
+		return nullptr;
+	}
+	return reinterpret_cast<T *>(internal::gde_interface->object_get_instance_binding(casted, internal::token, &T::___binding_callbacks));
+}
+
+template <class T>
+const T *Object::cast_to(const Object *p_object) {
+	if (p_object == nullptr) {
+		return nullptr;
+	}
+	StringName class_name = T::get_class_static();
+	GDExtensionObjectPtr casted = internal::gde_interface->object_cast_to(p_object->_owner, internal::gde_interface->classdb_get_class_tag(class_name._native_ptr()));
+	if (casted == nullptr) {
+		return nullptr;
+	}
+	return reinterpret_cast<const T *>(internal::gde_interface->object_get_instance_binding(casted, internal::token, &T::___binding_callbacks));
+}
+
+} // namespace godot
+
+#endif // GODOT_OBJECT_HPP
