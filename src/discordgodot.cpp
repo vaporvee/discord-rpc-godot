@@ -73,7 +73,7 @@ Discord_SDK::~Discord_SDK()
 
 void Discord_SDK::coreupdate()
 {
-    if (result == discord::Result::Ok)
+    if (result == discord::Result::Ok && app_id > 0)
     {
         ::core->RunCallbacks();
         core->UserManager().OnCurrentUserUpdate.Connect([]()
@@ -130,7 +130,7 @@ String Discord_SDK::get_details() const
 
 void Discord_SDK::refresh()
 {
-    if (result == discord::Result::Ok)
+    if (result == discord::Result::Ok && app_id > 0)
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
