@@ -78,11 +78,8 @@ void Discord_SDK::coreupdate()
     if (result == discord::Result::Ok && app_id > 0)
     {
         ::core->RunCallbacks();
-        core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                        { core->UserManager().GetCurrentUser(&user); });
     }
 }
-
 void Discord_SDK::debug()
 {
     result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
@@ -96,6 +93,8 @@ void Discord_SDK::debug()
     if (result == discord::Result::Ok)
     {
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                        { core->UserManager().GetCurrentUser(&user); });
     }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
@@ -133,7 +132,11 @@ String Discord_SDK::get_details() const
 void Discord_SDK::refresh()
 {
     if (result == discord::Result::Ok && app_id > 0)
+    {
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                        { core->UserManager().GetCurrentUser(&user); });
+    }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
