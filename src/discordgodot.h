@@ -63,6 +63,7 @@ public:
     int64_t get_end_timestamp() const;
     void set_end_timestamp(const int64_t &value);
 
+    bool get_is_discord_working() const;
     int get_result_int() const;
 };
 

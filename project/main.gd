@@ -16,4 +16,4 @@ func _ready():
 
 	Discord_SDK.refresh()
 	
-	$Info.text = $Info.text.replace("{discordinfo}",DiscordSDK.get_sdk_info()).replace("{id}",str(Discord_SDK.app_id)).replace("{details}",Discord_SDK.details).replace("{state}",Discord_SDK.state).replace("{lkey}",Discord_SDK.large_image).replace("{ltext}",Discord_SDK.large_image_text).replace("{skey}",Discord_SDK.small_image).replace("{stext}",Discord_SDK.small_image_text).replace("{stimestamp}",str(Discord_SDK.start_timestamp)).replace("{etimestamp}",str(Discord_SDK.end_timestamp))
+	$Info.text = $Info.text.replace("{discordinfo}",str(Discord_SDK.get_is_discord_working())).replace("{id}",str(Discord_SDK.app_id)).replace("{details}",Discord_SDK.details).replace("{state}",Discord_SDK.state).replace("{lkey}",Discord_SDK.large_image).replace("{ltext}",Discord_SDK.large_image_text).replace("{skey}",Discord_SDK.small_image).replace("{stext}",Discord_SDK.small_image_text).replace("{stimestamp}",str(Discord_SDK.start_timestamp)).replace("{etimestamp}",str(Discord_SDK.end_timestamp))

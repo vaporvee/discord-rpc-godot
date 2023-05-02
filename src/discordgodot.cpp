@@ -51,6 +51,8 @@ void Discord_SDK::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("refresh"), &Discord_SDK::refresh);
 
+    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &Discord_SDK::get_is_discord_working);
+
     ClassDB::bind_method(D_METHOD("get_result_int"), &Discord_SDK::get_result_int);
 }
 
@@ -190,6 +192,11 @@ void Discord_SDK::set_end_timestamp(const int64_t &value)
 int64_t Discord_SDK::get_end_timestamp() const
 {
     return activity.GetTimestamps().GetEnd();
+}
+
+bool Discord_SDK::get_is_discord_working() const
+{
+    return result == discord::Result::Ok && app_id > 0;
 }
 
 int Discord_SDK::get_result_int() const
