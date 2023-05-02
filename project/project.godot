@@ -30,6 +30,10 @@ project/assembly_name="GDExtension Test Project"
 
 enabled=PackedStringArray("res://addons/discord-sdk-gd/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [native_extensions]
 
 paths=["res://example.gdextension"]
