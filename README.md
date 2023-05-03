@@ -35,7 +35,7 @@ func _ready():
 
 ```
 #### Then it should look like this: 
-<img src="https://cdn.discordapp.com/attachments/825019604207927326/1099642861256970311/activity.webp">
+<img src="https://cdn.discordapp.com/attachments/825019604207927326/1103403341188444200/demorpc.webp">
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
