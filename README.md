@@ -1,4 +1,4 @@
-<img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
+<img src="/project/assets/Banner.svg" alt="Project Banner" />
 
 ![HitCount](https://hits.dwyl.com/vaporvee/discord-sdk-godot.svg)
 
@@ -28,14 +28,14 @@ func _ready():
 	Discord_Activity.small_image = "boss" # Image key from "Art Assets"
 	Discord_Activity.small_image_text = "Fighting the end boss! D:"
 	
-	Discord_Activity.start_timestamp = int(Time.get_unix_time_from_system()) # "02:41 elapsed"
+	Discord_Activity.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"
 	# Discord_Activity.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 
 	Discord_Activity.refresh() # Always refresh after changing the values!
 
 ```
-#### Then it should look like this: 
-<img src="https://cdn.discordapp.com/attachments/825019604207927326/1103403341188444200/demorpc.webp">
+#### Then it will look similar to this: 
+<img src="/project/assets/ActivityPreview.svg" alt="Activity Preview" />
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
@@ -44,7 +44,7 @@ func _ready():
 <br />
 
 ### Credit
-[@Pukimaa](https://github.com/pukimaa) - Logo Design
+[@Pukimaa](https://github.com/pukimaa) - Designer
 
 <br />
 
