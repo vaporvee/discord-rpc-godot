@@ -1,10 +1,14 @@
 {
     "C_Cpp.default.includePath": [
-        "lib/godot-cpp/include",
-        "lib/godot-cpp/gen/include",
-        "lib/godot-cpp/gdextension"
+        "src/lib/godot-cpp/include",
+        "src/lib/godot-cpp/gen/include",
+        "src/lib/godot-cpp/gdextension"
     ],
     "files.associations": {
         "xlocbuf": "cpp"
-    }
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }

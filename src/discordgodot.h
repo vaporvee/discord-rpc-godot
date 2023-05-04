@@ -2,7 +2,7 @@
 #define DISCORDGODOT_H
 
 #include <stdio.h>
-#include "discord-game-sdk-cpp/discord.h"
+#include "lib/discord_game_sdk/cpp/discord.h"
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
