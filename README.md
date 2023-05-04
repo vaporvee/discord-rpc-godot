@@ -1,10 +1,7 @@
-<img src="/project/assets/Banner.svg" alt="Project Banner" />
+<img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
-![HitCount](https://hits.dwyl.com/vaporvee/discord-sdk-godot.svg)
-
-### :warning: This is an early version! MacOS support still doesn't work! In future versions there also will be invites, user info etc. very soon!
+### This is an early version! In future versions there will be invites, user info etc. very soon!
 Don't forget to run the following command **if you clone this project** or files will be missing
-
 ```sh
 python setup.py
 ```
@@ -28,15 +25,15 @@ func _ready():
 	Discord_SDK.large_image_text = "Try it now!"
 	Discord_SDK.small_image = "boss" # Image key from "Art Assets"
 	Discord_SDK.small_image_text = "Fighting the end boss! D:"
-
-	Discord_SDK.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"
-	# Discord_SDK.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time / "01:00 remaining"
+	
+	Discord_SDK.start_timestamp = int(Time.get_unix_time_from_system()) # "02:41 elapsed"
+	# Discord_SDK.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 
 	Discord_SDK.refresh() # Always refresh after changing the values!
 
 ```
-#### Then it will look similar to this: 
-<img src="/project/assets/ActivityPreview.svg" alt="Activity Preview" />
+#### Then it should look like this: 
+<img src="https://cdn.discordapp.com/attachments/825019604207927326/1099642861256970311/activity.webp">
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
@@ -45,7 +42,7 @@ func _ready():
 <br />
 
 ### Credit
-[@Pukimaa](https://github.com/pukimaa) - Designer
+[@Pukimaa](https://github.com/pukimaa) - Logo Design
 
 <br />
 
