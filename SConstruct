@@ -1,4 +1,4 @@
-#!python
+#!/usr/bin/python3
 import os
 
 # Gets the standard flags CC, CCX, etc.
