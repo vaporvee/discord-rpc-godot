@@ -3,9 +3,10 @@
 ![HitCount](https://hits.dwyl.com/vaporvee/discord-sdk-godot.svg)
 
 ### :warning: This is an early version! MacOS support still doesn't work! In future versions there also will be invites, user info etc. very soon!
-Don't forget to run the following command **if you clone this project** or the godot-cpp folder will be empty
+Don't forget to run the following command **if you clone this project** or files will be missing
+
 ```sh
-git submodule update --init
+python setup.py
 ```
 # Addon Usage :rocket:
 1. [Download the addon](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/ADDON-Discord-SDK-Godot.zip/)
@@ -18,20 +19,20 @@ git submodule update --init
 extends Node
 
 func _ready():
-	Discord_Activity.app_id = 1099618430065324082 # Application ID
-	print("Discord working: " + str(Discord_Activity.get_is_discord_working())) # A boolean if everything worked
-	Discord_Activity.details = "A demo activity by vaporvee#1231"
-	Discord_Activity.state = "Checkpoint 23/23"
+	Discord_SDK.app_id = 1099618430065324082 # Application ID
+	print("Discord working: " + str(Discord_SDK.get_is_discord_working())) # A boolean if everything worked
+	Discord_SDK.details = "A demo activity by vaporvee#1231"
+	Discord_SDK.state = "Checkpoint 23/23"
 	
-	Discord_Activity.large_image = "game" # Image key from "Art Assets"
-	Discord_Activity.large_image_text = "Try it now!"
-	Discord_Activity.small_image = "boss" # Image key from "Art Assets"
-	Discord_Activity.small_image_text = "Fighting the end boss! D:"
-	
-	Discord_Activity.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"
-	# Discord_Activity.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
+	Discord_SDK.large_image = "game" # Image key from "Art Assets"
+	Discord_SDK.large_image_text = "Try it now!"
+	Discord_SDK.small_image = "boss" # Image key from "Art Assets"
+	Discord_SDK.small_image_text = "Fighting the end boss! D:"
 
-	Discord_Activity.refresh() # Always refresh after changing the values!
+	Discord_SDK.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"
+	# Discord_SDK.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time / "01:00 remaining"
+
+	Discord_SDK.refresh() # Always refresh after changing the values!
 
 ```
 #### Then it will look similar to this: 

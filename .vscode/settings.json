@@ -1,7 +1,10 @@
 {
     "C_Cpp.default.includePath": [
-        "godot-cpp/include",
-        "godot-cpp/gen/include",
-        "godot-cpp/gdextension",
-    ]
+        "lib/godot-cpp/include",
+        "lib/godot-cpp/gen/include",
+        "lib/godot-cpp/gdextension"
+    ],
+    "files.associations": {
+        "xlocbuf": "cpp"
+    }
 }

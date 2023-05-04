@@ -20,7 +20,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-discord_coreupdater="*res://addons/discord-sdk-gd/discord_coreupdater.gd"
+updater_discordsdk="*res://addons/discord-sdk-gd/sdk_utility.gd"
 
 [dotnet]
 
@@ -29,6 +29,10 @@ project/assembly_name="GDExtension Test Project"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/discord-sdk-gd/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [native_extensions]
 

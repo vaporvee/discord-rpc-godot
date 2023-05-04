@@ -17,3 +17,8 @@ build/
 *.obj
 *.exp
 *.lib
+
+#Clean files from the Game SDK
+src/discord-game-sdk-cpp/*.cpp
+src/discord-game-sdk-cpp/*.h
+src/discord-game-sdk-cpp/*.md
