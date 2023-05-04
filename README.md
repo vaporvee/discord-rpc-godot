@@ -1,10 +1,7 @@
-<img src="/project/assets/Banner.svg" alt="Project Banner" />
+<img src="https://github.com/vaporvee/discord-sdk-godot/blob/main/project/assets/Banner_v1.png?raw=true">
 
-![HitCount](https://hits.dwyl.com/vaporvee/discord-sdk-godot.svg)
-
-### :warning: This is an early version! MacOS support still doesn't work! In future versions there also will be invites, user info etc. very soon!
+### This is an early version! In future versions there will be invites, user info etc. very soon!
 Don't forget to run the following command **if you clone this project** or files will be missing
-
 ```sh
 python setup.py
 ```
@@ -19,24 +16,24 @@ python setup.py
 extends Node
 
 func _ready():
-	Discord_Activity.app_id = 1099618430065324082 # Application ID
-	print("Discord working: " + str(Discord_Activity.get_is_discord_working())) # A boolean if everything worked
-	Discord_Activity.details = "A demo activity by vaporvee#1231"
-	Discord_Activity.state = "Checkpoint 23/23"
+	Discord_SDK.app_id = 1099618430065324082 # Application ID
+	print("Discord working: " + str(Discord_SDK.get_is_discord_working())) # A boolean if everything worked
+	Discord_SDK.details = "A demo activity by vaporvee#1231"
+	Discord_SDK.state = "Checkpoint 23/23"
 	
-	Discord_Activity.large_image = "game" # Image key from "Art Assets"
-	Discord_Activity.large_image_text = "Try it now!"
-	Discord_Activity.small_image = "boss" # Image key from "Art Assets"
-	Discord_Activity.small_image_text = "Fighting the end boss! D:"
+	Discord_SDK.large_image = "game" # Image key from "Art Assets"
+	Discord_SDK.large_image_text = "Try it now!"
+	Discord_SDK.small_image = "boss" # Image key from "Art Assets"
+	Discord_SDK.small_image_text = "Fighting the end boss! D:"
+	
+	Discord_SDK.start_timestamp = int(Time.get_unix_time_from_system()) # "02:41 elapsed"
+	# Discord_SDK.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 
-	Discord_Activity.start_timestamp = int(Time.get_unix_time_from_system()) # "02:46 elapsed"
-	# Discord_Activity.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time / "01:00 remaining"
-
-	Discord_Activity.refresh() # Always refresh after changing the values!
+	Discord_SDK.refresh() # Always refresh after changing the values!
 
 ```
-#### Then it will look similar to this: 
-<img src="/project/assets/ActivityPreview.svg" alt="Activity Preview" />
+#### Then it should look like this: 
+<img src="https://cdn.discordapp.com/attachments/825019604207927326/1099642861256970311/activity.webp">
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
@@ -45,7 +42,7 @@ func _ready():
 <br />
 
 ### Credit
-[@Pukimaa](https://github.com/pukimaa) - Designer
+[@Pukimaa](https://github.com/pukimaa) - Logo Design
 
 <br />
 
