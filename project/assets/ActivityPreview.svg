@@ -2,7 +2,7 @@
 <g id="ActivityPreview">
 <rect width="340" height="385" rx="8" fill="#2F3136"/>
 <g id="top" opacity="0.6">
-<rect id="Rectangle 15" width="340" height="60" fill="url(#paint0_linear_113_257)"/>
+<path id="Rectangle 15" d="M0 8C0 3.58172 3.58172 0 8 0H332C336.418 0 340 3.58172 340 8V60H0V8Z" fill="url(#paint0_linear_113_257)"/>
 <g id="Avatar">
 <g id="Discord Characters">
 <g clip-path="url(#clip0_113_257)">
