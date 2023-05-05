@@ -3,15 +3,20 @@
 
 #include <stdio.h>
 #include "lib/discord_game_sdk/cpp/discord.h"
+#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
 
-class Discord_SDK : public Object
-{
-    GDCLASS(Discord_SDK, Object);
+discord::Core *core{};
+discord::Result result;
+discord::Activity sdkactivity{};
+discord::User user{};
 
+class Discord_SDK : public RefCounted
+{
+    GDCLASS(Discord_SDK, RefCounted);
     static Discord_SDK *singleton;
 
 protected:
@@ -20,8 +25,27 @@ protected:
 private:
     int64_t app_id;
 
-    struct activitystruct
+public:
+    static Discord_SDK *
+    get_singleton();
+
+    Discord_SDK();
+    ~Discord_SDK();
+
+    class activitystruct : public Object
     {
+        GDCLASS(activitystruct, Object);
+
+    protected:
+        static void _bind_methods();
+
+    public:
+        static activitystruct *
+        get_singleton();
+
+        activitystruct();
+        ~activitystruct();
+
         String state;
         String details;
 
@@ -35,13 +59,6 @@ private:
     };
     activitystruct activity;
 
-public:
-    static Discord_SDK *
-    get_singleton();
-
-    Discord_SDK();
-    ~Discord_SDK();
-
     void debug();
     void coreupdate();
     void refresh();
@@ -49,8 +66,8 @@ public:
     int64_t get_app_id() const;
     void set_app_id(const int64_t &value);
 
-    void set_activity(const activitystruct &value);
-    activitystruct get_activity() const;
+    void set_activity(const Object &value);
+    Object get_activity() const;
 
     bool get_is_discord_working() const;
     int get_result_int() const;

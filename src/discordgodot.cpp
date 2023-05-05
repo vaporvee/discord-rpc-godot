@@ -1,5 +1,4 @@
 #include "discordgodot.h"
-#include "lib/discord_game_sdk/cpp/discord.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/editor_plugin.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -9,11 +8,6 @@ using namespace godot;
 
 Discord_SDK *Discord_SDK::singleton = nullptr;
 
-discord::Core *core{};
-discord::Result result;
-discord::Activity sdkactivity{};
-discord::User user{};
-
 void Discord_SDK::_bind_methods()
 {
     ClassDB::bind_method(D_METHOD("debug"), &Discord_SDK::debug);
@@ -22,15 +16,12 @@ void Discord_SDK::_bind_methods()
     ClassDB::bind_method(D_METHOD("get_app_id"), &Discord_SDK::get_app_id);
     ClassDB::bind_method(D_METHOD("set_app_id", "app_id"), &Discord_SDK::set_app_id);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "app_id"), "set_app_id", "get_app_id");
-<<<<<<< HEAD
 
     ClassDB::bind_method(D_METHOD("get_activity"), &Discord_SDK::get_activity);
     ClassDB::bind_method(D_METHOD("set_activity", "activity"), &Discord_SDK::set_activity);
-    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activity"), "set_activity", "get_activity")
-    == == == =
->>>>>>> 3047e47 (constructed custom activity struct)
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "activity"), "set_activity", "get_activity");
 
-                 ClassDB::bind_method(D_METHOD("get_is_discord_working"), &Discord_SDK::get_is_discord_working);
+    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &Discord_SDK::get_is_discord_working);
 
     ClassDB::bind_method(D_METHOD("get_result_int"), &Discord_SDK::get_result_int);
 
@@ -91,9 +82,17 @@ int64_t Discord_SDK::get_app_id() const
     return app_id;
 }
 
-void Discord_SDK::set_activity(const activitystruct &value)
-{
-    activity = value;
+void Discord_SDK::set_activity(const Object &value)
+{ /*
+     activity.state = value.state;
+     activity.details = value.details;
+     activity.large_image = value.large_image;
+     activity.large_image = value.large_image_text;
+     activity.large_image = value.small_image;
+     activity.large_image = value.small_image_text;
+     activity.start_timestamp = value.start_timestamp;
+     activity.end_timestamp = value.end_timestamp;*/
+
     sdkactivity.SetState(activity.state.utf8().get_data());
     sdkactivity.SetDetails(activity.details.utf8().get_data());
     sdkactivity.GetAssets().SetLargeImage(activity.large_image.utf8().get_data());
@@ -103,7 +102,7 @@ void Discord_SDK::set_activity(const activitystruct &value)
     sdkactivity.GetTimestamps().SetStart(activity.start_timestamp);
     sdkactivity.GetTimestamps().SetEnd(activity.end_timestamp);
 }
-Discord_SDK::activitystruct Discord_SDK::get_activity() const
+Object Discord_SDK::get_activity() const
 {
     return activity;
 }
