@@ -22,7 +22,7 @@ position = Vector2(565, 308)
 scale = Vector2(0.408203, 0.408203)
 texture = ExtResource("2_1hv5q")
 
-[node name="DiscordSDK Test" type="RichTextLabel" parent="."]
+[node name="Discord RPC Test" type="RichTextLabel" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -39,16 +39,14 @@ size_flags_vertical = 4
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 10
 bbcode_enabled = true
-text = "[center][font s=60][rainbow]DiscordSDK Test[/rainbow][/font]"
+text = "[center][font s=60][rainbow]Discord RPC Test[/rainbow][/font]"
 
 [node name="Info" type="RichTextLabel" parent="."]
 offset_left = 7.0
 offset_top = 6.0
 offset_right = 514.0
 offset_bottom = 722.0
-text = "Discord working: {discordinfo}
-
-Application ID : {id}
+text = "Application ID : {id}
 Details: {details}
 State: {state}
 
