@@ -35,7 +35,7 @@ sources = Glob("src/*.cpp")
 
 # The finished exports
 library = env.SharedLibrary(
-    target="project/addons/discord-sdk-gd/bin/"
+    target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder
     + "discord-rpc_binding"
     + debugsuffix,
@@ -44,16 +44,8 @@ library = env.SharedLibrary(
 env.Depends(
     library,
     Command(
-        "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library,
+        "project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library,
         "src/lib/discord-rpc-copies/" + discord_library,
-        Copy("$TARGET", "$SOURCE"),
-    ),
-)
-env.Depends(
-    library,
-    Command(
-        "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library_second,
-        "src/lib/discord-rpc-copies/" + discord_library_second,
         Copy("$TARGET", "$SOURCE"),
     ),
 )

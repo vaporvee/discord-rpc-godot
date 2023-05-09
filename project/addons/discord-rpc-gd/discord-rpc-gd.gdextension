@@ -1,0 +1,29 @@
+[configuration]
+
+entry_symbol = "discordrpcgd_library_init"
+
+[libraries]
+
+macos.debug = "bin/macos/libdiscord-rpc_binding_debug.dylib"
+macos.release = "bin/macos/libdiscord-rpc_binding.dylib"
+windows.debug.x86_64 = "bin/windows/discord-rpc_binding_debug.dll"
+windows.release.x86_64 = "bin/windows/discord-rpc_binding.dll"
+linux.debug.x86_64 = "bin/linux/libdiscord-rpc_binding_debug.so"
+linux.release.x86_64 = "bin/linux/libdiscord-rpc_binding.so"
+linux.debug.arm64 = "bin/linux/libdiscord-rpc_binding_debug.so"
+linux.release.arm64 = "bin/linux/libdiscord-rpc_binding.so"
+linux.debug.rv64 = "bin/linux/libdiscord-rpc_binding_debug.so"
+linux.release.rv64 = "bin/linux/libdiscord-rpc_binding.so"
+
+[dependencies]
+
+macos.debug = "bin/macos/libdiscord-rpc.dylib"
+macos.release = "bin/macos/libdiscord-rpc.dylib"
+windows.debug.x86_64 = "bin/windows/discord-rpc.dll"
+windows.release.x86_64 = "bin/windows/discord-rpc.dll"
+linux.debug.x86_64 = "bin/linux/libdiscord-rpc.so"
+linux.release.x86_64 = "bin/linux/libdiscord-rpc.so"
+linux.debug.arm64 = "bin/linux/libdiscord-rpc.so"
+linux.release.arm64 = "bin/linux/libdiscord-rpc.so"
+linux.debug.rv64 = "bin/linux/libdiscord-rpc.so"
+linux.release.rv64 = "bin/linux/libdiscord-rpc.so"
