@@ -1,9 +1,6 @@
 import os
 import sys
 
-if not os.path.exists("src/lib/discord-rpc-copies/"):
-    os.system("python setup.py")
-
 yes = {"yes", "y", "ye", ""}
 no = {"no", "n"}
 

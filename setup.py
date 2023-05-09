@@ -1,9 +1,10 @@
 import os
+import sys
 import shutil
 
 os.system("git submodule update --init")
 
-os.system("python ./src/lib/discord-rpc/build.py")
+os.system("pip install scons --user")
 
 if not os.path.exists("src/lib/discord-rpc-copies/"):
     os.makedirs("src/lib/discord-rpc-copies/")
