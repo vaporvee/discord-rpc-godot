@@ -30,6 +30,11 @@ private:
     int64_t start_timestamp;
     int64_t end_timestamp;
 
+    String first_button_url;
+    String first_button_text;
+    String second_button_url;
+    String second_button_text;
+
 public:
     static discord_rpc *get_singleton();
 
@@ -46,8 +51,10 @@ public:
     int64_t get_app_id() const;
 
     void set_app_id(const int64_t &value);
+
     String get_state() const;
     void set_state(const String &value);
+
     String get_details() const;
     void set_details(const String &value);
 
@@ -65,8 +72,14 @@ public:
     int64_t get_end_timestamp() const;
     void set_end_timestamp(const int64_t &value);
 
-    bool get_is_discord_working() const;
-    int get_result_int() const;
+    String get_first_button_url() const;
+    void set_first_button_url(const String &value);
+    String get_first_button_text() const;
+    void set_first_button_text(const String &value);
+    String get_second_button_url() const;
+    void set_second_button_url(const String &value);
+    String get_second_button_text() const;
+    void set_second_button_text(const String &value);
 };
 
 #endif

@@ -47,6 +47,19 @@ void discord_rpc::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_end_timestamp", "end_timestamp"), &discord_rpc::set_end_timestamp);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
 
+    ClassDB::bind_method(D_METHOD("get_first_button_text"), &discord_rpc::get_first_button_text);
+    ClassDB::bind_method(D_METHOD("set_first_button_text", "first_button_text"), &discord_rpc::set_first_button_text);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "first_button_text"), "set_first_button_text", "get_first_button_text");
+    ClassDB::bind_method(D_METHOD("get_first_button_url"), &discord_rpc::get_first_button_url);
+    ClassDB::bind_method(D_METHOD("set_first_button_url", "first_button_url"), &discord_rpc::set_first_button_url);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "first_button_url"), "set_first_button_url", "get_first_button_url");
+    ClassDB::bind_method(D_METHOD("get_second_button_text"), &discord_rpc::get_second_button_text);
+    ClassDB::bind_method(D_METHOD("set_second_button_text", "second_button_text"), &discord_rpc::set_second_button_text);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "second_button_text"), "set_second_button_text", "get_second_button_text");
+    ClassDB::bind_method(D_METHOD("get_second_button_url"), &discord_rpc::get_first_button_url);
+    ClassDB::bind_method(D_METHOD("set_second_button_url", "second_button_url"), &discord_rpc::set_second_button_url);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "second_button_url"), "set_second_button_url", "get_second_button_url");
+
     ClassDB::bind_method(D_METHOD("refresh"), &discord_rpc::refresh);
 }
 
@@ -102,10 +115,10 @@ void discord_rpc::debug()
 
 void discord_rpc::set_app_id(const int64_t &value)
 {
+    app_id = value;
     if (value == 0)
         app_id = NULL;
-    app_id = value;
-    std::string s = std::to_string(app_id);
+    std::string s = std::to_string(value);
     char const *pchar = s.c_str();
     Discord_Initialize(pchar, &handlers, 1, NULL);
     memset(&discordPresence, 0, sizeof(discordPresence));
@@ -117,13 +130,11 @@ int64_t discord_rpc::get_app_id() const
 
 void discord_rpc::set_state(const String &value)
 {
+    state = value;
     if (value == "")
         discordPresence.state = NULL;
     else
-    {
-        state = value;
-        discordPresence.state = state.utf8().get_data();
-    }
+        discordPresence.state = value.utf8().get_data();
 }
 String discord_rpc::get_state() const
 {
@@ -131,13 +142,11 @@ String discord_rpc::get_state() const
 }
 void discord_rpc::set_details(const String &value)
 {
+    details = value;
     if (value == "")
         discordPresence.details = NULL;
     else
-    {
-        details = value;
-        discordPresence.details = details.utf8().get_data();
-    }
+        discordPresence.details = value.utf8().get_data();
 }
 String discord_rpc::get_details() const
 {
@@ -146,13 +155,11 @@ String discord_rpc::get_details() const
 
 void discord_rpc::set_large_image(const String &value)
 {
+    large_image = value;
     if (value == "")
         discordPresence.largeImageKey = NULL;
     else
-    {
-        large_image = value;
-        discordPresence.largeImageKey = large_image.utf8().get_data();
-    }
+        discordPresence.largeImageKey = value.utf8().get_data();
 }
 String discord_rpc::get_large_image() const
 {
@@ -160,13 +167,11 @@ String discord_rpc::get_large_image() const
 }
 void discord_rpc::set_large_image_text(const String &value)
 {
+    large_image_text = value;
     if (value == "")
         discordPresence.largeImageText = NULL;
     else
-    {
-        large_image_text = value;
-        discordPresence.largeImageText = large_image_text.utf8().get_data();
-    }
+        discordPresence.largeImageText = value.utf8().get_data();
 }
 String discord_rpc::get_large_image_text() const
 {
@@ -174,13 +179,11 @@ String discord_rpc::get_large_image_text() const
 }
 void discord_rpc::set_small_image(const String &value)
 {
+    small_image = value;
     if (value == "")
         discordPresence.smallImageKey = NULL;
     else
-    {
-        small_image = value;
-        discordPresence.smallImageKey = small_image.utf8().get_data();
-    }
+        discordPresence.smallImageKey = value.utf8().get_data();
 }
 String discord_rpc::get_small_image() const
 {
@@ -188,13 +191,11 @@ String discord_rpc::get_small_image() const
 }
 void discord_rpc::set_small_image_text(const String &value)
 {
+    small_image_text = value;
     if (value == "")
         discordPresence.smallImageText = NULL;
     else
-    {
-        small_image_text = value;
-        discordPresence.smallImageText = small_image_text.utf8().get_data();
-    }
+        discordPresence.smallImageText = value.utf8().get_data();
 }
 String discord_rpc::get_small_image_text() const
 {
@@ -203,13 +204,11 @@ String discord_rpc::get_small_image_text() const
 
 void discord_rpc::set_start_timestamp(const int64_t &value)
 {
+    start_timestamp = value;
     if (value == 0)
         discordPresence.startTimestamp = NULL;
     else
-    {
-        start_timestamp = value;
-        discordPresence.startTimestamp = start_timestamp;
-    }
+        discordPresence.startTimestamp = value;
 }
 int64_t discord_rpc::get_start_timestamp() const
 {
@@ -222,12 +221,65 @@ void discord_rpc::set_end_timestamp(const int64_t &value)
     else
     {
         end_timestamp = value;
-        discordPresence.endTimestamp = end_timestamp;
+        discordPresence.endTimestamp = value;
     }
 }
 int64_t discord_rpc::get_end_timestamp() const
 {
     return end_timestamp;
+}
+
+void discord_rpc::set_first_button_url(const String &value)
+{
+    first_button_url = value;
+    clear_invite_system();
+    if (value == "")
+        discordPresence.button1Url = NULL;
+    else
+        discordPresence.button1Url = value.utf8().get_data();
+}
+String discord_rpc::get_first_button_url() const
+{
+    return first_button_url;
+}
+void discord_rpc::set_first_button_text(const String &value)
+{
+    first_button_text = value;
+    clear_invite_system();
+    if (value == "")
+        discordPresence.button1Label = NULL;
+    else
+        discordPresence.button1Label = value.utf8().get_data();
+}
+String discord_rpc::get_first_button_text() const
+{
+    return first_button_text;
+}
+void discord_rpc::set_second_button_url(const String &value)
+{
+    second_button_url = value;
+    clear_invite_system();
+    if (value == "")
+        discordPresence.button2Url = NULL;
+    else
+        discordPresence.button2Url = value.utf8().get_data();
+}
+String discord_rpc::get_second_button_url() const
+{
+    return second_button_url;
+}
+void discord_rpc::set_second_button_text(const String &value)
+{
+    second_button_text = value;
+    clear_invite_system();
+    if (value == "")
+        discordPresence.button2Label = NULL;
+    else
+        discordPresence.button2Label = value.utf8().get_data();
+}
+String discord_rpc::get_second_button_text() const
+{
+    return second_button_text;
 }
 
 void discord_rpc::refresh()
@@ -250,12 +302,13 @@ void discord_rpc::clear()
     small_image_text = "";
     start_timestamp = NULL;
     end_timestamp = NULL;
+    clear_buttons();
+    clear_invite_system();
     Discord_ClearPresence();
 }
 
 void discord_rpc::clear_invite_system()
 {
-    
 }
 
 void discord_rpc::clear_buttons()

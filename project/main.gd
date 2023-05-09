@@ -10,6 +10,10 @@ func _ready():
 	discord_rpc.large_image_text = "Try it now!"
 	discord_rpc.small_image = "boss"
 	discord_rpc.small_image_text = "Fighting the end boss! D:"
+	discord_rpc.first_button_text = "Test from GDScript"
+	discord_rpc.first_button_url = "https://github.com/vaporvee/discord-sdk-godot"
+	discord_rpc.second_button_text = "🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿"
+	discord_rpc.second_button_url = "https://www.youtube.com/watch?v=eaDeTV-LLYA"
 
 	discord_rpc.start_timestamp = int(Time.get_unix_time_from_system())
 	discord_rpc.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
