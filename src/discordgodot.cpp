@@ -104,8 +104,7 @@ void discord_rpc::set_app_id(const int64_t &value)
 {
     if (value == 0)
         app_id = NULL;
-    else
-        app_id = value;
+    app_id = value;
     std::string s = std::to_string(app_id);
     char const *pchar = s.c_str();
     Discord_Initialize(pchar, &handlers, 1, NULL);
@@ -119,10 +118,12 @@ int64_t discord_rpc::get_app_id() const
 void discord_rpc::set_state(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.state = NULL;
     else
+    {
         state = value;
-    discordPresence.state = state.utf8().get_data();
+        discordPresence.state = state.utf8().get_data();
+    }
 }
 String discord_rpc::get_state() const
 {
@@ -131,10 +132,12 @@ String discord_rpc::get_state() const
 void discord_rpc::set_details(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.details = NULL;
     else
+    {
         details = value;
-    discordPresence.details = details.utf8().get_data();
+        discordPresence.details = details.utf8().get_data();
+    }
 }
 String discord_rpc::get_details() const
 {
@@ -144,10 +147,12 @@ String discord_rpc::get_details() const
 void discord_rpc::set_large_image(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.largeImageKey = NULL;
     else
+    {
         large_image = value;
-    discordPresence.largeImageKey = large_image.utf8().get_data();
+        discordPresence.largeImageKey = large_image.utf8().get_data();
+    }
 }
 String discord_rpc::get_large_image() const
 {
@@ -156,10 +161,12 @@ String discord_rpc::get_large_image() const
 void discord_rpc::set_large_image_text(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.largeImageText = NULL;
     else
+    {
         large_image_text = value;
-    discordPresence.largeImageText = large_image_text.utf8().get_data();
+        discordPresence.largeImageText = large_image_text.utf8().get_data();
+    }
 }
 String discord_rpc::get_large_image_text() const
 {
@@ -168,10 +175,12 @@ String discord_rpc::get_large_image_text() const
 void discord_rpc::set_small_image(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.smallImageKey = NULL;
     else
+    {
         small_image = value;
-    discordPresence.smallImageKey = small_image.utf8().get_data();
+        discordPresence.smallImageKey = small_image.utf8().get_data();
+    }
 }
 String discord_rpc::get_small_image() const
 {
@@ -180,10 +189,12 @@ String discord_rpc::get_small_image() const
 void discord_rpc::set_small_image_text(const String &value)
 {
     if (value == "")
-        app_id = NULL;
+        discordPresence.smallImageText = NULL;
     else
+    {
         small_image_text = value;
-    discordPresence.smallImageText = small_image_text.utf8().get_data();
+        discordPresence.smallImageText = small_image_text.utf8().get_data();
+    }
 }
 String discord_rpc::get_small_image_text() const
 {
@@ -193,10 +204,12 @@ String discord_rpc::get_small_image_text() const
 void discord_rpc::set_start_timestamp(const int64_t &value)
 {
     if (value == 0)
-        app_id = NULL;
+        discordPresence.startTimestamp = NULL;
     else
+    {
         start_timestamp = value;
-    discordPresence.startTimestamp = start_timestamp;
+        discordPresence.startTimestamp = start_timestamp;
+    }
 }
 int64_t discord_rpc::get_start_timestamp() const
 {
@@ -205,10 +218,12 @@ int64_t discord_rpc::get_start_timestamp() const
 void discord_rpc::set_end_timestamp(const int64_t &value)
 {
     if (value == 0)
-        app_id = NULL;
+        discordPresence.endTimestamp = NULL;
     else
+    {
         end_timestamp = value;
-    discordPresence.endTimestamp = end_timestamp;
+        discordPresence.endTimestamp = end_timestamp;
+    }
 }
 int64_t discord_rpc::get_end_timestamp() const
 {
