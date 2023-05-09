@@ -42,7 +42,6 @@ func _ready():
 
 ### Credit
 [@Pukimaa](https://github.com/pukimaa) - Designer<br>
-[@koyuawsmbrtn](https://github.com/koyuawsmbrtn) - Getting it to work on MacOS (shes giving her best)
 <br />
 
 *This project is not endorsed or affiliated with Discord Inc. or the Godot Foundation.*
