@@ -2,17 +2,16 @@
 #define DISCORDGODOT_H
 
 #include <stdio.h>
-#include "lib/discord_game_sdk/cpp/discord.h"
-#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
 
-class Discord_SDK : public Object
+class discord_rpc : public RefCounted
 {
-    GDCLASS(Discord_SDK, Object);
+    GDCLASS(discord_rpc, RefCounted);
 
-    static Discord_SDK *singleton;
+    static discord_rpc *singleton;
 
 protected:
     static void _bind_methods();
@@ -32,14 +31,17 @@ private:
     int64_t end_timestamp;
 
 public:
-    static Discord_SDK *get_singleton();
+    static discord_rpc *get_singleton();
 
-    Discord_SDK();
-    ~Discord_SDK();
+    discord_rpc();
+    ~discord_rpc();
 
     void debug();
-    void coreupdate();
     void refresh();
+
+    void clear();
+    void clear_invite_system();
+    void clear_buttons();
 
     int64_t get_app_id() const;
 

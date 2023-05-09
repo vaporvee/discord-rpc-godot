@@ -6,18 +6,18 @@ env = SConscript("src/lib/godot-cpp/SConstruct")
 
 # Check our platform specifics
 if env["platform"] == "macos":
-    discord_library = "libdiscord_game_sdk.dylib"
-    discord_library_second = "libdiscord_game_sdk_aarch64.dylib"
+    discord_library = "libdiscord-rpc.dylib"
+    discord_library_second = ""
     libexportfolder = "/macos/"
 
 elif env["platform"] in ("linuxbsd", "linux"):
-    discord_library = "libdiscord_game_sdk.so"
+    discord_library = "libdiscord-rpc.so"
     discord_library_second = ""
     libexportfolder = "/linux/"
 
 elif env["platform"] == "windows":
-    discord_library = "discord_game_sdk.dll"
-    discord_library_second = "discord_game_sdk_x86.dll"
+    discord_library = "discord-rpc.dll"
+    discord_library_second = "discord-rpc_x86.dll"
     libexportfolder = "/windows/"
 
 if env["target"] == "template_debug":
@@ -26,20 +26,18 @@ else:
     debugsuffix = ""
 
 # make sure our binding library is properly includes
-env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
-sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
-env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])
-env.Append(LIBS=["discord_game_sdk"])
+env.Append(LIBPATH=["src/lib/discord-rpc-copies"])
+env.Append(LIBS=["discord-rpc"])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["src/"])
-sources += Glob("src/*.cpp")
+sources = Glob("src/*.cpp")
 
 # The finished exports
 library = env.SharedLibrary(
     target="project/addons/discord-sdk-gd/bin/"
     + libexportfolder
-    + "discord_game_sdk_binding"
+    + "discord-rpc_binding"
     + debugsuffix,
     source=sources,
 )
@@ -47,7 +45,7 @@ env.Depends(
     library,
     Command(
         "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library,
-        "src/lib/discord_game_sdk/bin/" + discord_library,
+        "src/lib/discord-rpc-copies/" + discord_library,
         Copy("$TARGET", "$SOURCE"),
     ),
 )
@@ -55,7 +53,7 @@ env.Depends(
     library,
     Command(
         "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library_second,
-        "src/lib/discord_game_sdk/bin/" + discord_library_second,
+        "src/lib/discord-rpc-copies/" + discord_library_second,
         Copy("$TARGET", "$SOURCE"),
     ),
 )

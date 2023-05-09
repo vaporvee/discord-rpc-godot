@@ -1,3 +1,6 @@
 [submodule "src/lib/godot-cpp"]
 	path = src/lib/godot-cpp
 	url = https://github.com/godotengine/godot-cpp
+[submodule "src/lib/discord-rpc"]
+	path = src/lib/discord-rpc
+	url = https://github.com/vaporvee/discord-rpc
