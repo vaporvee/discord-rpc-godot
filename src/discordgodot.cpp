@@ -241,20 +241,21 @@ void discord_rpc::refresh()
 
 void discord_rpc::clear()
 {
-    set_app_id(NULL);
-    set_state("");
-    set_details("");
-    set_large_image("");
-    set_large_image_text("");
-    set_small_image("");
-    set_small_image_text("");
-    set_start_timestamp(NULL);
-    set_end_timestamp(NULL);
+    app_id = NULL;
+    state = "";
+    details = "";
+    large_image = "";
+    large_image_text = "";
+    small_image = "";
+    small_image_text = "";
+    start_timestamp = NULL;
+    end_timestamp = NULL;
     Discord_ClearPresence();
 }
 
 void discord_rpc::clear_invite_system()
 {
+    
 }
 
 void discord_rpc::clear_buttons()
