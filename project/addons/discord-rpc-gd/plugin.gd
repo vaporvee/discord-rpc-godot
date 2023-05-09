@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const ExportPlugin = preload("res://addons/discord-sdk-gd/export.gd")
+const ExportPlugin = preload("res://addons/discord-rpc-gd/export.gd")
 var loaded_exportplugin = ExportPlugin.new()
 
 func _enter_tree():
