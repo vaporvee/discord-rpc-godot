@@ -24,7 +24,7 @@ project/assembly_name="GDExtension Test Project"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/discord-sdk-gd/plugin.cfg")
+enabled=PackedStringArray()
 
 [filesystem]
 

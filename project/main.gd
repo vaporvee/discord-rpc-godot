@@ -2,6 +2,7 @@ extends Node
 
 func _ready():
 #	discord_rpc.debug()
+	
 	discord_rpc.app_id = 1099618430065324082
 	discord_rpc.details = "A demo activity by vaporvee#1231"
 	discord_rpc.state = "Checkpoint 23/23"
@@ -15,7 +16,7 @@ func _ready():
 	discord_rpc.second_button_text = "🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿🗿"
 	discord_rpc.second_button_url = "https://www.youtube.com/watch?v=eaDeTV-LLYA"
 
-	discord_rpc.start_timestamp = int(Time.get_unix_time_from_system())
+	# discord_rpc.start_timestamp = int(Time.get_unix_time_from_system())
 	discord_rpc.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 
 	discord_rpc.refresh()

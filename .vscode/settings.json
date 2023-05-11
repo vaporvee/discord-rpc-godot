@@ -5,7 +5,12 @@
         "src/lib/godot-cpp/gdextension"
     ],
     "files.associations": {
-        "xlocbuf": "cpp"
+        "xlocbuf": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "type_traits": "cpp",
+        "xtr1common": "cpp",
+        "xutility": "cpp"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
