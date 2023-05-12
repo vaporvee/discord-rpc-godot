@@ -281,11 +281,13 @@ String discord_sdk::get_spectate_secret()
 
 void discord_sdk::register_command(String value)
 {
-    register_command(value.utf8().get_data());
+    if (result == discord::Result::Ok && app_id > 0)
+        core->ActivityManager().RegisterCommand(value.utf8().get_data());
 }
 void discord_sdk::register_steam(int32_t value)
 {
-    register_steam(value);
+    if (result == discord::Result::Ok && app_id > 0)
+        core->ActivityManager().RegisterSteam(value);
 }
 
 bool discord_sdk::get_is_discord_working()
