@@ -9,15 +9,15 @@
 #include "discordgodot.h"
 using namespace godot;
 
-static Discord_SDK *discordsdk;
+static Discord_Activity *discordsdk;
 
 void gdextension_initialize(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        ClassDB::register_class<Discord_SDK>();
-        discordsdk = memnew(Discord_SDK);
-        Engine::get_singleton()->register_singleton("Discord_SDK", Discord_SDK::get_singleton());
+        ClassDB::register_class<Discord_Activity>();
+        discordsdk = memnew(Discord_Activity);
+        Engine::get_singleton()->register_singleton("Discord_Activity", Discord_Activity::get_singleton());
     }
 }
 
@@ -25,7 +25,7 @@ void gdextension_terminate(ModuleInitializationLevel p_level)
 {
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        Engine::get_singleton()->unregister_singleton("Discord_SDK");
+        Engine::get_singleton()->unregister_singleton("Discord_Activity");
         memdelete(discordsdk);
     }
 }
