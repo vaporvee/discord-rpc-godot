@@ -51,13 +51,14 @@ env.Depends(
         Copy("$TARGET", "$SOURCE"),
     ),
 )
-env.Depends(
-    library,
-    Command(
-        "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library_second,
-        "src/lib/discord_game_sdk/bin/" + discord_library_second,
-        Copy("$TARGET", "$SOURCE"),
-    ),
-)
+if(discord_library_second != ""):
+    env.Depends(
+        library,
+        Command(
+            "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library_second,
+            "src/lib/discord_game_sdk/bin/" + discord_library_second,
+            Copy("$TARGET", "$SOURCE"),
+        ),
+    )
 
 Default(library)
