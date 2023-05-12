@@ -8,60 +8,30 @@
 
 using namespace godot;
 
-class Discord_Activity : public Object
+class discord_sdk : public Object
 {
-    GDCLASS(Discord_Activity, Object);
+    GDCLASS(discord_sdk, Object);
 
-    static Discord_Activity *singleton;
+    static discord_sdk *singleton;
 
 protected:
     static void _bind_methods();
 
 private:
-    int64_t app_id;
-
-    String state;
-    String details;
-
-    String large_image;
-    String large_image_text;
-    String small_image;
-    String small_image_text;
-
-    int64_t start_timestamp;
-    int64_t end_timestamp;
+    Dictionary activity;
 
 public:
-    static Discord_Activity *get_singleton();
+    static discord_sdk *get_singleton();
 
-    Discord_Activity();
-    ~Discord_Activity();
+    discord_sdk();
+    ~discord_sdk();
 
     void debug();
     void coreupdate();
     void refresh();
 
-    int64_t get_app_id();
-
-    void set_app_id(int64_t value);
-    String get_state();
-    void set_state(String value);
-    String get_details();
-    void set_details(String value);
-
-    String get_large_image();
-    void set_large_image(String value);
-    String get_large_image_text();
-    void set_large_image_text(String value);
-    String get_small_image();
-    void set_small_image(String value);
-    String get_small_image_text();
-    void set_small_image_text(String value);
-
-    int64_t get_start_timestamp();
-    void set_start_timestamp(int64_t value);
-    int64_t get_end_timestamp();
-    void set_end_timestamp(int64_t value);
+    Dictionary get_activity();
+    void set_activity(Dictionary value);
 
     bool get_is_discord_working();
     int get_result_int();

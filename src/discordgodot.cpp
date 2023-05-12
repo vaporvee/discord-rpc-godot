@@ -7,96 +7,78 @@
 
 using namespace godot;
 
-Discord_Activity *Discord_Activity::singleton = nullptr;
+discord_sdk *discord_sdk::singleton = nullptr;
 
 discord::Core *core{};
 discord::Result result;
-discord::Activity activity{};
+discord::Activity sdkactivity{};
 discord::User user{};
 
-void Discord_Activity::_bind_methods()
+void discord_sdk::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("debug"), &Discord_Activity::debug);
-    ClassDB::bind_method(D_METHOD("coreupdate"), &Discord_Activity::coreupdate);
+    ClassDB::bind_method(D_METHOD("debug"), &discord_sdk::debug);
+    ClassDB::bind_method(D_METHOD("coreupdate"), &discord_sdk::coreupdate);
 
-    ClassDB::bind_method(D_METHOD("get_app_id"), &Discord_Activity::get_app_id);
-    ClassDB::bind_method(D_METHOD("set_app_id", "app_id"), &Discord_Activity::set_app_id);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "app_id"), "set_app_id", "get_app_id");
-    ClassDB::bind_method(D_METHOD("get_state"), &Discord_Activity::get_state);
-    ClassDB::bind_method(D_METHOD("set_state", "state"), &Discord_Activity::set_state);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "state"), "set_state", "get_state");
-    ClassDB::bind_method(D_METHOD("get_details"), &Discord_Activity::get_details);
-    ClassDB::bind_method(D_METHOD("set_details", "details"), &Discord_Activity::set_details);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "details"), "set_details", "get_details");
+    ClassDB::bind_method(D_METHOD("get_activity"), &discord_sdk::get_activity);
+    ClassDB::bind_method(D_METHOD("set_activity", "activity"), &discord_sdk::set_activity);
+    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "activity"), "set_activity", "get_activity");
 
-    ClassDB::bind_method(D_METHOD("get_large_image"), &Discord_Activity::get_large_image);
-    ClassDB::bind_method(D_METHOD("set_large_image", "large_image"), &Discord_Activity::set_large_image);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image"), "set_large_image", "get_large_image");
-    ClassDB::bind_method(D_METHOD("get_large_image_text"), &Discord_Activity::get_large_image_text);
-    ClassDB::bind_method(D_METHOD("set_large_image_text", "large_image_text"), &Discord_Activity::set_large_image_text);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image_text"), "set_large_image_text", "get_large_image_text");
-    ClassDB::bind_method(D_METHOD("get_small_image"), &Discord_Activity::get_small_image);
-    ClassDB::bind_method(D_METHOD("set_small_image", "small_image"), &Discord_Activity::set_small_image);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image"), "set_small_image", "get_small_image");
-    ClassDB::bind_method(D_METHOD("get_small_image_text"), &Discord_Activity::get_small_image_text);
-    ClassDB::bind_method(D_METHOD("set_small_image_text", "large_small_text"), &Discord_Activity::set_small_image_text);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image_text"), "set_small_image_text", "get_small_image_text");
+    ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
 
-    ClassDB::bind_method(D_METHOD("get_start_timestamp"), &Discord_Activity::get_start_timestamp);
-    ClassDB::bind_method(D_METHOD("set_start_timestamp", "start_timestamp"), &Discord_Activity::set_start_timestamp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "start_timestamp"), "set_start_timestamp", "get_start_timestamp");
-    ClassDB::bind_method(D_METHOD("get_end_timestamp"), &Discord_Activity::get_end_timestamp);
-    ClassDB::bind_method(D_METHOD("set_end_timestamp", "end_timestamp"), &Discord_Activity::set_end_timestamp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
+    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &discord_sdk::get_is_discord_working);
 
-    ClassDB::bind_method(D_METHOD("refresh"), &Discord_Activity::refresh);
-
-    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &Discord_Activity::get_is_discord_working);
-
-    ClassDB::bind_method(D_METHOD("get_result_int"), &Discord_Activity::get_result_int);
+    ClassDB::bind_method(D_METHOD("get_result_int"), &discord_sdk::get_result_int);
 }
 
-Discord_Activity *Discord_Activity::get_singleton()
+discord_sdk *discord_sdk::get_singleton()
 {
     return singleton;
 }
 
-Discord_Activity::Discord_Activity()
+discord_sdk::discord_sdk()
 {
     ERR_FAIL_COND(singleton != nullptr);
     singleton = this;
-
+    // add Dictionary values:
+    activity["app_id"] = 461618159171141643;
+    activity["state"] = "";
+    activity["details"] = "";
+    activity["large_image"] = "";
+    activity["large_image_text"] = "";
+    activity["small_image"] = "";
+    activity["small_image_text"] = "";
+    activity["start_timestamp"] = 0;
+    activity["end_timestamp"] = 0;
     // intitalize core with discord's dummy application ID to make "is_discord_working" work anytime
-    app_id = 461618159171141643;
-    result = discord::Core::Create(app_id, DiscordCreateFlags_NoRequireDiscord, &core);
+    result = discord::Core::Create(activity["app_id"].INT, DiscordCreateFlags_NoRequireDiscord, &core);
 }
 
-Discord_Activity::~Discord_Activity()
+discord_sdk::~discord_sdk()
 {
     ERR_FAIL_COND(singleton != this);
     singleton = nullptr;
 }
 
-void Discord_Activity::coreupdate()
+void discord_sdk::coreupdate()
 {
-    if (result == discord::Result::Ok && app_id > 0 && app_id != 461618159171141643)
+    if (result == discord::Result::Ok && activity["app_id"].INT > 0 && activity["app_id"].INT != 461618159171141643)
     {
         ::core->RunCallbacks();
     }
 }
-void Discord_Activity::debug()
+void discord_sdk::debug()
 {
     result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
-    activity.SetState("Test from Godot!");
-    activity.SetDetails("I worked months on this");
-    activity.GetAssets().SetLargeImage("test1");
-    activity.GetAssets().SetLargeText("wow test text for large image");
-    activity.GetAssets().SetSmallImage("godot");
-    activity.GetAssets().SetSmallText("wow test text for small image");
-    activity.GetTimestamps().SetStart(1682242800);
+    sdkactivity.SetState("Test from Godot!");
+    sdkactivity.SetDetails("I worked months on this");
+    sdkactivity.GetAssets().SetLargeImage("test1");
+    sdkactivity.GetAssets().SetLargeText("wow test text for large image");
+    sdkactivity.GetAssets().SetSmallImage("godot");
+    sdkactivity.GetAssets().SetSmallText("wow test text for small image");
+    sdkactivity.GetTimestamps().SetStart(1682242800);
     if (result == discord::Result::Ok)
     {
-        core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        core->ActivityManager().UpdateActivity(sdkactivity, [](discord::Result result) {});
         core->UserManager().OnCurrentUserUpdate.Connect([]()
                                                         { core->UserManager().GetCurrentUser(&user); });
     }
@@ -104,112 +86,111 @@ void Discord_Activity::debug()
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
-void Discord_Activity::set_app_id(int64_t value)
+void discord_sdk::set_activity(Dictionary value)
 {
-    app_id = value;
-    result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core);
+    activity = value;
+    // sdkactivity.SetState(value["app_id"].stringify().utf8().get_data());
+    result = discord::Core::Create(value["app_id"].INT, DiscordCreateFlags_NoRequireDiscord, &core);
 }
-int64_t Discord_Activity::get_app_id()
+Dictionary discord_sdk::get_activity()
 {
-    if (app_id = 461618159171141643)
-        return 0;
-    else
-        return app_id;
+    return activity;
 }
 
-void Discord_Activity::set_state(String value)
+void discord_sdk::refresh()
+{
+    if (result == discord::Result::Ok && activity["app_id"].INT > 0 && activity["app_id"].INT != 461618159171141643)
+    {
+        core->ActivityManager().UpdateActivity(sdkactivity, [](discord::Result result) {});
+        core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                        { core->UserManager().GetCurrentUser(&user); });
+    }
+    else
+        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
+}
+/*
+void discord_sdk::set_state(String value)
 {
     state = value;
-    activity.SetState(value.utf8().get_data());
+    sdkactivity.SetState(value.utf8().get_data());
 }
-String Discord_Activity::get_state()
+String discord_sdk::get_state()
 {
     return state;
 }
-void Discord_Activity::set_details(String value)
+void discord_sdk::set_details(String value)
 {
     details = value;
-    activity.SetDetails(value.utf8().get_data());
+    sdkactivity.SetDetails(value.utf8().get_data());
 }
-String Discord_Activity::get_details()
+String discord_sdk::get_details()
 {
     return details;
 }
 
-void Discord_Activity::refresh()
-{
-    if (result == discord::Result::Ok && app_id > 0 && app_id != 461618159171141643)
-    {
-        core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
-        core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                        { core->UserManager().GetCurrentUser(&user); });
-    }
-    else
-        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
-}
 
-void Discord_Activity::set_large_image(String value)
+void discord_sdk::set_large_image(String value)
 {
     large_image = value;
-    activity.GetAssets().SetLargeImage(value.utf8().get_data());
+    sdkactivity.GetAssets().SetLargeImage(value.utf8().get_data());
 }
-String Discord_Activity::get_large_image()
+String discord_sdk::get_large_image()
 {
     return large_image;
 }
-void Discord_Activity::set_large_image_text(String value)
+void discord_sdk::set_large_image_text(String value)
 {
     large_image_text = value;
-    activity.GetAssets().SetLargeText(value.utf8().get_data());
+    sdkactivity.GetAssets().SetLargeText(value.utf8().get_data());
 }
-String Discord_Activity::get_large_image_text()
+String discord_sdk::get_large_image_text()
 {
     return large_image_text;
 }
-void Discord_Activity::set_small_image(String value)
+void discord_sdk::set_small_image(String value)
 {
     small_image = value;
-    activity.GetAssets().SetSmallImage(value.utf8().get_data());
+    sdkactivity.GetAssets().SetSmallImage(value.utf8().get_data());
 }
-String Discord_Activity::get_small_image()
+String discord_sdk::get_small_image()
 {
     return small_image;
 }
-void Discord_Activity::set_small_image_text(String value)
+void discord_sdk::set_small_image_text(String value)
 {
     small_image_text = value;
-    activity.GetAssets().SetSmallText(value.utf8().get_data());
+    sdkactivity.GetAssets().SetSmallText(value.utf8().get_data());
 }
-String Discord_Activity::get_small_image_text()
+String discord_sdk::get_small_image_text()
 {
     return small_image_text;
 }
 
-void Discord_Activity::set_start_timestamp(int64_t value)
+void discord_sdk::set_start_timestamp(int64_t value)
 {
     start_timestamp = value;
-    activity.GetTimestamps().SetStart(value);
+    sdkactivity.GetTimestamps().SetStart(value);
 }
-int64_t Discord_Activity::get_start_timestamp()
+int64_t discord_sdk::get_start_timestamp()
 {
-    return activity.GetTimestamps().GetStart();
+    return sdkactivity.GetTimestamps().GetStart();
 }
-void Discord_Activity::set_end_timestamp(int64_t value)
+void discord_sdk::set_end_timestamp(int64_t value)
 {
     end_timestamp = value;
-    activity.GetTimestamps().SetEnd(value);
+    sdkactivity.GetTimestamps().SetEnd(value);
 }
-int64_t Discord_Activity::get_end_timestamp()
+int64_t discord_sdk::get_end_timestamp()
 {
-    return activity.GetTimestamps().GetEnd();
+    return sdkactivity.GetTimestamps().GetEnd();
+} */
+
+bool discord_sdk::get_is_discord_working()
+{
+    return result == discord::Result::Ok && activity["app_id"].INT > 0;
 }
 
-bool Discord_Activity::get_is_discord_working()
-{
-    return result == discord::Result::Ok && app_id > 0;
-}
-
-int Discord_Activity::get_result_int()
+int discord_sdk::get_result_int()
 {
     return static_cast<int>(result);
 }
