@@ -112,7 +112,7 @@ void Discord_Activity::set_app_id(int64_t value)
 int64_t Discord_Activity::get_app_id()
 {
     if (app_id = 461618159171141643)
-        return NULL;
+        return 0;
     else
         return app_id;
 }

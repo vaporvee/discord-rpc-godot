@@ -28,7 +28,7 @@ else:
 # make sure our binding library is properly includes
 env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
 sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
-env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])
+env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])  # this line for some reason doesn't get understanded by most linux distros
 env.Append(LIBS=["discord_game_sdk"])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
