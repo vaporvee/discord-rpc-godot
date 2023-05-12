@@ -71,7 +71,16 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_spectate_secret", "spectate_secret"), &discord_sdk::set_spectate_secret);
     ADD_PROPERTY(PropertyInfo(Variant::STRING, "spectate_secret"), "set_spectate_secret", "get_spectate_secret");
 
+    ClassDB::bind_method(D_METHOD("get_instanced"), &discord_sdk::get_instanced);
+    ClassDB::bind_method(D_METHOD("set_instanced", "instanced"), &discord_sdk::set_instanced);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "instanced"), "set_instanced", "get_instanced");
+
+    ADD_SIGNAL(MethodInfo("activity_join", PropertyInfo(Variant::STRING, "join_secret")));
+    ADD_SIGNAL(MethodInfo("activity_spectate", PropertyInfo(Variant::STRING, "spectate_secret")));
+    ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
+
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
+    ClassDB::bind_method(D_METHOD("clear"), &discord_sdk::clear);
 
     ClassDB::bind_method(D_METHOD("register_command"), &discord_sdk::register_command);
     ClassDB::bind_method(D_METHOD("register_steam"), &discord_sdk::register_steam);
@@ -118,8 +127,6 @@ void discord_sdk::debug()
     if (result == discord::Result::Ok)
     {
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
-        core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                        { core->UserManager().GetCurrentUser(&user); });
     }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
@@ -128,7 +135,25 @@ void discord_sdk::debug()
 void discord_sdk::set_app_id(int64_t value)
 {
     app_id = value;
-    result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core);
+    result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
+    // signals
+    core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
+                                                   { discord_sdk::get_singleton()
+                                                         ->emit_signal("activity_join", secret); });
+    core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+                                                       { discord_sdk::get_singleton()
+                                                             ->emit_signal("activity_spectate", secret); });
+    core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
+                                                          { Dictionary user_requesting;
+                                                                user_requesting["avatar"] = user.GetAvatar(); //can be empty when user has no avatar
+                                                                user_requesting["is_bot"] = user.GetBot();
+                                                                user_requesting["discriminator"] = user.GetDiscriminator();
+                                                                user_requesting["id"] = user.GetId();
+                                                                user_requesting["username"] = user.GetUsername();
+                                                                user_requesting.make_read_only();
+                                                                discord_sdk::get_singleton()
+                                                                    ->emit_signal("activity_join_request",user_requesting); });
+    activity.GetParty().SetPrivacy(discord::ActivityPartyPrivacy(DiscordActivityPartyPrivacy_Public));
 }
 int64_t discord_sdk::get_app_id()
 {
@@ -158,12 +183,19 @@ void discord_sdk::refresh()
 {
     if (result == discord::Result::Ok && app_id > 0)
     {
+        activity.GetParty().SetPrivacy(discord::ActivityPartyPrivacy::Public);
+        activity.SetType(discord::ActivityType::Playing);
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
-        core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                        { core->UserManager().GetCurrentUser(&user); });
     }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
+}
+
+void discord_sdk::clear()
+{
+    if (result == discord::Result::Ok /*should it be only at ok?*/ && app_id > 0)
+        //
+        ;
 }
 
 void discord_sdk::set_large_image(String value)
@@ -277,6 +309,16 @@ void discord_sdk::set_spectate_secret(String value)
 String discord_sdk::get_spectate_secret()
 {
     return spectate_secret;
+}
+
+void discord_sdk::set_instanced(bool value)
+{
+    instanced = value;
+    activity.SetInstance(value);
+}
+bool discord_sdk::get_instanced()
+{
+    return instanced;
 }
 
 void discord_sdk::register_command(String value)

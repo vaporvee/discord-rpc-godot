@@ -58,5 +58,12 @@ Small image key: {skey}
 Small image text: {stext}
 
 Start timestamp: {stimestamp}
-End timestamp: {etimestamp}"
+End timestamp: {etimestamp}
+
+Party ID: {partyid}
+Current party size: {cpartysize}
+Max party size: {mpartysize}
+Match secret: {msecret}
+Join secret: {jsecret}
+Spectate secret: {ssecret}"
 scroll_active = false

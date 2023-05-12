@@ -3,12 +3,12 @@
 
 #include <stdio.h>
 #include "lib/discord_game_sdk/cpp/discord.h"
-#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
 
-class discord_sdk : public Object
+class discord_sdk : public RefCounted
 {
     GDCLASS(discord_sdk, Object);
 
@@ -38,6 +38,8 @@ private:
     String join_secret;
     String spectate_secret;
 
+    bool instanced;
+
 public:
     static discord_sdk *
     get_singleton();
@@ -48,6 +50,7 @@ public:
     void debug();
     void coreupdate();
     void refresh();
+    void clear();
 
     int64_t get_app_id();
     void set_app_id(int64_t value);
@@ -83,6 +86,9 @@ public:
     void set_join_secret(String value);
     String get_spectate_secret();
     void set_spectate_secret(String value);
+
+    bool get_instanced();
+    void set_instanced(bool value);
 
     void register_command(String value);
     void register_steam(int32_t value);
