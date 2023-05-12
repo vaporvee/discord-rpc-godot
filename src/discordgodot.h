@@ -31,8 +31,16 @@ private:
     int64_t start_timestamp;
     int64_t end_timestamp;
 
+    String party_id;
+    int32_t current_party_size;
+    int32_t max_party_size;
+    String match_secret;
+    String join_secret;
+    String spectate_secret;
+
 public:
-    static discord_sdk *get_singleton();
+    static discord_sdk *
+    get_singleton();
 
     discord_sdk();
     ~discord_sdk();
@@ -42,7 +50,6 @@ public:
     void refresh();
 
     int64_t get_app_id();
-
     void set_app_id(int64_t value);
     String get_state();
     void set_state(String value);
@@ -62,6 +69,23 @@ public:
     void set_start_timestamp(int64_t value);
     int64_t get_end_timestamp();
     void set_end_timestamp(int64_t value);
+
+    String get_party_id();
+    void set_party_id(String value);
+
+    int32_t get_current_party_size();
+    void set_current_party_size(int32_t value);
+    int32_t get_max_party_size();
+    void set_max_party_size(int32_t value);
+    String get_match_secret();
+    void set_match_secret(String value);
+    String get_join_secret();
+    void set_join_secret(String value);
+    String get_spectate_secret();
+    void set_spectate_secret(String value);
+
+    void register_command(String value);
+    void register_steam(int32_t value);
 
     bool get_is_discord_working();
     int get_result_int();

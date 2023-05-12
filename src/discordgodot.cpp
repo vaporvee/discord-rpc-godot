@@ -49,7 +49,32 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_end_timestamp", "end_timestamp"), &discord_sdk::set_end_timestamp);
     ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
 
+    ClassDB::bind_method(D_METHOD("get_party_id"), &discord_sdk::get_party_id);
+
+    ClassDB::bind_method(D_METHOD("set_party_id", "party_id"), &discord_sdk::set_party_id);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "party_id"), "set_party_id", "get_party_id");
+
+    ClassDB::bind_method(D_METHOD("get_current_party_size"), &discord_sdk::get_current_party_size);
+    ClassDB::bind_method(D_METHOD("set_current_party_size", "current_party_size"), &discord_sdk::set_current_party_size);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "current_party_size"), "set_current_party_size", "get_current_party_size");
+    ClassDB::bind_method(D_METHOD("get_max_party_size"), &discord_sdk::get_max_party_size);
+    ClassDB::bind_method(D_METHOD("set_max_party_size", "max_party_size"), &discord_sdk::set_max_party_size);
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "max_party_size"), "set_max_party_size", "get_max_party_size");
+
+    ClassDB::bind_method(D_METHOD("get_match_secret"), &discord_sdk::get_match_secret);
+    ClassDB::bind_method(D_METHOD("set_match_secret", "match_secret"), &discord_sdk::set_match_secret);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "match_secret"), "set_match_secret", "get_match_secret");
+    ClassDB::bind_method(D_METHOD("get_join_secret"), &discord_sdk::get_join_secret);
+    ClassDB::bind_method(D_METHOD("set_join_secret", "join_secret"), &discord_sdk::set_join_secret);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "join_secret"), "set_join_secret", "get_join_secret");
+    ClassDB::bind_method(D_METHOD("get_spectate_secret"), &discord_sdk::get_spectate_secret);
+    ClassDB::bind_method(D_METHOD("set_spectate_secret", "spectate_secret"), &discord_sdk::set_spectate_secret);
+    ADD_PROPERTY(PropertyInfo(Variant::STRING, "spectate_secret"), "set_spectate_secret", "get_spectate_secret");
+
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
+
+    ClassDB::bind_method(D_METHOD("register_command"), &discord_sdk::register_command);
+    ClassDB::bind_method(D_METHOD("register_steam"), &discord_sdk::register_steam);
 
     ClassDB::bind_method(D_METHOD("get_is_discord_working"), &discord_sdk::get_is_discord_working);
 
@@ -195,6 +220,72 @@ void discord_sdk::set_end_timestamp(int64_t value)
 int64_t discord_sdk::get_end_timestamp()
 {
     return activity.GetTimestamps().GetEnd();
+}
+
+void discord_sdk::set_party_id(String value)
+{
+    party_id = value;
+    activity.GetParty().SetId(value.utf8().get_data());
+}
+String discord_sdk::get_party_id()
+{
+    return party_id;
+}
+
+void discord_sdk::set_current_party_size(int32_t value)
+{
+    current_party_size = value;
+    activity.GetParty().GetSize().SetCurrentSize(value);
+}
+int32_t discord_sdk::get_current_party_size()
+{
+    return current_party_size;
+}
+void discord_sdk::set_max_party_size(int32_t value)
+{
+    max_party_size = value;
+    activity.GetParty().GetSize().SetMaxSize(value);
+}
+int32_t discord_sdk::get_max_party_size()
+{
+    return max_party_size;
+}
+
+void discord_sdk::set_match_secret(String value)
+{
+    match_secret = value;
+    activity.GetSecrets().SetMatch(value.utf8().get_data());
+}
+String discord_sdk::get_match_secret()
+{
+    return match_secret;
+}
+void discord_sdk::set_join_secret(String value)
+{
+    join_secret = value;
+    activity.GetSecrets().SetJoin(value.utf8().get_data());
+}
+String discord_sdk::get_join_secret()
+{
+    return join_secret;
+}
+void discord_sdk::set_spectate_secret(String value)
+{
+    spectate_secret = value;
+    activity.GetSecrets().SetSpectate(value.utf8().get_data());
+}
+String discord_sdk::get_spectate_secret()
+{
+    return spectate_secret;
+}
+
+void discord_sdk::register_command(String value)
+{
+    register_command(value.utf8().get_data());
+}
+void discord_sdk::register_steam(int32_t value)
+{
+    register_steam(value);
 }
 
 bool discord_sdk::get_is_discord_working()
