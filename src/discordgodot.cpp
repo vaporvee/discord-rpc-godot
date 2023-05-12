@@ -65,10 +65,6 @@ Discord_Activity::Discord_Activity()
 {
     ERR_FAIL_COND(singleton != nullptr);
     singleton = this;
-
-    // intitalize core with discord's dummy application ID to make "is_discord_working" work anytime
-    app_id = 461618159171141643;
-    result = discord::Core::Create(app_id, DiscordCreateFlags_NoRequireDiscord, &core);
 }
 
 Discord_Activity::~Discord_Activity()
@@ -79,7 +75,7 @@ Discord_Activity::~Discord_Activity()
 
 void Discord_Activity::coreupdate()
 {
-    if (result == discord::Result::Ok && app_id > 0 && app_id != 461618159171141643)
+    if (result == discord::Result::Ok && app_id > 0)
     {
         ::core->RunCallbacks();
     }
@@ -111,10 +107,7 @@ void Discord_Activity::set_app_id(int64_t value)
 }
 int64_t Discord_Activity::get_app_id()
 {
-    if (app_id = 461618159171141643)
-        return 0;
-    else
-        return app_id;
+    return app_id;
 }
 
 void Discord_Activity::set_state(String value)
@@ -138,7 +131,7 @@ String Discord_Activity::get_details()
 
 void Discord_Activity::refresh()
 {
-    if (result == discord::Result::Ok && app_id > 0 && app_id != 461618159171141643)
+    if (result == discord::Result::Ok && app_id > 0)
     {
         core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
         core->UserManager().OnCurrentUserUpdate.Connect([]()
