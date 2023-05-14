@@ -50,6 +50,14 @@ body:
     validations:
       required: true
   - type: textarea
+    id: log
+    attributes:
+      label: Godot output
+      description: The output log from Godot
+      render: shell
+    validations:
+      required: false
+  - type: textarea
     id: additional
     attributes:
       label: Additional information
@@ -63,5 +71,7 @@ body:
       label: Checks
       description: Common mistakes (Adding more in the future sorry btw)
       options: 
-        - label: I tried reinstalling the addon in a new project.
+        - label: I tried reinstalling the addon or tried to fix it myself with other methods.
+          required: true
+        - label: I tried restarting Discord and Godot completely.
           required: true
