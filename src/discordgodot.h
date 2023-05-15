@@ -38,6 +38,8 @@ private:
     String join_secret;
     String spectate_secret;
 
+    bool is_public_party = true;
+
     bool instanced;
 
 public:
@@ -86,6 +88,9 @@ public:
     void set_join_secret(String value);
     String get_spectate_secret();
     void set_spectate_secret(String value);
+
+    bool get_is_public_party();
+    void set_is_public_party(bool value);
 
     bool get_instanced();
     void set_instanced(bool value);

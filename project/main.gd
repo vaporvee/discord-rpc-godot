@@ -36,11 +36,12 @@ func set_activity():
 	var my_secret = str(randi_range(0,999999))
 	
 	discord_sdk.party_id = "mylobbycanbeeverything_" + my_secret
-	discord_sdk.current_party_size = 4
+	discord_sdk.current_party_size = 1
 	discord_sdk.max_party_size = 4
 	discord_sdk.match_secret = "m_" + my_secret #better use seeds with 1 to 1 range instead of just chars
 	discord_sdk.join_secret = "j_" + my_secret
 	discord_sdk.spectate_secret = "s_" + my_secret
+	discord_sdk.is_public_party = true
 	discord_sdk.instanced = true #required for spectate
 	#discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
 	#discord_sdk.register_command("steam://rungameid/1389990")

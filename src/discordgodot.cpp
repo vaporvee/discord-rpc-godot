@@ -75,6 +75,10 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("set_instanced", "instanced"), &discord_sdk::set_instanced);
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "instanced"), "set_instanced", "get_instanced");
 
+    ClassDB::bind_method(D_METHOD("get_is_public_party"), &discord_sdk::get_is_public_party);
+    ClassDB::bind_method(D_METHOD("set_is_public_party", "is_public_party"), &discord_sdk::set_is_public_party);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_public_party"), "set_is_public_party", "get_is_public_party");
+
     ADD_SIGNAL(MethodInfo("activity_join", PropertyInfo(Variant::STRING, "join_secret")));
     ADD_SIGNAL(MethodInfo("activity_spectate", PropertyInfo(Variant::STRING, "spectate_secret")));
     ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
@@ -351,6 +355,17 @@ void discord_sdk::set_instanced(bool value)
 bool discord_sdk::get_instanced()
 {
     return instanced;
+}
+
+void discord_sdk::set_is_public_party(bool value)
+{
+    is_public_party = value;
+    if (result == discord::Result::Ok && app_id > 0)
+        activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)); // normaly true
+}
+bool discord_sdk::get_is_public_party()
+{
+    return is_public_party;
 }
 
 void discord_sdk::accept_join_request(int64_t user_id)
