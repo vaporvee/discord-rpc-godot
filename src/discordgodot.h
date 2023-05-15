@@ -102,6 +102,9 @@ public:
     void register_command(String value);
     void register_steam(int32_t value);
 
+    Dictionary get_current_user();
+    void set_current_user(Dictionary value);
+
     bool get_is_discord_working();
     int get_result_int();
 };
