@@ -1,7 +1,7 @@
 <img src="/project/assets/Banner.svg" alt="Project Banner" />
 
-![HitCount](https://hits.dwyl.com/vaporvee/discord-sdk-godot.svg)
 
+<<<<<<< HEAD
 ### :warning: This is an early version! MacOS support still doesn't work! In future versions there also will be invites, user info etc. very soon!
 Don't forget to run the following command **if you clone this project** or files will be missing
 
@@ -40,13 +40,23 @@ func _ready():
 
 ### [Try a built demo](https://github.com/vaporvee/discord-sdk-godot/releases/latest/download/Demo-Export.zip)
 :incoming_envelope: Still questions? write an [issue](https://github.com/vaporvee/discord-sdk-godot/issues)! I'll answer very fast :)
+=======
+**:warning: This is an early version! MacOS support still doesn't work! In future versions there also will be invites, user info etc. very soon!**
+>>>>>>> fa63df6094ecc20735383edff8de3b017ea2ad24
 
+**Discord Game SDK support for GDScript in Godot Engine 4.0. with the easiest code pattern!**<br><br>
+**Please leave a star that would really help! And thanks to all the people that already starred this project! ❤️**
 <br />
+<br />
+# [Quick start :rocket: (click here)](https://github.com/vaporvee/discord-sdk-godot/wiki/Quick-start)
+<br />
+
+**A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
+
 <br />
 
 ### Credit
 [@Pukimaa](https://github.com/pukimaa) - Designer<br>
-[@koyuawsmbrtn](https://github.com/koyuawsmbrtn) - Getting it to work on MacOS (shes giving her best)
 <br />
 
 *This project is not endorsed or affiliated with Discord Inc. or the Godot Foundation.*
