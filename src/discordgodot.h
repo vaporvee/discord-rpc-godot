@@ -90,6 +90,10 @@ public:
     bool get_instanced();
     void set_instanced(bool value);
 
+    void accept_join_request(int64_t user_id);
+    void send_invite(int64_t user_id, bool is_spectate, String message_content);
+    void accept_invite(int64_t user_id);
+
     void register_command(String value);
     void register_steam(int32_t value);
 

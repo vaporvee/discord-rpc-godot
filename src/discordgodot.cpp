@@ -82,8 +82,12 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
     ClassDB::bind_method(D_METHOD("clear"), &discord_sdk::clear);
 
-    ClassDB::bind_method(D_METHOD("register_command"), &discord_sdk::register_command);
-    ClassDB::bind_method(D_METHOD("register_steam"), &discord_sdk::register_steam);
+    ClassDB::bind_method(D_METHOD("register_command", "command"), &discord_sdk::register_command);
+    ClassDB::bind_method(D_METHOD("register_steam", "steam_id"), &discord_sdk::register_steam);
+
+    ClassDB::bind_method(D_METHOD("accept_join_request", "user_id"), &discord_sdk::accept_join_request);
+    ClassDB::bind_method(D_METHOD("send_invite", "user_id", "is_spectate", "message_content"), &discord_sdk::send_invite);
+    ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &discord_sdk::accept_invite);
 
     ClassDB::bind_method(D_METHOD("get_is_discord_working"), &discord_sdk::get_is_discord_working);
 
@@ -105,6 +109,8 @@ discord_sdk::~discord_sdk()
 {
     ERR_FAIL_COND(singleton != this);
     singleton = nullptr;
+    delete core;
+    core = nullptr;
 }
 
 void discord_sdk::coreupdate()
@@ -136,24 +142,31 @@ void discord_sdk::set_app_id(int64_t value)
 {
     app_id = value;
     result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
-    // signals
-    core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
-                                                   { discord_sdk::get_singleton()
-                                                         ->emit_signal("activity_join", secret); });
-    core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+
+    if (result == discord::Result::Ok && app_id > 0)
+    {
+        // signals
+        core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
                                                        { discord_sdk::get_singleton()
-                                                             ->emit_signal("activity_spectate", secret); });
-    core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
-                                                          { Dictionary user_requesting;
+                                                             ->emit_signal("activity_join", secret); });
+        core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+                                                           { discord_sdk::get_singleton()
+                                                                 ->emit_signal("activity_spectate", secret); });
+        core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
+                                                              { Dictionary user_requesting;
                                                                 user_requesting["avatar"] = user.GetAvatar(); //can be empty when user has no avatar
                                                                 user_requesting["is_bot"] = user.GetBot();
                                                                 user_requesting["discriminator"] = user.GetDiscriminator();
                                                                 user_requesting["id"] = user.GetId();
                                                                 user_requesting["username"] = user.GetUsername();
+                                                                if(String(user_requesting["avatar"]).is_empty())
+                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((user_requesting["discriminator"].INT % 5) - 1)+ ".png").c_str());
+                                                                else
+                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());
                                                                 user_requesting.make_read_only();
                                                                 discord_sdk::get_singleton()
                                                                     ->emit_signal("activity_join_request",user_requesting); });
-    activity.GetParty().SetPrivacy(discord::ActivityPartyPrivacy(DiscordActivityPartyPrivacy_Public));
+    }
 }
 int64_t discord_sdk::get_app_id()
 {
@@ -338,6 +351,22 @@ void discord_sdk::set_instanced(bool value)
 bool discord_sdk::get_instanced()
 {
     return instanced;
+}
+
+void discord_sdk::accept_join_request(int64_t user_id)
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->ActivityManager().SendRequestReply(user_id, static_cast<discord::ActivityJoinRequestReply>(1), {});
+}
+void discord_sdk::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->ActivityManager().SendInvite(user_id, static_cast<discord::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
+}
+void discord_sdk::accept_invite(int64_t user_id)
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->ActivityManager().AcceptInvite(user_id, {});
 }
 
 void discord_sdk::register_command(String value)

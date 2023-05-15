@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmx2xuigcpvt4"]
+[gd_scene load_steps=7 format=3 uid="uid://dmx2xuigcpvt4"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
 [ext_resource type="Texture2D" uid="uid://dhuttdaet6q1u" path="res://assets/Logo_V2_Clyde.png" id="2_1hv5q"]
 [ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://assets/Checked.svg" id="3_ny5eu"]
 [ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://assets/Unchecked.svg" id="4_xydmq"]
+[ext_resource type="Texture2D" uid="uid://ht210p8vs8s7" path="res://assets/1.png" id="5_06yyg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1w3f4"]
 
@@ -22,19 +23,19 @@ color = Color(0.345098, 0.396078, 0.94902, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 4
-position = Vector2(591, 308)
+position = Vector2(580, 308)
 scale = Vector2(0.408203, 0.408203)
 texture = ExtResource("2_1hv5q")
 
 [node name="DiscordSDK Test" type="RichTextLabel" parent="."]
 anchors_preset = -1
-anchor_left = 0.296
+anchor_left = 0.293
 anchor_top = 0.59
-anchor_right = 0.742
+anchor_right = 0.736
 anchor_bottom = 0.727
-offset_left = 0.00799561
-offset_top = -0.320007
-offset_right = 0.215942
+offset_left = -0.536011
+offset_top = -0.319977
+offset_right = 0.12793
 offset_bottom = -0.0960388
 grow_horizontal = 2
 grow_vertical = 2
@@ -48,8 +49,8 @@ text = "[center][font s=60][rainbow]DiscordSDK Test[/rainbow][/font]"
 [node name="Info" type="RichTextLabel" parent="."]
 offset_left = 7.0
 offset_top = 6.0
-offset_right = 514.0
-offset_bottom = 722.0
+offset_right = 424.0
+offset_bottom = 312.0
 text = "Discord working: {discordinfo}
 
 Application ID : {id}
@@ -70,17 +71,16 @@ Max party size: {mpartysize}
 Match secret: {msecret}
 Join secret: {jsecret}
 Spectate secret: {ssecret}"
-scroll_active = false
 
 [node name="CheckButton" type="CheckButton" parent="."]
 anchors_preset = -1
-anchor_left = 0.494
+anchor_left = 0.484
 anchor_top = 0.781
-anchor_right = 0.531
+anchor_right = 0.521
 anchor_bottom = 0.82
-offset_left = -0.0879517
-offset_top = -0.0879822
-offset_right = 803.288
+offset_left = 0.431946
+offset_top = -0.0880127
+offset_right = 803.808
 offset_bottom = 482.64
 grow_horizontal = 2
 grow_vertical = 0
@@ -90,4 +90,56 @@ theme_override_icons/unchecked = ExtResource("4_xydmq")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_1w3f4")
 button_pressed = true
 
+[node name="user_request_avatar" type="Sprite2D" parent="."]
+position = Vector2(662, 559)
+scale = Vector2(0.152344, 0.152344)
+texture = ExtResource("5_06yyg")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="user_request_avatar"]
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.437
+anchor_top = 0.844
+anchor_right = 0.562
+anchor_bottom = 0.892
+offset_left = 0.575989
+offset_top = 0.0879517
+offset_right = -1.42395
+offset_bottom = -0.0159912
+grow_horizontal = 2
+grow_vertical = 0
+text = "ACCEPT REQUEST"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+anchors_preset = -1
+anchor_left = 0.416
+anchor_top = 0.904
+anchor_right = 0.584
+anchor_bottom = 0.952
+offset_left = 0.268005
+offset_top = 0.207947
+offset_right = -0.268066
+offset_bottom = 0.104004
+grow_horizontal = 2
+grow_vertical = 0
+placeholder_text = "Invite with user_id here"
+
+[node name="LineEdit2" type="LineEdit" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -124.0
+offset_top = -31.0
+offset_right = 125.0
+grow_horizontal = 2
+grow_vertical = 0
+placeholder_text = "Accept Invite with user_id here"
+
 [connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="request_completed" from="user_request_avatar/HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="LineEdit2" to="." method="_on_line_edit_2_text_submitted"]
