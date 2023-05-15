@@ -22,6 +22,10 @@ config/icon="res://assets/Logo_V2.png"
 
 updater_discordsdk="*res://addons/discord-sdk-gd/sdk_utility.gd"
 
+[display]
+
+window/size/resizable=false
+
 [dotnet]
 
 project/assembly_name="GDExtension Test Project"

@@ -3,16 +3,16 @@
 
 #include <stdio.h>
 #include "lib/discord_game_sdk/cpp/discord.h"
-#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/classes/ref_counted.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
 
-class Discord_Activity : public Object
+class discord_sdk : public RefCounted
 {
-    GDCLASS(Discord_Activity, Object);
+    GDCLASS(discord_sdk, Object);
 
-    static Discord_Activity *singleton;
+    static discord_sdk *singleton;
 
 protected:
     static void _bind_methods();
@@ -31,18 +31,30 @@ private:
     int64_t start_timestamp;
     int64_t end_timestamp;
 
-public:
-    static Discord_Activity *get_singleton();
+    String party_id;
+    int32_t current_party_size;
+    int32_t max_party_size;
+    String match_secret;
+    String join_secret;
+    String spectate_secret;
 
-    Discord_Activity();
-    ~Discord_Activity();
+    bool is_public_party = true;
+
+    bool instanced;
+
+public:
+    static discord_sdk *
+    get_singleton();
+
+    discord_sdk();
+    ~discord_sdk();
 
     void debug();
     void coreupdate();
     void refresh();
+    void clear();
 
     int64_t get_app_id();
-
     void set_app_id(int64_t value);
     String get_state();
     void set_state(String value);
@@ -62,6 +74,33 @@ public:
     void set_start_timestamp(int64_t value);
     int64_t get_end_timestamp();
     void set_end_timestamp(int64_t value);
+
+    String get_party_id();
+    void set_party_id(String value);
+
+    int32_t get_current_party_size();
+    void set_current_party_size(int32_t value);
+    int32_t get_max_party_size();
+    void set_max_party_size(int32_t value);
+    String get_match_secret();
+    void set_match_secret(String value);
+    String get_join_secret();
+    void set_join_secret(String value);
+    String get_spectate_secret();
+    void set_spectate_secret(String value);
+
+    bool get_is_public_party();
+    void set_is_public_party(bool value);
+
+    bool get_instanced();
+    void set_instanced(bool value);
+
+    void accept_join_request(int64_t user_id);
+    void send_invite(int64_t user_id, bool is_spectate, String message_content);
+    void accept_invite(int64_t user_id);
+
+    void register_command(String value);
+    void register_steam(int32_t value);
 
     bool get_is_discord_working();
     int get_result_int();
