@@ -193,9 +193,28 @@ void discord_sdk::refresh()
 
 void discord_sdk::clear()
 {
-    if (result == discord::Result::Ok /*should it be only at ok?*/ && app_id > 0)
-        //
-        ;
+    if (result == discord::Result::Ok)
+    {
+        app_id = 0;
+        state = "";
+        details = "";
+        large_image = "";
+        large_image_text = "";
+        small_image = "";
+        small_image_text = "";
+        start_timestamp = 0;
+        end_timestamp = 0;
+        party_id = "-";
+        current_party_size = 0;
+        max_party_size = 0;
+        match_secret = "";
+        join_secret = "";
+        spectate_secret = "";
+        instanced = false;
+
+        delete core;
+        core = nullptr;
+    }
 }
 
 void discord_sdk::set_large_image(String value)
