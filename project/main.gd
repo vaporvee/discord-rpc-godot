@@ -9,6 +9,8 @@ func _ready():
 	discord_sdk.connect("activity_spectate",_on_activity_spectate)
 	download_texture("https://cdn.discordapp.com/embed/avatars/1.png", "res://discord_pfp_cache/invitepfp.png")
 	debug_text_update()
+	print(discord_sdk.get_current_user())
+
 func download_texture(url, file_name):
 	$user_request_avatar/HTTPRequest.download_file = file_name
 	invite_pfp = file_name
@@ -92,3 +94,7 @@ func _on_line_edit_text_submitted(new_text):
 func _on_line_edit_2_text_submitted(new_text):
 	discord_sdk.accept_invite(int(new_text))
 	print(int(new_text))
+
+
+func _on_button_2_pressed():
+	print(discord_sdk.get_current_user())

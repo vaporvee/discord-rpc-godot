@@ -93,6 +93,8 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("send_invite", "user_id", "is_spectate", "message_content"), &discord_sdk::send_invite);
     ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &discord_sdk::accept_invite);
 
+    ClassDB::bind_method(D_METHOD("get_current_user"), &discord_sdk::get_current_user);
+
     ClassDB::bind_method(D_METHOD("get_is_overlay_enabled"), &discord_sdk::get_is_overlay_enabled);
     ClassDB::bind_method(D_METHOD("get_is_overlay_locked"), &discord_sdk::get_is_overlay_locked);
     ClassDB::bind_method(D_METHOD("set_is_overlay_locked", "is_overlay_locked"), &discord_sdk::set_is_overlay_locked);
@@ -156,6 +158,10 @@ void discord_sdk::set_app_id(int64_t value)
 
     if (result == discord::Result::Ok && app_id > 0)
     {
+        // initialize currentuser stuff
+        core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                        {discord::User user{};
+        core->UserManager().GetCurrentUser(&user); });
         // signals
         core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
                                                        { discord_sdk::get_singleton()
@@ -439,6 +445,26 @@ void discord_sdk::register_steam(int32_t value)
 {
     if (result == discord::Result::Ok && app_id > 0)
         core->ActivityManager().RegisterSteam(value);
+}
+Dictionary discord_sdk::get_current_user()
+{
+    Dictionary userdict;
+    if (result == discord::Result::Ok && app_id > 0)
+    {
+        discord::User user{};
+        core->UserManager().GetCurrentUser(&user);
+        userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
+        userdict["is_bot"] = user.GetBot();
+        userdict["discriminator"] = user.GetDiscriminator();
+        userdict["id"] = user.GetId();
+        userdict["username"] = user.GetUsername();
+        if (String(userdict["avatar"]).is_empty())
+            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((userdict["discriminator"].INT % 5) - 1) + ".png").c_str());
+        else
+            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());
+        userdict.make_read_only();
+    }
+    return userdict;
 }
 
 bool discord_sdk::get_is_discord_working()

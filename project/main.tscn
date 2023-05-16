@@ -138,8 +138,19 @@ grow_horizontal = 2
 grow_vertical = 0
 placeholder_text = "Accept Invite with user_id here"
 
+[node name="Button2" type="Button" parent="."]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_right = 136.0
+offset_bottom = 29.0
+grow_vertical = 2
+text = "Get current user"
+
 [connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="request_completed" from="user_request_avatar/HTTPRequest" to="." method="_on_http_request_request_completed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="text_submitted" from="LineEdit2" to="." method="_on_line_edit_2_text_submitted"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
