@@ -6,6 +6,8 @@
 <br />
 # [Quick start :rocket: (click here)](https://github.com/vaporvee/discord-sdk-godot/wiki/Quick-start)
 <br />
+<img width="400px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/80621863/238791755-c6b1db56-edba-43f8-92a2-0a92b293847b.png">
+<br />
 
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
 
