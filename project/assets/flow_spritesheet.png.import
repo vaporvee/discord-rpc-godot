@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lct8hsyc4bx6"
-path="res://.godot/imported/invitepfp.png-a7b335dc42426751624b97336b7117a8.ctex"
+uid="uid://cq8lwj2matk6x"
+path="res://.godot/imported/flow_spritesheet.png-18c39eee2431173a526b9028a5ff4994.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://discord_pfp_cache/invitepfp.png"
-dest_files=["res://.godot/imported/invitepfp.png-a7b335dc42426751624b97336b7117a8.ctex"]
+source_file="res://assets/flow_spritesheet.png"
+dest_files=["res://.godot/imported/flow_spritesheet.png-18c39eee2431173a526b9028a5ff4994.ctex"]
 
 [params]
 
