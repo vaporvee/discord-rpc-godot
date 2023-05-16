@@ -245,6 +245,8 @@ void discord_sdk::clear()
         join_secret = "";
         spectate_secret = "";
         instanced = false;
+        is_public_party = false;
+        is_overlay_locked = false;
 
         delete core;
         core = nullptr;
