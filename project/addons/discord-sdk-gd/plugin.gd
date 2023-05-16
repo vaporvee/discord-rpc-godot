@@ -14,18 +14,18 @@ const ExportPlugin = preload("res://addons/discord-sdk-gd/export.gd")
 var loaded_exportplugin = ExportPlugin.new()
 
 
-func _enable_plugin() -> void:
-	print("DiscordSDK Addon got enabled")
+func _enter_tree() -> void:
 	add_custom_type("DiscordSDKLoader","Node",DiscordSDKLoader,DiscordSDKLoader_icon)
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
 	add_autoload_singleton("DiscordSDKLoader", "res://addons/discord-sdk-gd/nodes/core_updater.gd")
 	add_export_plugin(loaded_exportplugin)
-	
-	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
 
+func _enable_plugin():
+	print("DiscordSDK Addon got enabled")
+	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_restart_if_changed("DiscordSDK/EditorPresence/enabled",true)
-	
+
 func _disable_plugin() -> void:
 	print("DiscordSDK Addon got disabled")
 	remove_autoload_singleton("DiscordSDKLoader")
