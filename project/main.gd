@@ -1,12 +1,13 @@
 extends Node
 
-func _ready():
+func _ready() -> void:
 	set_activity()
 	discord_sdk.connect("activity_join_request",_on_activity_join_request)
 	discord_sdk.connect("activity_join",_on_activity_join)
 	discord_sdk.connect("activity_spectate",_on_activity_spectate)
 
-func set_activity():
+func set_activity() -> void:
+	discord_sdk.clear()
 	discord_sdk.app_id = 1099618430065324082
 	discord_sdk.details = "A demo activity by vaporvee#1231"
 	discord_sdk.state = "Checkpoint 23/23"
@@ -19,7 +20,7 @@ func set_activity():
 	
 	# It is NOT recommended to manage secrets locally! It's meant to be a payload wich the server 
 	# understands and returns the other variables like current_party_size, party_id etc. Most of the values must differ from the others.
-	var my_secret = str(randi_range(0,999999))
+	var my_secret: String = str(randi_range(0,999999))
 	
 	discord_sdk.party_id = "mylobbycanbeeverything_" + my_secret
 	discord_sdk.current_party_size = 1
@@ -34,13 +35,13 @@ func set_activity():
 	#discord_sdk.register_steam(1389990)
 	discord_sdk.refresh()
 
-var user_request = {};
+var user_request: Dictionary;
 
-func _on_activity_join_request(user_requesting):
+func _on_activity_join_request(user_requesting) -> void:
 	print(user_requesting)
 	user_request = user_requesting
 
-func _on_activity_join(secret):
+func _on_activity_join(secret) -> void:
 	if(discord_sdk.join_secret != secret):
 		discord_sdk.current_party_size = clamp(int(secret) + 1, 0, discord_sdk.max_party_size)
 		discord_sdk.party_id = secret.replace("j_","mylobbycanbeeverything_")
@@ -49,7 +50,7 @@ func _on_activity_join(secret):
 		discord_sdk.spectate_secret = secret.replace("j_","s_")
 		discord_sdk.refresh()
 
-func _on_activity_spectate(secret):
+func _on_activity_spectate(secret) -> void:
 	print(secret)
 	
 func _on_toggle_sdk_toggled(button_pressed):

@@ -1,7 +1,7 @@
 @tool
 extends  EditorExportPlugin
 
-func _export_file(_path, _type, features):
+func _export_file(_path, _type, features) -> void:
 	if features[2] == "windows":
 		if features[4] == "x86_64":
 			add_shared_object("res://addons/discord-sdk-gd/bin/windows/discord_game_sdk.dll",[],"/")

@@ -20,7 +20,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-DiscordSDKLoader="*res://addons/discord-sdk-gd/nodes/DiscordSDKLoader.tscn"
+DiscordSDKLoader="*res://addons/discord-sdk-gd/nodes/core_updater.gd"
 
 [display]
 
