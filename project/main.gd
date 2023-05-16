@@ -7,6 +7,7 @@ func _ready():
 	discord_sdk.connect("activity_join_request",_on_activity_join_request)
 	discord_sdk.connect("activity_join",_on_activity_join)
 	discord_sdk.connect("activity_spectate",_on_activity_spectate)
+<<<<<<< HEAD
 
 func _process(_delta):
 	if(discord_sdk.get_is_discord_working()):
@@ -14,6 +15,16 @@ func _process(_delta):
 	else:
 		$AnimatedSprite2D.play("gray")
 		$AnimatedSprite2D.stop()
+=======
+	download_texture("https://cdn.discordapp.com/embed/avatars/1.png", "res://discord_pfp_cache/invitepfp.png")
+	debug_text_update()
+	print(discord_sdk.get_current_user())
+
+func download_texture(url, file_name):
+	$user_request_avatar/HTTPRequest.download_file = file_name
+	invite_pfp = file_name
+	$user_request_avatar/HTTPRequest.request(url)
+>>>>>>> df556e8a72808fd92859cd4421819b2e6fe1926f
 
 func _on_http_request_request_completed(_result, _response_code, _headers, _body):
 	var image = Image.new()

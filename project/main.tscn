@@ -608,8 +608,15 @@ position = Vector2(1127.75, 24.25)
 scale = Vector2(0.100586, 0.100586)
 sprite_frames = SubResource("SpriteFrames_lajjo")
 animation = &"gray"
+offset_top = -4.0
+offset_right = 136.0
+offset_bottom = 29.0
+grow_vertical = 2
+text = "Get current user"
+
 
 [connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="text_submitted" from="LineEdit2" to="." method="_on_line_edit_2_text_submitted"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
