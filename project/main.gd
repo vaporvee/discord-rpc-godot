@@ -1,19 +1,10 @@
 extends Node
 
-var invite_pfp
-
 func _ready():
 	set_activity()
 	discord_sdk.connect("activity_join_request",_on_activity_join_request)
 	discord_sdk.connect("activity_join",_on_activity_join)
 	discord_sdk.connect("activity_spectate",_on_activity_spectate)
-
-func _process(_delta):
-	if(discord_sdk.get_is_discord_working()):
-		$AnimatedSprite2D.play("default")
-	else:
-		$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.animation = "gray"
 
 func set_activity():
 	discord_sdk.app_id = 1099618430065324082
@@ -42,32 +33,6 @@ func set_activity():
 	discord_sdk.register_command("C:\\Users\\yanni\\Desktop\\demo\\discord_sdk.exe")
 	#discord_sdk.register_steam(1389990)
 	discord_sdk.refresh()
-	debug_text_update()	
-
-func debug_text_update():
-	$Info.text = "Application ID : {id}
-Details: {details}
-State: {state}
-
-Large image key: {lkey}
-Large image text: {ltext}
-Small image key: {skey}
-Small image text: {stext}
-
-Start timestamp: {stimestamp}
-End timestamp: {etimestamp}
-
-Party ID: {partyid}
-Current party size: {cpartysize}
-Max party size: {mpartysize}
-Match secret: {msecret}
-Join secret: {jsecret}
-Spectate secret: {ssecret}
-Is party public: {ppublic} (needs to be activated in Discord client settings)
-
-Is instanced: {instanced}
-"
-	$Info.text = $Info.text.replace("{ppublic}",str(discord_sdk.is_public_party)).replace("{instanced}",str(discord_sdk.instanced)).replace("{ssecret}",discord_sdk.spectate_secret).replace("{jsecret}",discord_sdk.join_secret).replace("{msecret}",discord_sdk.match_secret).replace("{mpartysize}",str(discord_sdk.max_party_size)).replace("{cpartysize}",str(discord_sdk.current_party_size)).replace("{partyid}",discord_sdk.party_id).replace("{id}",str(discord_sdk.app_id)).replace("{details}",discord_sdk.details).replace("{state}",discord_sdk.state).replace("{lkey}",discord_sdk.large_image).replace("{ltext}",discord_sdk.large_image_text).replace("{skey}",discord_sdk.small_image).replace("{stext}",discord_sdk.small_image_text).replace("{stimestamp}",str(discord_sdk.start_timestamp)).replace("{etimestamp}",str(discord_sdk.end_timestamp))
 
 var user_request = {};
 
@@ -83,29 +48,12 @@ func _on_activity_join(secret):
 		discord_sdk.join_secret = secret
 		discord_sdk.spectate_secret = secret.replace("j_","s_")
 		discord_sdk.refresh()
-		$Info.text = $Info.text.replace("{ssecret}",discord_sdk.spectate_secret).replace("{jsecret}",discord_sdk.join_secret).replace("{msecret}",discord_sdk.match_secret).replace("{mpartysize}",str(discord_sdk.max_party_size)).replace("{cpartysize}",str(discord_sdk.current_party_size)).replace("{partyid}",discord_sdk.party_id).replace("{discordinfo}",str(discord_sdk.get_is_discord_working())).replace("{id}",str(discord_sdk.app_id)).replace("{details}",discord_sdk.details).replace("{state}",discord_sdk.state).replace("{lkey}",discord_sdk.large_image).replace("{ltext}",discord_sdk.large_image_text).replace("{skey}",discord_sdk.small_image).replace("{stext}",discord_sdk.small_image_text).replace("{stimestamp}",str(discord_sdk.start_timestamp)).replace("{etimestamp}",str(discord_sdk.end_timestamp))
-		debug_text_update()
 
 func _on_activity_spectate(secret):
 	print(secret)
-
-func _on_check_button_toggled(button_pressed):
+	
+func _on_toggle_sdk_toggled(button_pressed):
 	if(button_pressed):
 		set_activity()
-		debug_text_update()
 	else:
 		discord_sdk.clear()
-		debug_text_update()
-
-func _on_button_pressed():
-	if(!user_request.is_empty()):
-		discord_sdk.accept_join_request(user_request.id)
-
-func _on_line_edit_text_submitted(new_text):
-	discord_sdk.send_invite(int(new_text),true,"this is a test invite sent from godot")
-
-func _on_line_edit_2_text_submitted(new_text):
-	discord_sdk.accept_invite(int(new_text))
-
-func _on_button_2_pressed():
-	print(discord_sdk.get_current_user())

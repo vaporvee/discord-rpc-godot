@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkbtuqbtdlqnk"]
+
+[ext_resource type="Script" path="res://addons/discord-sdk-gd/nodes/core_updater.gd" id="1_8fjwg"]
+
+[node name="DiscordSDKLoader" type="Node"]
+editor_description = "This always needs to run in the background if you want to comunicate with the discord client."
+script = ExtResource("1_8fjwg")

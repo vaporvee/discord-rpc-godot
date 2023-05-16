@@ -238,7 +238,7 @@ void discord_sdk::clear()
         small_image_text = "";
         start_timestamp = 0;
         end_timestamp = 0;
-        party_id = "-";
+        party_id = "";
         current_party_size = 0;
         max_party_size = 0;
         match_secret = "";
