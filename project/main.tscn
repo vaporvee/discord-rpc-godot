@@ -1,12 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmx2xuigcpvt4"]
+[gd_scene load_steps=7 format=3 uid="uid://dyc3kseph4el7"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
-[ext_resource type="Texture2D" uid="uid://dhuttdaet6q1u" path="res://assets/Logo_V2_Clyde.png" id="2_1hv5q"]
-[ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://assets/Checked.svg" id="3_ny5eu"]
-[ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://assets/Unchecked.svg" id="4_xydmq"]
-[ext_resource type="Texture2D" uid="uid://ht210p8vs8s7" path="res://assets/1.png" id="5_06yyg"]
+[ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
+[ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://addons/discord-sdk-gd/nodes/assets/Checked.svg" id="3_wajuo"]
+[ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://addons/discord-sdk-gd/nodes/assets/Unchecked.svg" id="4_8hvtu"]
+[ext_resource type="Script" path="res://addons/discord-sdk-gd/nodes/debug.gd" id="6_ujijw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1w3f4"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phc3u"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")
@@ -25,7 +25,7 @@ color = Color(0.345098, 0.396078, 0.94902, 1)
 texture_filter = 4
 position = Vector2(580, 308)
 scale = Vector2(0.408203, 0.408203)
-texture = ExtResource("2_1hv5q")
+texture = ExtResource("2_gd222")
 
 [node name="DiscordSDK Test" type="RichTextLabel" parent="."]
 anchors_preset = -1
@@ -41,116 +41,25 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 10
 bbcode_enabled = true
-text = "[center][font s=60][rainbow]DiscordSDK Test[/rainbow][/font]"
+text = "[center][font s=60]DiscordSDK Test"
 
-[node name="Info" type="RichTextLabel" parent="."]
-offset_left = 7.0
-offset_top = 6.0
-offset_right = 424.0
-offset_bottom = 312.0
-text = "Discord working: {discordinfo}
+[node name="DiscordSDKDebug" type="Node" parent="."]
+script = ExtResource("6_ujijw")
 
-Application ID : {id}
-Details: {details}
-State: {state}
-
-Large image key: {lkey}
-Large image text: {ltext}
-Small image key: {skey}
-Small image text: {stext}
-
-Start timestamp: {stimestamp}
-End timestamp: {etimestamp}
-
-Party ID: {partyid}
-Current party size: {cpartysize}
-Max party size: {mpartysize}
-Match secret: {msecret}
-Join secret: {jsecret}
-Spectate secret: {ssecret}"
-
-[node name="CheckButton" type="CheckButton" parent="."]
-anchors_preset = -1
-anchor_left = 0.484
-anchor_top = 0.781
-anchor_right = 0.521
-anchor_bottom = 0.82
-offset_left = 0.431946
-offset_top = -0.0880127
-offset_right = 803.808
-offset_bottom = 482.64
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(0.05, 0.05)
-theme_override_icons/checked = ExtResource("3_ny5eu")
-theme_override_icons/unchecked = ExtResource("4_xydmq")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_1w3f4")
-button_pressed = true
-
-[node name="user_request_avatar" type="Sprite2D" parent="."]
-position = Vector2(662, 559)
-scale = Vector2(0.152344, 0.152344)
-texture = ExtResource("5_06yyg")
-
-[node name="HTTPRequest" type="HTTPRequest" parent="user_request_avatar"]
-
-[node name="Button" type="Button" parent="."]
-anchors_preset = -1
-anchor_left = 0.437
-anchor_top = 0.844
-anchor_right = 0.562
-anchor_bottom = 0.892
-offset_left = 0.575989
-offset_top = 0.0879517
-offset_right = -1.42395
-offset_bottom = -0.0159912
-grow_horizontal = 2
-grow_vertical = 0
-text = "ACCEPT REQUEST"
-
-[node name="LineEdit" type="LineEdit" parent="."]
-anchors_preset = -1
-anchor_left = 0.416
-anchor_top = 0.904
-anchor_right = 0.584
-anchor_bottom = 0.952
-offset_left = 0.268005
-offset_top = 0.207947
-offset_right = -0.268066
-offset_bottom = 0.104004
-grow_horizontal = 2
-grow_vertical = 0
-placeholder_text = "Invite with user_id here"
-
-[node name="LineEdit2" type="LineEdit" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -124.0
-offset_top = -31.0
-offset_right = 125.0
-grow_horizontal = 2
-grow_vertical = 0
-placeholder_text = "Accept Invite with user_id here"
-
-[node name="Button2" type="Button" parent="."]
+[node name="ToggleSDK" type="CheckButton" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -4.0
-offset_right = 136.0
-offset_bottom = 29.0
+offset_left = 293.0
+offset_top = 142.375
+offset_right = 1139.0
+offset_bottom = 650.375
 grow_vertical = 2
-text = "Get current user"
+scale = Vector2(0.05, 0.05)
+theme_override_icons/checked = ExtResource("3_wajuo")
+theme_override_icons/unchecked = ExtResource("4_8hvtu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_phc3u")
+button_pressed = true
 
-[connection signal="toggled" from="CheckButton" to="." method="_on_check_button_toggled"]
-[connection signal="request_completed" from="user_request_avatar/HTTPRequest" to="." method="_on_http_request_request_completed"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
-[connection signal="text_submitted" from="LineEdit2" to="." method="_on_line_edit_2_text_submitted"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="toggled" from="ToggleSDK" to="." method="_on_toggle_sdk_toggled"]

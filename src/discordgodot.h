@@ -38,7 +38,7 @@ private:
     String join_secret;
     String spectate_secret;
 
-    bool is_public_party = true;
+    bool is_public_party;
 
     bool instanced;
 

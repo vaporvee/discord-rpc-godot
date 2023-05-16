@@ -20,7 +20,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-updater_discordsdk="*res://addons/discord-sdk-gd/sdk_utility.gd"
+DiscordSDKLoader="*res://addons/discord-sdk-gd/nodes/core_updater.gd"
 
 [display]
 
@@ -44,5 +44,4 @@ paths=["res://example.gdextension"]
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 environment/defaults/default_environment="res://default_env.tres"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2no2ced378ds"
-path="res://.godot/imported/Core Updater.svg-75aabb825d7cf085efdd2bf5760ba312.ctex"
+uid="uid://c70jidlptani4"
+path="res://.godot/imported/Group_1.svg-8cf36058739c5884a9a47a4dfa7d001a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Core Updater.svg"
-dest_files=["res://.godot/imported/Core Updater.svg-75aabb825d7cf085efdd2bf5760ba312.ctex"]
+source_file="res://addons/discord-sdk-gd/nodes/assets/Group_1.svg"
+dest_files=["res://.godot/imported/Group_1.svg-8cf36058739c5884a9a47a4dfa7d001a.ctex"]
 
 [params]
 

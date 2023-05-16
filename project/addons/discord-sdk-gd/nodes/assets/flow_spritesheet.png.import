@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5dn3rnp5eqqp"
-path="res://.godot/imported/Debug.png-81b23c4a8a55e89d458626f08de3d2fb.ctex"
+uid="uid://cq8lwj2matk6x"
+path="res://.godot/imported/flow_spritesheet.png-4637bb4103771b4d4bbc78a0bb858512.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Debug.png"
-dest_files=["res://.godot/imported/Debug.png-81b23c4a8a55e89d458626f08de3d2fb.ctex"]
+source_file="res://addons/discord-sdk-gd/nodes/assets/flow_spritesheet.png"
+dest_files=["res://.godot/imported/flow_spritesheet.png-4637bb4103771b4d4bbc78a0bb858512.ctex"]
 
 [params]
 
