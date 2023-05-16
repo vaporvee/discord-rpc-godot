@@ -179,7 +179,7 @@ void discord_sdk::set_app_id(int64_t value)
                                                                 if(String(user_requesting["avatar"]).is_empty())
                                                                     user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((user_requesting["discriminator"].INT % 5) - 1)+ ".png").c_str());
                                                                 else
-                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());
+                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());//I don't know what the hell i did there but removing ?size=512 will crash the whole editor
                                                                 user_requesting.make_read_only();
                                                                 discord_sdk::get_singleton()
                                                                     ->emit_signal("activity_join_request",user_requesting); });
