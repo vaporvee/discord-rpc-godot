@@ -93,6 +93,15 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("send_invite", "user_id", "is_spectate", "message_content"), &discord_sdk::send_invite);
     ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &discord_sdk::accept_invite);
 
+    ClassDB::bind_method(D_METHOD("get_is_overlay_enabled"), &discord_sdk::get_is_overlay_enabled);
+    ClassDB::bind_method(D_METHOD("get_is_overlay_locked"), &discord_sdk::get_is_overlay_locked);
+    ClassDB::bind_method(D_METHOD("set_is_overlay_locked", "is_overlay_locked"), &discord_sdk::set_is_overlay_locked);
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_overlay_locked"), "set_is_overlay_locked", "get_is_overlay_locked");
+    ClassDB::bind_method(D_METHOD("open_invite_overlay", "is_spectate"), &discord_sdk::open_invite_overlay);
+    ClassDB::bind_method(D_METHOD("open_server_invite_overlay", "invite_code"), &discord_sdk::open_server_invite_overlay);
+    ClassDB::bind_method(D_METHOD("open_voice_settings"), &discord_sdk::open_voice_settings);
+    ADD_SIGNAL(MethodInfo("overlay_toggle", PropertyInfo(Variant::BOOL, "is_locked")));
+
     ClassDB::bind_method(D_METHOD("get_is_discord_working"), &discord_sdk::get_is_discord_working);
 
     ClassDB::bind_method(D_METHOD("get_result_int"), &discord_sdk::get_result_int);
@@ -120,9 +129,7 @@ discord_sdk::~discord_sdk()
 void discord_sdk::coreupdate()
 {
     if (result == discord::Result::Ok && app_id > 0)
-    {
         ::core->RunCallbacks();
-    }
 }
 void discord_sdk::debug()
 {
@@ -170,6 +177,10 @@ void discord_sdk::set_app_id(int64_t value)
                                                                 user_requesting.make_read_only();
                                                                 discord_sdk::get_singleton()
                                                                     ->emit_signal("activity_join_request",user_requesting); });
+
+        core->OverlayManager().OnToggle.Connect([](bool is_locked)
+                                                { discord_sdk::get_singleton()
+                                                      ->emit_signal("overlay_toggle", is_locked); });
     }
 }
 int64_t discord_sdk::get_app_id()
@@ -357,11 +368,46 @@ bool discord_sdk::get_instanced()
     return instanced;
 }
 
+bool discord_sdk::get_is_overlay_enabled()
+{
+    bool ie;
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().IsEnabled(&ie);
+    return ie;
+}
+bool discord_sdk::get_is_overlay_locked()
+{
+    bool il;
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().IsLocked(&il);
+    return il;
+}
+void discord_sdk::set_is_overlay_locked(bool value)
+{
+    is_overlay_locked = value;
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().SetLocked(value, {});
+}
+void discord_sdk::open_invite_overlay(bool is_spectate)
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().OpenActivityInvite(static_cast<discord::ActivityActionType>(is_spectate + 1), {});
+}
+void discord_sdk::open_server_invite_overlay(String invite_code)
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
+}
+void discord_sdk::open_voice_settings()
+{
+    if (result == discord::Result::Ok && app_id > 0)
+        core->OverlayManager().OpenVoiceSettings({});
+}
+
 void discord_sdk::set_is_public_party(bool value)
 {
     is_public_party = value;
-    if (result == discord::Result::Ok && app_id > 0)
-        activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)); // normaly true
+    activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)); // normaly true
 }
 bool discord_sdk::get_is_public_party()
 {
