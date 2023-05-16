@@ -32,6 +32,7 @@ func set_activity():
 	discord_sdk.small_image = "boss"
 	discord_sdk.small_image_text = "Fighting the end boss! D:"
 	discord_sdk.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
+	print(discord_sdk.get_is_overlay_enabled())
 	
 	# It is NOT recommended to manage secrets locally! It's meant to be a payload wich the server 
 	# understands and returns the other variables like current_party_size, party_id etc. Most of the values must differ from the others.
@@ -46,7 +47,7 @@ func set_activity():
 	discord_sdk.is_public_party = true
 	discord_sdk.instanced = true #required for spectate
 	#discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
-	#discord_sdk.register_command("steam://rungameid/1389990")
+	discord_sdk.register_command("C:\\Users\\yanni\\Desktop\\demo\\discord_sdk.exe")
 	#discord_sdk.register_steam(1389990)
 	discord_sdk.refresh()
 

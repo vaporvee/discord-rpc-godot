@@ -22,7 +22,7 @@ private:
 
     String state;
     String details;
-
+    // just want to make pr
     String large_image;
     String large_image_text;
     String small_image;
@@ -41,6 +41,8 @@ private:
     bool is_public_party = true;
 
     bool instanced;
+
+    bool is_overlay_locked;
 
 public:
     static discord_sdk *
@@ -94,6 +96,13 @@ public:
 
     bool get_instanced();
     void set_instanced(bool value);
+
+    bool get_is_overlay_enabled();
+    bool get_is_overlay_locked();
+    void set_is_overlay_locked(bool value);
+    void open_invite_overlay(bool is_spectate);
+    void open_server_invite_overlay(String invite_code);
+    void open_voice_settings();
 
     void accept_join_request(int64_t user_id);
     void send_invite(int64_t user_id, bool is_spectate, String message_content);
