@@ -22,7 +22,6 @@ private:
 
     String state;
     String details;
-    // just want to make pr
     String large_image;
     String large_image_text;
     String small_image;
@@ -38,7 +37,7 @@ private:
     String join_secret;
     String spectate_secret;
 
-    bool is_public_party = true;
+    bool is_public_party;
 
     bool instanced;
 
