@@ -12,3 +12,6 @@ func _export_file(_path, _type, features):
 	elif features[2] == "macos":
 		add_shared_object("res://addons/discord-sdk-gd/bin/macos/libdiscord_game_sdk.dylib",[],"/")
 		add_shared_object("res://addons/discord-sdk-gd/bin/macos/libdiscord_game_sdk_aarch64.dylib",[],"/")
+
+func _get_name():
+	pass
