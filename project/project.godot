@@ -44,5 +44,4 @@ paths=["res://example.gdextension"]
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 environment/defaults/default_environment="res://default_env.tres"
