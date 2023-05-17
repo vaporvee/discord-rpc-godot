@@ -8,10 +8,6 @@
 
 config_version=5
 
-[DiscordSDK]
-
-EditorPresence/enabled=true
-
 [application]
 
 config/name="GDExtension DiscordSDK Test Project"
