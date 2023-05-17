@@ -4,12 +4,20 @@
 **Please leave a star that would really help! And thanks to all the people that already starred this project! ❤️**
 <br />
 <br />
-# [Quick start :rocket: (click here)](https://github.com/vaporvee/discord-sdk-godot/wiki/Quick-start)
-<br />
-<img width="400px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/80621863/238791755-c6b1db56-edba-43f8-92a2-0a92b293847b.png">
+# [Quick start :rocket: (click here)](https://github.com/vaporvee/discord-sdk-godot/wiki)
 <br />
 
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
+
+# Features
+- Activities (Make people see what you are playing)
+- Invites
+- Steam and launch command registering
+- User information
+- Overlay management
+- Editor Presence (optional)
+<img width="400px" src="https://camo.githubusercontent.com/e4ae18ce30a7731145376e1a85c384e9ea207420c09365e3fcdd455ef332ba98/68747470733a2f2f6769746875622d70726f64756374696f6e2d757365722d61737365742d3632313064662e73332e616d617a6f6e6177732e636f6d2f38303632313836332f3233383739343331392d35373164653262612d346635652d343062612d613263662d3839666365643963306366302e706e67">
+<br />
 
 <br />
 
