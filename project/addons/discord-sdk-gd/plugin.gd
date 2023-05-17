@@ -21,7 +21,7 @@ func _enter_tree() -> void:
 	add_export_plugin(loaded_exportplugin)
 
 func _enable_plugin():
-	print("DiscordSDK Addon got enabled")
+	print("DiscordSDK Addon got enabled (PLEASE  RESTART THE EDITOR)")
 	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_restart_if_changed("DiscordSDK/EditorPresence/enabled",true)
@@ -40,7 +40,7 @@ func  _process(_delta):
 			discord_sdk.details = ProjectSettings.get_setting("application/config/name")
 			discord_sdk.state = "Editing: \""+ str(get_tree().edited_scene_root.scene_file_path).replace("res://","") +"\""
 			discord_sdk.large_image = "godot"
-			discord_sdk.large_image_text = str(Engine.get_version_info())
+			discord_sdk.large_image_text = str(Engine.get_version_info().string)
 			discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
 			discord_sdk.refresh()
 		if(discord_sdk.app_id == 1108142249990176808):
