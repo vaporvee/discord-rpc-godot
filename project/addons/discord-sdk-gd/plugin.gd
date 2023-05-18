@@ -15,7 +15,7 @@ func _enter_tree() -> void:
 	add_autoload_singleton("DiscordSDKLoader", "res://addons/discord-sdk-gd/nodes/core_updater.gd")
 	add_export_plugin(loaded_exportplugin)
 
-func _enable_plugin():
+func _enable_plugin() -> void:
 	print("DiscordSDK Addon got enabled (PLEASE  RESTART THE EDITOR)")
 	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
