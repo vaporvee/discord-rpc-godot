@@ -22,7 +22,7 @@ private:
 
     String state;
     String details;
-    // just want to make pr
+
     String large_image;
     String large_image_text;
     String small_image;
@@ -112,7 +112,6 @@ public:
     void register_steam(int32_t value);
 
     Dictionary get_current_user();
-    void set_current_user(Dictionary value);
 
     bool get_is_discord_working();
     int get_result_int();
