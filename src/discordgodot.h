@@ -18,7 +18,7 @@ protected:
     static void _bind_methods();
 
 private:
-    int64_t app_id;
+    int64_t app_id = 0;
 
     String state;
     String details;

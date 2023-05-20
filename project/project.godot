@@ -10,12 +10,12 @@ config_version=5
 
 [DiscordSDK]
 
-EditorPresence/enabled=true
+EditorPresence/enabled=false
 
 [application]
 
 config/name="GDExtension DiscordSDK Test Project"
-run/main_scene="res://main.tscn"
+run/main_scene="res://testscene.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0.25098, 0.305882, 0.929412, 1)
 boot_splash/image="res://assets/Banner_v1.png"
