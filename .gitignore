@@ -20,3 +20,6 @@ build/
 
 #Clean files from the Game SDK
 src/lib/discord_game_sdk/
+
+# release.py
+release/
