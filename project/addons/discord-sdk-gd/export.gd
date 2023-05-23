@@ -2,7 +2,6 @@
 extends  EditorExportPlugin
 
 func _export_file(_path, _type, features) -> void:
-    print("FEATURES: ", features)
     if features.find("windows",0) != -1:
         if features.find("x86_64",0) != -1:
             add_shared_object("res://addons/discord-sdk-gd/bin/windows/discord_game_sdk.dll",[],"/")
