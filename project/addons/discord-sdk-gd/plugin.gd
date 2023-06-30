@@ -6,14 +6,9 @@ const DiscordSDKDebug_icon = preload("res://addons/discord-sdk-gd/nodes/assets/D
 var loaded_DiscordSDKDebug = DiscordSDKDebug.new()
 
 
-const ExportPlugin = preload("res://addons/discord-sdk-gd/export.gd")
-var loaded_exportplugin = ExportPlugin.new()
-
-
 func _enter_tree() -> void:
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
 	add_autoload_singleton("DiscordSDKLoader", "res://addons/discord-sdk-gd/nodes/core_updater.gd")
-	add_export_plugin(loaded_exportplugin)
 
 func _enable_plugin() -> void:
 	print("DiscordSDK Addon got enabled (PLEASE  RESTART THE EDITOR)")
