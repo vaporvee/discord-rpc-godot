@@ -23,6 +23,7 @@ body:
       label: Version
       description: What version of our software are you running?
       options:
+        - 2.3
         - 2.2
         - 2.1
         - 2.0
