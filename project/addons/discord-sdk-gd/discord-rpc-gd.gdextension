@@ -17,13 +17,13 @@ linux.release.rv64 = "bin/linux/libdiscord_game_sdk_binding.so"
 
 [dependencies]
 
-macos.debug = "bin/macos/libdiscord_game_sdk.dylib"
-macos.release = "bin/macos/libdiscord_game_sdk.dylib"
-windows.debug.x86_64 = "bin/windows/discord_game_sdk.dll"
-windows.release.x86_64 = "bin/windows/discord_game_sdk.dll"
-linux.debug.x86_64 = "bin/linux/libdiscord_game_sdk.so"
-linux.release.x86_64 = "bin/linux/libdiscord_game_sdk.so"
-linux.debug.arm64 = "bin/linux/libdiscord_game_sdk.so"
-linux.release.arm64 = "bin/linux/libdiscord_game_sdk.so"
-linux.debug.rv64 = "bin/linux/libdiscord_game_sdk.so"
-linux.release.rv64 = "bin/linux/libdiscord_game_sdk.so"
+macos.debug = { "bin/macos/libdiscord_game_sdk.dylib": "" }
+macos.release = { "bin/macos/libdiscord_game_sdk.dylib": "" }
+windows.debug.x86_64 = { "bin/windows/discord_game_sdk.dll": "" }
+windows.release.x86_64 = { "bin/windows/discord_game_sdk.dll": "" }
+linux.debug.x86_64 = { "bin/linux/libdiscord_game_sdk.so": "" }
+linux.release.x86_64 = { "bin/linux/libdiscord_game_sdk.so": "" }
+linux.debug.arm64 = { "bin/linux/libdiscord_game_sdk.so": "" }
+linux.release.arm64 = { "bin/linux/libdiscord_game_sdk.so": "" }
+linux.debug.rv64 = { "bin/linux/libdiscord_game_sdk.so": "" }
+linux.release.rv64 = { "bin/linux/libdiscord_game_sdk.so": "" }
