@@ -6,6 +6,12 @@ import os
 with zipfile.ZipFile("src/lib/discord_game_sdk.zip", "r") as zip_ref:
     zip_ref.extractall("src/lib/discord_game_sdk/")
 
+# Patch the SDK to actually build, since it's missing an include
+with open("src/lib/discord_game_sdk/cpp/types.h", "r+") as f:
+    s = f.read();
+    f.seek(0);
+    f.write("#include <cstdint>\n" + s)
+
 copy_tree("src/lib/discord_game_sdk/lib/", "src/lib/discord_game_sdk/bin/")
 os.rename(
     "src/lib/discord_game_sdk/bin/aarch64/discord_game_sdk.dylib",
