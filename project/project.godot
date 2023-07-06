@@ -12,7 +12,7 @@ config_version=5
 
 config/name="GDExtension DiscordSDK Test Project"
 run/main_scene="res://main.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.1")
 boot_splash/bg_color=Color(0.25098, 0.305882, 0.929412, 1)
 boot_splash/image="res://assets/Banner_v1.png"
 boot_splash/fullsize=false
