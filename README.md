@@ -1,4 +1,5 @@
 <img src="/project/assets/Banner.svg" alt="Project Banner" />
+
 **Discord Game SDK support for GDScript in Godot Engine 4.1. with the easiest code pattern!**<br><br>
 <br />
 <br />
