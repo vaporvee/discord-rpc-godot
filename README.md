@@ -2,7 +2,6 @@
 
 **Discord Game SDK support for GDScript in Godot Engine 4.1. with the easiest code pattern!**<br><br>
 <br />
-<br />
 # [Quick start :rocket: (click here)](https://github.com/vaporvee/discord-sdk-godot/wiki)
 <br />
 
