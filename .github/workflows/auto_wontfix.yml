@@ -1,0 +1,69 @@
+name: Auto Wontfix Issues
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  auto_wontfix:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check for specific word in the issue
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const wordToCheck = 'mac';
+          const issue = context.payload.issue;
+          
+          if (issue.body && issue.body.toLowerCase().includes(wordToCheck)) {
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const number = issue.number;
+            const issueComment = `
+              @${owner}, since macOS is not a supported platform by Discord we are going to close this issue. Thank you!
+            `;
+
+            // Mark the issue as "wontfix"
+            await octokit.issues.update({
+              owner,
+              repo,
+              issue_number: number,
+              state: 'closed',
+              labels: ['wontfix']
+            });
+
+            // Post a comment on the issue
+            await octokit.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: issueComment
+            });
+          }
+          if (issue.title && issue.title.toLowerCase().includes(wordToCheck)) {
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const number = issue.number;
+            const issueComment = `
+              @${owner}, since macOS is not a supported platform by Discord we are going to close this issue. Thank you!
+            `;
+
+            // Mark the issue as "wontfix"
+            await octokit.issues.update({
+              owner,
+              repo,
+              issue_number: number,
+              state: 'closed',
+              labels: ['wontfix']
+            });
+
+            // Post a comment on the issue
+            await octokit.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: issueComment
+            });
+          }
