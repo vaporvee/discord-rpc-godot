@@ -13,6 +13,7 @@ func _enter_tree() -> void:
 func _enable_plugin() -> void:
 	print("DiscordSDK Addon got enabled (PLEASE  RESTART THE EDITOR)")
 	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
+	ProjectSettings.set_as_basic("DiscordSDK/EditorPresence/enabled",true)
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_restart_if_changed("DiscordSDK/EditorPresence/enabled",true)
 

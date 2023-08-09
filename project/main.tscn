@@ -1,12 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyc3kseph4el7"]
+[gd_scene load_steps=4 format=3 uid="uid://dyc3kseph4el7"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
-[ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://addons/discord-sdk-gd/nodes/assets/Checked.svg" id="3_wajuo"]
-[ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://addons/discord-sdk-gd/nodes/assets/Unchecked.svg" id="4_8hvtu"]
 [ext_resource type="Script" path="res://addons/discord-sdk-gd/nodes/debug.gd" id="6_ujijw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phc3u"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")
@@ -23,7 +19,7 @@ color = Color(0.345098, 0.396078, 0.94902, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 4
-position = Vector2(580, 308)
+position = Vector2(789, 330.5)
 scale = Vector2(0.408203, 0.408203)
 texture = ExtResource("2_gd222")
 
@@ -33,10 +29,10 @@ anchor_left = 0.293
 anchor_top = 0.59
 anchor_right = 0.736
 anchor_bottom = 0.727
-offset_left = -0.536011
-offset_top = -0.319977
-offset_right = 0.12793
-offset_bottom = -0.0960388
+offset_left = 208.464
+offset_top = 22.18
+offset_right = 209.128
+offset_bottom = 22.4039
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -46,20 +42,3 @@ text = "[center][font s=60]DiscordSDK Test"
 
 [node name="DiscordSDKDebug" type="Node" parent="."]
 script = ExtResource("6_ujijw")
-
-[node name="ToggleSDK" type="CheckButton" parent="."]
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 293.0
-offset_top = 142.375
-offset_right = 1139.0
-offset_bottom = 650.375
-grow_vertical = 2
-scale = Vector2(0.05, 0.05)
-theme_override_icons/checked = ExtResource("3_wajuo")
-theme_override_icons/unchecked = ExtResource("4_8hvtu")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_phc3u")
-button_pressed = true
-
-[connection signal="toggled" from="ToggleSDK" to="." method="_on_toggle_sdk_toggled"]

@@ -54,8 +54,9 @@ public:
     void debug();
     void coreupdate();
     void refresh();
-    void clear();
-
+    void clear(bool reset_values);
+    int64_t old_app_id;
+    void unclear();
     int64_t get_app_id();
     void set_app_id(int64_t value);
     String get_state();

@@ -84,7 +84,8 @@ void discord_sdk::_bind_methods()
     ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
 
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
-    ClassDB::bind_method(D_METHOD("clear"), &discord_sdk::clear);
+    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, false);
+    ClassDB::bind_method(D_METHOD("unclear"), &discord_sdk::unclear);
 
     ClassDB::bind_method(D_METHOD("register_command", "command"), &discord_sdk::register_command);
     ClassDB::bind_method(D_METHOD("register_steam", "steam_id"), &discord_sdk::register_steam);
@@ -154,23 +155,25 @@ void discord_sdk::debug()
 void discord_sdk::set_app_id(int64_t value)
 {
     app_id = value;
-    result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
-
-    if (result == discord::Result::Ok && app_id > 0)
+    if (app_id > 0)
     {
-        // initialize currentuser stuff
-        core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                        {discord::User user{};
-        core->UserManager().GetCurrentUser(&user); });
-        // signals
-        core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
-                                                       { discord_sdk::get_singleton()
-                                                             ->emit_signal("activity_join", secret); });
-        core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+        result = discord::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
+
+        if (result == discord::Result::Ok)
+        {
+            // initialize currentuser stuff
+            core->UserManager().OnCurrentUserUpdate.Connect([]()
+                                                            {discord::User user{};
+            core->UserManager().GetCurrentUser(&user); });
+            // signals
+            core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
                                                            { discord_sdk::get_singleton()
-                                                                 ->emit_signal("activity_spectate", secret); });
-        core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
-                                                              { Dictionary user_requesting;
+                                                                 ->emit_signal("activity_join", secret); });
+            core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+                                                               { discord_sdk::get_singleton()
+                                                                     ->emit_signal("activity_spectate", secret); });
+            core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
+                                                                  { Dictionary user_requesting;
                                                                 user_requesting["avatar"] = user.GetAvatar(); //can be empty when user has no avatar
                                                                 user_requesting["is_bot"] = user.GetBot();
                                                                 user_requesting["discriminator"] = user.GetDiscriminator();
@@ -184,9 +187,10 @@ void discord_sdk::set_app_id(int64_t value)
                                                                 discord_sdk::get_singleton()
                                                                     ->emit_signal("activity_join_request",user_requesting); });
 
-        core->OverlayManager().OnToggle.Connect([](bool is_locked)
-                                                { discord_sdk::get_singleton()
-                                                      ->emit_signal("overlay_toggle", is_locked); });
+            core->OverlayManager().OnToggle.Connect([](bool is_locked)
+                                                    { discord_sdk::get_singleton()
+                                                          ->emit_signal("overlay_toggle", is_locked); });
+        }
     }
 }
 int64_t discord_sdk::get_app_id()
@@ -225,32 +229,50 @@ void discord_sdk::refresh()
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
-void discord_sdk::clear()
+void discord_sdk::clear(bool reset_values = false)
 {
     if (result == discord::Result::Ok)
     {
-        app_id = 0;
-        state = "";
-        details = "";
-        large_image = "";
-        large_image_text = "";
-        small_image = "";
-        small_image_text = "";
-        start_timestamp = 0;
-        end_timestamp = 0;
-        party_id = "";
-        current_party_size = 0;
-        max_party_size = 0;
-        match_secret = "";
-        join_secret = "";
-        spectate_secret = "";
-        instanced = false;
-        is_public_party = false;
-        is_overlay_locked = false;
-
+        if (reset_values)
+        {
+            old_app_id = 0;
+            set_state("");
+            set_details("");
+            set_large_image("");
+            set_large_image_text("");
+            set_small_image("");
+            set_small_image_text("");
+            set_start_timestamp(0);
+            set_end_timestamp(0);
+            set_party_id("");
+            set_current_party_size(0);
+            set_max_party_size(0);
+            set_match_secret("");
+            set_join_secret("");
+            set_spectate_secret("");
+            set_instanced(false);
+            set_is_public_party(false);
+            set_is_overlay_locked(false);
+            core->ActivityManager().ClearActivity([](discord::Result result) {});
+        }
+        else
+            old_app_id = app_id;
+        set_app_id(0);
         delete core;
         core = nullptr;
     }
+}
+
+void discord_sdk::unclear()
+{
+    if (old_app_id > 0)
+    {
+        set_app_id(old_app_id);
+        refresh();
+        old_app_id = 0;
+    }
+    else
+        UtilityFunctions::push_warning("Discord Activity couldn't be uncleared. Maybe it didn't get cleared before?");
 }
 
 void discord_sdk::set_large_image(String value)
@@ -463,7 +485,7 @@ Dictionary discord_sdk::get_current_user()
         if (String(userdict["avatar"]).is_empty())
             userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((userdict["discriminator"].INT % 5) - 1) + ".png").c_str());
         else
-            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());
+            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png").c_str());
         userdict.make_read_only();
     }
     return userdict;

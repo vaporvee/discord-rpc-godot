@@ -1,6 +1,7 @@
 extends Node
 
 func _ready() -> void:
+	print(discord_sdk.get_current_user())
 	set_activity()
 	discord_sdk.connect("activity_join_request",_on_activity_join_request)
 	discord_sdk.connect("activity_join",_on_activity_join)
@@ -52,9 +53,3 @@ func _on_activity_join(secret) -> void:
 
 func _on_activity_spectate(secret) -> void:
 	print(secret)
-	
-func _on_toggle_sdk_toggled(button_pressed):
-	if(button_pressed):
-		set_activity()
-	else:
-		discord_sdk.clear()
