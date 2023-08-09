@@ -84,7 +84,7 @@ void discord_sdk::_bind_methods()
     ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
 
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
-    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, false);
+    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("unclear"), &discord_sdk::unclear);
 
     ClassDB::bind_method(D_METHOD("register_command", "command"), &discord_sdk::register_command);
@@ -195,7 +195,9 @@ void discord_sdk::set_app_id(int64_t value)
 }
 int64_t discord_sdk::get_app_id()
 {
-    return app_id;
+    if (app_id != 0)
+        return app_id;
+    return old_app_id;
 }
 
 void discord_sdk::set_state(String value)
