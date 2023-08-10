@@ -83,6 +83,9 @@ void discord_sdk::_bind_methods()
     ADD_SIGNAL(MethodInfo("activity_spectate", PropertyInfo(Variant::STRING, "spectate_secret")));
     ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
 
+    ADD_SIGNAL(MethodInfo("relationships_init"));
+    ADD_SIGNAL(MethodInfo("updated_relationship", PropertyInfo(Variant::DICTIONARY, "relationship")));
+
     ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
     ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, DEFVAL(false));
     ClassDB::bind_method(D_METHOD("unclear"), &discord_sdk::unclear);
@@ -95,6 +98,7 @@ void discord_sdk::_bind_methods()
     ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &discord_sdk::accept_invite);
 
     ClassDB::bind_method(D_METHOD("get_current_user"), &discord_sdk::get_current_user);
+    ClassDB::bind_method(D_METHOD("get_all_relationships"), &discord_sdk::get_all_relationships);
 
     ClassDB::bind_method(D_METHOD("get_is_overlay_enabled"), &discord_sdk::get_is_overlay_enabled);
     ClassDB::bind_method(D_METHOD("get_is_overlay_locked"), &discord_sdk::get_is_overlay_locked);
@@ -173,23 +177,18 @@ void discord_sdk::set_app_id(int64_t value)
                                                                { discord_sdk::get_singleton()
                                                                      ->emit_signal("activity_spectate", secret); });
             core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
-                                                                  { Dictionary user_requesting;
-                                                                user_requesting["avatar"] = user.GetAvatar(); //can be empty when user has no avatar
-                                                                user_requesting["is_bot"] = user.GetBot();
-                                                                user_requesting["discriminator"] = user.GetDiscriminator();
-                                                                user_requesting["id"] = user.GetId();
-                                                                user_requesting["username"] = user.GetUsername();
-                                                                if(String(user_requesting["avatar"]).is_empty())
-                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((user_requesting["discriminator"].INT % 5) - 1)+ ".png").c_str());
-                                                                else
-                                                                    user_requesting["avatar_url"] =  String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png?size=512").c_str());//I don't know what the hell i did there but removing ?size=512 will crash the whole editor
-                                                                user_requesting.make_read_only();
-                                                                discord_sdk::get_singleton()
-                                                                    ->emit_signal("activity_join_request",user_requesting); });
+                                                                  { discord_sdk::get_singleton()
+                                                                        ->emit_signal("activity_join_request", user2dict(user)); });
 
             core->OverlayManager().OnToggle.Connect([](bool is_locked)
                                                     { discord_sdk::get_singleton()
                                                           ->emit_signal("overlay_toggle", is_locked); });
+            core->RelationshipManager().OnRefresh.Connect([&]()
+                                                          { discord_sdk::get_singleton()
+                                                                ->emit_signal("relationships_init"); });
+            core->RelationshipManager().OnRelationshipUpdate.Connect([&](discord::Relationship const &relationship)
+                                                                     { discord_sdk::get_singleton()
+                                                                           ->emit_signal("updated_relationship", relationship2dict(relationship)); });
         }
     }
 }
@@ -479,18 +478,38 @@ Dictionary discord_sdk::get_current_user()
     {
         discord::User user{};
         core->UserManager().GetCurrentUser(&user);
-        userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
-        userdict["is_bot"] = user.GetBot();
-        userdict["discriminator"] = user.GetDiscriminator();
-        userdict["id"] = user.GetId();
-        userdict["username"] = user.GetUsername();
-        if (String(userdict["avatar"]).is_empty())
-            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((userdict["discriminator"].INT % 5) - 1) + ".png").c_str());
-        else
-            userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png").c_str());
-        userdict.make_read_only();
+        return user2dict(user);
     }
     return userdict;
+}
+
+Dictionary discord_sdk::get_relationship(int64_t user_id)
+{
+    if (result == discord::Result::Ok && app_id > 0)
+    {
+        discord::Relationship relationship{};
+        core->RelationshipManager().Get(user_id, &relationship);
+        return relationship2dict(relationship);
+    }
+    Dictionary dict;
+    return dict;
+}
+
+Array discord_sdk::get_all_relationships()
+{
+    Array all_relationships;
+    core->RelationshipManager().Filter(
+        [](discord::Relationship const &relationship) -> bool
+        { return true; });
+    int32_t friendcount{0};
+    core->RelationshipManager().Count(&friendcount);
+    for (int i = 0; i < friendcount; i++)
+    {
+        discord::Relationship relationship{};
+        core->RelationshipManager().GetAt(2, &relationship);
+        all_relationships.append(relationship2dict(relationship));
+    }
+    return all_relationships;
 }
 
 bool discord_sdk::get_is_discord_working()
@@ -501,4 +520,92 @@ bool discord_sdk::get_is_discord_working()
 int discord_sdk::get_result_int()
 {
     return static_cast<int>(result);
+}
+
+Dictionary discord_sdk::user2dict(discord::User user)
+{
+    Dictionary userdict;
+    userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
+    userdict["is_bot"] = user.GetBot();
+    userdict["discriminator"] = user.GetDiscriminator();
+    userdict["id"] = user.GetId();
+    userdict["username"] = user.GetUsername();
+    if (String(userdict["avatar"]).is_empty())
+        userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((userdict["discriminator"].INT % 5) - 1) + ".png").c_str());
+    else
+        userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png").c_str());
+    userdict.make_read_only();
+    return userdict;
+}
+
+Dictionary discord_sdk::relationship2dict(discord::Relationship relationship)
+{
+    Dictionary dict_relationship;
+    Dictionary presence;
+    Dictionary presence_activity;
+    switch (static_cast<int>(relationship.GetPresence().GetStatus()))
+    {
+    case 0:
+        presence["status"] = "Offline";
+        break;
+    case 1:
+        presence["status"] = "Online";
+        break;
+    case 2:
+        presence["status"] = "Idle";
+        break;
+    case 3:
+        presence["status"] = "DoNotDisturb";
+        break;
+    default:
+        presence["status"] = "NotAvailable";
+        break;
+    }
+    presence_activity["application_id"] = relationship.GetPresence().GetActivity().GetApplicationId();
+    presence_activity["name"] = relationship.GetPresence().GetActivity().GetName();
+    presence_activity["state"] = relationship.GetPresence().GetActivity().GetState();
+    presence_activity["details"] = relationship.GetPresence().GetActivity().GetDetails();
+    presence_activity["large_image"] = relationship.GetPresence().GetActivity().GetAssets().GetLargeImage();
+    presence_activity["large_text"] = relationship.GetPresence().GetActivity().GetAssets().GetLargeText();
+    presence_activity["small_image"] = relationship.GetPresence().GetActivity().GetAssets().GetSmallImage();
+    presence_activity["small_text"] = relationship.GetPresence().GetActivity().GetAssets().GetSmallText();
+    presence_activity["timestamps_start"] = relationship.GetPresence().GetActivity().GetTimestamps().GetStart();
+    presence_activity["timestamps_end"] = relationship.GetPresence().GetActivity().GetTimestamps().GetEnd();
+    presence_activity["instance"] = relationship.GetPresence().GetActivity().GetInstance();
+    presence_activity["party_id"] = relationship.GetPresence().GetActivity().GetParty().GetId();
+    presence_activity["current_party_size"] = relationship.GetPresence().GetActivity().GetParty().GetSize().GetCurrentSize();
+    presence_activity["max_party_size"] = relationship.GetPresence().GetActivity().GetParty().GetSize().GetMaxSize();
+    presence_activity["join_secret"] = relationship.GetPresence().GetActivity().GetSecrets().GetJoin();
+    presence_activity["spectate_secret"] = relationship.GetPresence().GetActivity().GetSecrets().GetSpectate();
+    presence_activity["match_secret"] = relationship.GetPresence().GetActivity().GetSecrets().GetMatch();
+    presence["activity"] = presence_activity;
+    presence.make_read_only();
+    switch (relationship.GetType())
+    {
+    case discord::RelationshipType::None:
+        dict_relationship["type"] = "None";
+        break;
+    case discord::RelationshipType::Friend:
+        dict_relationship["type"] = "Friend";
+        break;
+    case discord::RelationshipType::Blocked:
+        dict_relationship["type"] = "Blocked";
+        break;
+    case discord::RelationshipType::PendingIncoming:
+        dict_relationship["type"] = "PendingIncoming";
+        break;
+    case discord::RelationshipType::PendingOutgoing:
+        dict_relationship["type"] = "PendingOutgoing";
+        break;
+    case discord::RelationshipType::Implicit:
+        dict_relationship["type"] = "Implicit";
+        break;
+    default:
+        dict_relationship["type"] = "NotAvailable";
+        break;
+    }
+    dict_relationship["user"] = user2dict(relationship.GetUser());
+    dict_relationship["presence"] = presence;
+    dict_relationship.make_read_only();
+    return dict_relationship;
 }

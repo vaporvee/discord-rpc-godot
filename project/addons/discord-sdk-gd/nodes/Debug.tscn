@@ -67,11 +67,12 @@ func _on_print_current_user_on_console_pressed():
 
 func _on_toggle_sdk_toggled(button_pressed):
 	if(button_pressed):
-		debug_text_update()
 		discord_sdk.unclear()
 	else:
 		discord_sdk.clear()
-		debug_text_update()
+
+func _on_print_friends_pressed():
+	print(discord_sdk.get_all_relationships())
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8abo6"]
@@ -163,11 +164,23 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 12.0
-offset_top = 156.375
+offset_top = 138.375
 offset_right = 245.0
-offset_bottom = 189.375
+offset_bottom = 171.375
 grow_vertical = 2
 text = "Print current user on console"
+
+[node name="PrintFriends" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 12.0
+offset_top = 176.5
+offset_right = 204.0
+offset_bottom = 207.5
+grow_vertical = 2
+text = "Print friends on console"
 
 [node name="AcceptJoinRequest" type="Button" parent="Panel"]
 layout_mode = 1
@@ -175,9 +188,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 12.0
-offset_top = 193.875
+offset_top = 212.875
 offset_right = 154.0
-offset_bottom = 224.875
+offset_bottom = 243.875
 grow_vertical = 2
 text = "ACCEPT REQUEST"
 
@@ -187,9 +200,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 11.0
-offset_top = 230.375
+offset_top = 250.375
 offset_right = 210.0
-offset_bottom = 261.375
+offset_bottom = 281.375
 grow_vertical = 2
 size_flags_horizontal = 0
 placeholder_text = "Invite with user_id here"
@@ -200,9 +213,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 11.0
-offset_top = 265.875
+offset_top = 286.875
 offset_right = 260.0
-offset_bottom = 296.875
+offset_bottom = 317.875
 grow_vertical = 2
 placeholder_text = "Accept Invite with user_id here"
 
@@ -246,6 +259,7 @@ libraries = {
 }
 
 [connection signal="pressed" from="Panel/PrintCurrentUserOnConsole" to="." method="_on_print_current_user_on_console_pressed"]
+[connection signal="pressed" from="Panel/PrintFriends" to="." method="_on_print_friends_pressed"]
 [connection signal="pressed" from="Panel/AcceptJoinRequest" to="." method="_on_accept_join_request_pressed"]
 [connection signal="text_submitted" from="Panel/InviteWithUserID" to="." method="_on_invite_with_user_id_text_submitted"]
 [connection signal="text_submitted" from="Panel/AcceptWithUserID" to="." method="_on_accept_with_user_id_text_submitted"]

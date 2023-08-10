@@ -17,7 +17,19 @@ class discord_sdk : public RefCounted
 protected:
     static void _bind_methods();
 
-private:
+public:
+    static discord_sdk *
+    get_singleton();
+
+    discord_sdk();
+    ~discord_sdk();
+
+    // INTERBNAL
+    int64_t old_app_id;
+    Dictionary relationship2dict(discord::Relationship relationship);
+    Dictionary user2dict(discord::User user);
+    ///
+
     int64_t app_id = 0;
 
     String state;
@@ -44,18 +56,11 @@ private:
 
     bool is_overlay_locked;
 
-public:
-    static discord_sdk *
-    get_singleton();
-
-    discord_sdk();
-    ~discord_sdk();
-
     void debug();
     void coreupdate();
     void refresh();
     void clear(bool reset_values);
-    int64_t old_app_id;
+
     void unclear();
     int64_t get_app_id();
     void set_app_id(int64_t value);
@@ -113,6 +118,8 @@ public:
     void register_steam(int32_t value);
 
     Dictionary get_current_user();
+    Dictionary get_relationship(int64_t user_id);
+    Array get_all_relationships();
 
     bool get_is_discord_working();
     int get_result_int();
