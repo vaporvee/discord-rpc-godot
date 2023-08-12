@@ -19,6 +19,10 @@ boot_splash/image="res://assets/Banner_v1.png"
 boot_splash/fullsize=false
 config/icon="res://assets/Logo_V2.png"
 
+[autoload]
+
+DiscordSDKLoader="*res://addons/discord-sdk-gd/nodes/core_updater.gd"
+
 [display]
 
 window/size/resizable=false
@@ -26,6 +30,10 @@ window/size/resizable=false
 [dotnet]
 
 project/assembly_name="GDExtension Test Project"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/discord-sdk-gd/plugin.cfg")
 
 [filesystem]
 

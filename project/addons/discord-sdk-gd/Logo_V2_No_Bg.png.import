@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://csl0e2px0cwc1"
-path="res://.godot/imported/Logo_V2_No_Bg.png-e3342efea6196122a36ea06a342b2ba2.ctex"
+path="res://.godot/imported/Logo_V2_No_Bg.png-9c8178062d6891c8370df63a912bd8e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Logo_V2_No_Bg.png"
-dest_files=["res://.godot/imported/Logo_V2_No_Bg.png-e3342efea6196122a36ea06a342b2ba2.ctex"]
+source_file="res://addons/discord-sdk-gd/Logo_V2_No_Bg.png"
+dest_files=["res://.godot/imported/Logo_V2_No_Bg.png-9c8178062d6891c8370df63a912bd8e2.ctex"]
 
 [params]
 

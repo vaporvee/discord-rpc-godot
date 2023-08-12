@@ -21,8 +21,9 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of our software are you running?
+      description: What version of the Discord Game SDK Godot plugin are you running?
       options:
+        - 3.1
         - 3.0
         - 2.4
         - 2.3
@@ -42,8 +43,8 @@ body:
     id: gd-version
     attributes:
       label: Godot Version
-      description: This addon is ONLY for 4.0 and above!
-      placeholder: e.g. 4.0.2-stable
+      description: This addon is ONLY for 4.1 and above!
+      placeholder: e.g. 4.1.0-stable
     validations:
       required: true
   - type: textarea
