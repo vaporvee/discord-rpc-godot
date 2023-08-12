@@ -506,7 +506,7 @@ Array discord_sdk::get_all_relationships()
     for (int i = 0; i < friendcount; i++)
     {
         discord::Relationship relationship{};
-        core->RelationshipManager().GetAt(2, &relationship);
+        core->RelationshipManager().GetAt(i, &relationship);
         all_relationships.append(relationship2dict(relationship));
     }
     return all_relationships;
