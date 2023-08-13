@@ -12,6 +12,10 @@ app.listen(port, () => {
     console.log("Server Listening on PORT:", port);
 });
 
+app.get("/", (a, response) => {
+    response.send("Please provide a Discord user id after the slash.");
+});
+
 app.get("/*", (a, response) => {
 
     const options = {
