@@ -1,7 +1,7 @@
 require('dotenv').config();
 const request = require('request');
 const express = require('express');
-const e = require('express');
+const path = require('path');
 
 var port = process.env.PORT || 8080;
 var botToken = process.env.BOT_TOKEN;
@@ -13,21 +13,21 @@ app.listen(port, () => {
     console.log("Server Listening on PORT:", port);
 });
 
-app.get("/", (a, response) => {
-    response.send("Please provide a Discord user id after the slash.");
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-app.get("/*", (a, response) => {
+app.get("/*", (req, res) => {
 
     const options = {
-        url: 'https://discord.com/api/v10/users/' + a.params[0],
+        url: 'https://discord.com/api/v10/users/' + req.params[0],
         headers: {
             'Authorization': 'Bot ' + botToken
         }
     };
 
-    function callback(error, aresponse, body) {
-        if (!error && aresponse.statusCode == 200) {
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
             var preuser = JSON.parse(body);
             var user = {
                 "id": preuser.id,
@@ -47,10 +47,10 @@ app.get("/*", (a, response) => {
                 user.banner_url = null;
             else
                 user.banner_url = "https://cdn.discordapp.com/banners/" + preuser.id + "/" + preuser.banner + ".png";
-            response.send(user);
+            res.send(user);
         }
         else
-            response.send(aresponse.statusCode)
+            res.send(response.statusCode)
     }
 
     request(options, callback);
