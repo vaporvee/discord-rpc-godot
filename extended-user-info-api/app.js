@@ -17,44 +17,51 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
-app.get("/*", (req, res) => {
+app.get("/:userIds", async (req, res) => {
+    const userIds = req.params.userIds.split(",");
+    const results = {};
 
-    const options = {
-        url: 'https://discord.com/api/v10/users/' + req.params[0],
-        headers: {
-            'Authorization': 'Bot ' + botToken
-        }
-    };
+    const promises = userIds.map(async userId => {
+        const options = {
+            url: `https://discord.com/api/v10/users/${userId}`,
+            headers: {
+                'Authorization': 'Bot ' + botToken
+            }
+        };
 
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            var preuser = JSON.parse(body);
-            var user = {
-                "id": preuser.id,
-                "global_name": preuser.global_name,
-                "public_flags": preuser.public_flags,
-                "flags": preuser.flags,
-                "accent_color": preuser.accent_color,
-                "avatar_decoration": preuser.avatar_decoration,
-                "banner": preuser.banner,
-                "banner_color": preuser.banner_color,
-            };
-            if (preuser.avatar_decoration == null)
-                user.avatar_decoration = null;
-            else
-                user.avatar_decoration = "https://cdn.discordapp.com/avatar-decorations/" + preuser.id + "/" + preuser.avatar_decoration + ".png";
-            if (preuser.banner == null)
-                user.banner_url = null;
-            else
-                user.banner_url = "https://cdn.discordapp.com/banners/" + preuser.id + "/" + preuser.banner + ".png";
-            res.send(user);
-        }
-        else
-            res.send(response.statusCode)
+        return new Promise((resolve, reject) => {
+            request(options, (error, response, body) => {
+                if (!error && response.statusCode == 200) {
+                    var preuser = JSON.parse(body);
+                    var user = {
+                        "global_name": preuser.global_name,
+                        "public_flags": preuser.public_flags,
+                        "flags": preuser.flags,
+                        "accent_color": preuser.accent_color,
+                        "avatar_decoration": preuser.avatar_decoration,
+                        "banner": preuser.banner,
+                        "banner_color": preuser.banner_color,
+                    };
+                    if (preuser.avatar_decoration == null)
+                        user.avatar_decoration = null;
+                    else
+                        user.avatar_decoration = "https://cdn.discordapp.com/avatar-decorations/" + preuser.id + "/" + preuser.avatar_decoration + ".png";
+                    if (preuser.banner == null)
+                        user.banner_url = null;
+                    else
+                        user.banner_url = "https://cdn.discordapp.com/banners/" + preuser.id + "/" + preuser.banner + ".png";
+                    results[userId] = user;
+                    resolve();
+                } else {
+                    reject(response.statusCode);
+                }
+            });
+        });
+    });
+    try {
+        await Promise.all(promises);
+        res.send(results);
+    } catch (errorStatusCode) {
+        res.status(errorStatusCode).send("Error fetching user data.");
     }
-
-    request(options, callback);
-
-
 });
-
