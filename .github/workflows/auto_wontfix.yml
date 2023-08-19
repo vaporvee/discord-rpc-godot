@@ -12,7 +12,7 @@ jobs:
     - name: Check for specific word in the issue
       uses: actions/github-script@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.WONTFIX_TOKEN }}
         script: |
           const wordToCheck = 'mac';
           const issue = context.payload.issue;
