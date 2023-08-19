@@ -21,9 +21,7 @@ jobs:
             const repo = context.repo.repo;
             const owner = context.repo.owner;
             const number = issue.number;
-            const issueComment = `
-              @${owner}, since macOS is not a supported platform by Discord we are going to close this issue. Thank you!
-            `;
+            const issueComment = "macOS is not supported, because loading libraries in Godot from third-party sources requires a paid developer certificate from Apple. You are welcome to compile and sign the library yourself.";
 
             // Mark the issue as "wontfix"
             await octokit.issues.update({
@@ -46,9 +44,7 @@ jobs:
             const repo = context.repo.repo;
             const owner = context.repo.owner;
             const number = issue.number;
-            const issueComment = `
-              @${owner}, since macOS is not a supported platform by Discord we are going to close this issue. Thank you!
-            `;
+            const issueComment = "macOS is not supported, because loading libraries in Godot from third-party sources requires a paid developer certificate from Apple. You are welcome to compile and sign the library yourself.";
 
             // Mark the issue as "wontfix"
             await octokit.issues.update({
