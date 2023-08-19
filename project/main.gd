@@ -5,6 +5,8 @@ func _ready() -> void:
 	discord_sdk.connect("activity_join_request",_on_activity_join_request)
 	discord_sdk.connect("activity_join",_on_activity_join)
 	discord_sdk.connect("activity_spectate",_on_activity_spectate)
+	discord_sdk.connect("relationships_init",_on_relationship_init)
+	discord_sdk.connect("updated_relationship", _on_updated_relationship)
 
 func set_activity() -> void:
 	discord_sdk.clear()
@@ -18,8 +20,8 @@ func set_activity() -> void:
 	discord_sdk.small_image_text = "Fighting the end boss! D:"
 	discord_sdk.end_timestamp = int(Time.get_unix_time_from_system()) + 3600 # +1 hour in unix time
 	
-	# It is NOT recommended to manage secrets locally! It's meant to be a payload wich the server 
-	# understands and returns the other variables like current_party_size, party_id etc. Most of the values must differ from the others.
+	# It is NOT recommended to manage secrets locally! It's meant to be a payload wich the server understands and 
+	# returns the other variables like current_party_size, party_id etc. Most of the values must differ from the others.
 	var my_secret: String = str(randi_range(0,999999))
 	
 	discord_sdk.party_id = "mylobbycanbeeverything_" + my_secret
@@ -52,9 +54,10 @@ func _on_activity_join(secret) -> void:
 
 func _on_activity_spectate(secret) -> void:
 	print(secret)
-	
-func _on_toggle_sdk_toggled(button_pressed):
-	if(button_pressed):
-		set_activity()
-	else:
-		discord_sdk.clear()
+
+func _on_relationship_init():
+	print("initialized")
+
+func _on_updated_relationship(relationship):
+	print(relationship)
+
