@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const DiscordSDKDebug = preload("res://addons/discord-sdk-gd/nodes/debug.gd")
-const DiscordSDKDebug_icon = preload("res://addons/discord-sdk-gd/nodes/assets/Debug.svg")
+const DiscordSDKDebug_icon = preload("res://addons/discord-sdk-gd/Debug.svg")
 var loaded_DiscordSDKDebug = DiscordSDKDebug.new()
 var restart_window: Control = preload("res://addons/discord-sdk-gd/restart_window.tscn").instantiate()
 
