@@ -15,7 +15,7 @@
 - Relationship Manager (Get friendlist and its updates)
 - Overlay management
 - Editor Presence (optional)
-<img width="400px" src="https://raw.githubusercontent.com/vaporvee/discord-sdk-godot/main/project/assets/GodotEditorPresenceBanner.svg">
+<img width="600px" src="https://raw.githubusercontent.com/vaporvee/discord-sdk-godot/main/project/assets/GodotEditorPresenceBanner.png">
 <br />
 
 <br />
