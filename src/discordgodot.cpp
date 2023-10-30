@@ -5,10 +5,21 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/time.hpp>
 
-using namespace godot;
+#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &discord_sdk::method)
+#define BIND_SET_GET(property_name, variant_type)                                                                   \
+    godot::ClassDB::bind_method(D_METHOD("get_" #property_name), &discord_sdk::get_##property_name);                \
+    godot::ClassDB::bind_method(D_METHOD("set_" #property_name, #variant_type), &discord_sdk::set_##property_name); \
+    godot::ClassDB::add_property(get_class_static(), PropertyInfo(variant_type, #property_name), "set_" #property_name, "get_" #property_name)
+#define BIND_SIGNAL(signal_name, ...) godot::ClassDB::add_signal(get_class_static(), MethodInfo(#signal_name, __VA_ARGS__))
+#define SET_GET(variable, setter, ...) /*getter isn't mandatory for this project*/     \
+    decltype(discord_sdk::variable) discord_sdk::get_##variable() { return variable; } \
+    void discord_sdk::set_##variable(decltype(discord_sdk::variable) value)            \
+    {                                                                                  \
+        variable = value;                                                              \
+        setter;                                                                        \
+    }
 
 discord_sdk *discord_sdk::singleton = nullptr;
-
 discord::Core *core{};
 discord::Result result;
 discord::Activity activity{};
@@ -16,108 +27,65 @@ discord::User user{};
 
 void discord_sdk::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("debug"), &discord_sdk::debug);
-    ClassDB::bind_method(D_METHOD("coreupdate"), &discord_sdk::coreupdate);
-
-    ClassDB::bind_method(D_METHOD("get_app_id"), &discord_sdk::get_app_id);
-    ClassDB::bind_method(D_METHOD("set_app_id", "app_id"), &discord_sdk::set_app_id);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "app_id"), "set_app_id", "get_app_id");
-    ClassDB::bind_method(D_METHOD("get_state"), &discord_sdk::get_state);
-    ClassDB::bind_method(D_METHOD("set_state", "state"), &discord_sdk::set_state);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "state"), "set_state", "get_state");
-    ClassDB::bind_method(D_METHOD("get_details"), &discord_sdk::get_details);
-    ClassDB::bind_method(D_METHOD("set_details", "details"), &discord_sdk::set_details);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "details"), "set_details", "get_details");
-
-    ClassDB::bind_method(D_METHOD("get_large_image"), &discord_sdk::get_large_image);
-    ClassDB::bind_method(D_METHOD("set_large_image", "large_image"), &discord_sdk::set_large_image);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image"), "set_large_image", "get_large_image");
-    ClassDB::bind_method(D_METHOD("get_large_image_text"), &discord_sdk::get_large_image_text);
-    ClassDB::bind_method(D_METHOD("set_large_image_text", "large_image_text"), &discord_sdk::set_large_image_text);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "large_image_text"), "set_large_image_text", "get_large_image_text");
-    ClassDB::bind_method(D_METHOD("get_small_image"), &discord_sdk::get_small_image);
-    ClassDB::bind_method(D_METHOD("set_small_image", "small_image"), &discord_sdk::set_small_image);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image"), "set_small_image", "get_small_image");
-    ClassDB::bind_method(D_METHOD("get_small_image_text"), &discord_sdk::get_small_image_text);
-    ClassDB::bind_method(D_METHOD("set_small_image_text", "large_small_text"), &discord_sdk::set_small_image_text);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "small_image_text"), "set_small_image_text", "get_small_image_text");
-
-    ClassDB::bind_method(D_METHOD("get_start_timestamp"), &discord_sdk::get_start_timestamp);
-    ClassDB::bind_method(D_METHOD("set_start_timestamp", "start_timestamp"), &discord_sdk::set_start_timestamp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "start_timestamp"), "set_start_timestamp", "get_start_timestamp");
-    ClassDB::bind_method(D_METHOD("get_end_timestamp"), &discord_sdk::get_end_timestamp);
-    ClassDB::bind_method(D_METHOD("set_end_timestamp", "end_timestamp"), &discord_sdk::set_end_timestamp);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "end_timestamp"), "set_end_timestamp", "get_end_timestamp");
-
-    ClassDB::bind_method(D_METHOD("get_party_id"), &discord_sdk::get_party_id);
-
-    ClassDB::bind_method(D_METHOD("set_party_id", "party_id"), &discord_sdk::set_party_id);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "party_id"), "set_party_id", "get_party_id");
-
-    ClassDB::bind_method(D_METHOD("get_current_party_size"), &discord_sdk::get_current_party_size);
-    ClassDB::bind_method(D_METHOD("set_current_party_size", "current_party_size"), &discord_sdk::set_current_party_size);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "current_party_size"), "set_current_party_size", "get_current_party_size");
-    ClassDB::bind_method(D_METHOD("get_max_party_size"), &discord_sdk::get_max_party_size);
-    ClassDB::bind_method(D_METHOD("set_max_party_size", "max_party_size"), &discord_sdk::set_max_party_size);
-    ADD_PROPERTY(PropertyInfo(Variant::INT, "max_party_size"), "set_max_party_size", "get_max_party_size");
-
-    ClassDB::bind_method(D_METHOD("get_match_secret"), &discord_sdk::get_match_secret);
-    ClassDB::bind_method(D_METHOD("set_match_secret", "match_secret"), &discord_sdk::set_match_secret);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "match_secret"), "set_match_secret", "get_match_secret");
-    ClassDB::bind_method(D_METHOD("get_join_secret"), &discord_sdk::get_join_secret);
-    ClassDB::bind_method(D_METHOD("set_join_secret", "join_secret"), &discord_sdk::set_join_secret);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "join_secret"), "set_join_secret", "get_join_secret");
-    ClassDB::bind_method(D_METHOD("get_spectate_secret"), &discord_sdk::get_spectate_secret);
-    ClassDB::bind_method(D_METHOD("set_spectate_secret", "spectate_secret"), &discord_sdk::set_spectate_secret);
-    ADD_PROPERTY(PropertyInfo(Variant::STRING, "spectate_secret"), "set_spectate_secret", "get_spectate_secret");
-
-    ClassDB::bind_method(D_METHOD("get_instanced"), &discord_sdk::get_instanced);
-    ClassDB::bind_method(D_METHOD("set_instanced", "instanced"), &discord_sdk::set_instanced);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "instanced"), "set_instanced", "get_instanced");
-
-    ClassDB::bind_method(D_METHOD("get_is_public_party"), &discord_sdk::get_is_public_party);
-    ClassDB::bind_method(D_METHOD("set_is_public_party", "is_public_party"), &discord_sdk::set_is_public_party);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_public_party"), "set_is_public_party", "get_is_public_party");
-
-    ADD_SIGNAL(MethodInfo("activity_join", PropertyInfo(Variant::STRING, "join_secret")));
-    ADD_SIGNAL(MethodInfo("activity_spectate", PropertyInfo(Variant::STRING, "spectate_secret")));
-    ADD_SIGNAL(MethodInfo("activity_join_request", PropertyInfo(Variant::DICTIONARY, "user_requesting")));
-
-    ADD_SIGNAL(MethodInfo("relationships_init"));
-    ADD_SIGNAL(MethodInfo("updated_relationship", PropertyInfo(Variant::DICTIONARY, "relationship")));
-
-    ClassDB::bind_method(D_METHOD("refresh"), &discord_sdk::refresh);
+    BIND_SET_GET(app_id, Variant::INT);
+    BIND_SET_GET(state, Variant::STRING);
+    BIND_SET_GET(details, Variant::STRING);
+    BIND_SET_GET(large_image, Variant::STRING);
+    BIND_SET_GET(large_image_text, Variant::STRING);
+    BIND_SET_GET(small_image, Variant::STRING);
+    BIND_SET_GET(small_image_text, Variant::STRING);
+    BIND_SET_GET(start_timestamp, Variant::INT);
+    BIND_SET_GET(end_timestamp, Variant::INT);
+    BIND_SET_GET(party_id, Variant::STRING);
+    BIND_SET_GET(current_party_size, Variant::INT);
+    BIND_SET_GET(max_party_size, Variant::INT);
+    BIND_SET_GET(match_secret, Variant::STRING);
+    BIND_SET_GET(join_secret, Variant::STRING);
+    BIND_SET_GET(spectate_secret, Variant::STRING);
+    BIND_SET_GET(instanced, Variant::BOOL);
+    BIND_SET_GET(is_public_party, Variant::BOOL);
+    BIND_SIGNAL(activity_join, PropertyInfo(Variant::STRING, "join_secret"));
+    BIND_SIGNAL(activity_spectate, PropertyInfo(Variant::STRING, "spectate_secret"));
+    BIND_SIGNAL(activity_join_request, PropertyInfo(Variant::DICTIONARY, "user_requesting"));
+    BIND_SIGNAL(updated_relationship, PropertyInfo(Variant::DICTIONARY, "relationship"));
+    BIND_SIGNAL(overlay_toggle, PropertyInfo(Variant::BOOL, "is_locked"));
+    BIND_SIGNAL(relationships_init);
+    BIND_METHOD(debug);
+    BIND_METHOD(coreupdate);
+    BIND_METHOD(refresh);
     ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, DEFVAL(false));
-    ClassDB::bind_method(D_METHOD("unclear"), &discord_sdk::unclear);
-
-    ClassDB::bind_method(D_METHOD("register_command", "command"), &discord_sdk::register_command);
-    ClassDB::bind_method(D_METHOD("register_steam", "steam_id"), &discord_sdk::register_steam);
-
-    ClassDB::bind_method(D_METHOD("accept_join_request", "user_id"), &discord_sdk::accept_join_request);
-    ClassDB::bind_method(D_METHOD("send_invite", "user_id", "is_spectate", "message_content"), &discord_sdk::send_invite);
-    ClassDB::bind_method(D_METHOD("accept_invite", "user_id"), &discord_sdk::accept_invite);
-
-    ClassDB::bind_method(D_METHOD("get_current_user"), &discord_sdk::get_current_user);
-    ClassDB::bind_method(D_METHOD("get_all_relationships"), &discord_sdk::get_all_relationships);
-
-    ClassDB::bind_method(D_METHOD("get_is_overlay_enabled"), &discord_sdk::get_is_overlay_enabled);
-    ClassDB::bind_method(D_METHOD("get_is_overlay_locked"), &discord_sdk::get_is_overlay_locked);
-    ClassDB::bind_method(D_METHOD("set_is_overlay_locked", "is_overlay_locked"), &discord_sdk::set_is_overlay_locked);
-    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "is_overlay_locked"), "set_is_overlay_locked", "get_is_overlay_locked");
-    ClassDB::bind_method(D_METHOD("open_invite_overlay", "is_spectate"), &discord_sdk::open_invite_overlay);
-    ClassDB::bind_method(D_METHOD("open_server_invite_overlay", "invite_code"), &discord_sdk::open_server_invite_overlay);
-    ClassDB::bind_method(D_METHOD("open_voice_settings"), &discord_sdk::open_voice_settings);
-    ADD_SIGNAL(MethodInfo("overlay_toggle", PropertyInfo(Variant::BOOL, "is_locked")));
-
-    ClassDB::bind_method(D_METHOD("get_is_discord_working"), &discord_sdk::get_is_discord_working);
-
-    ClassDB::bind_method(D_METHOD("get_result_int"), &discord_sdk::get_result_int);
+    BIND_METHOD(unclear);
+    BIND_METHOD(register_command, "command");
+    BIND_METHOD(register_steam, "steam_id");
+    BIND_METHOD(accept_join_request, "user_id");
+    BIND_METHOD(send_invite, "user_id", "is_spectate", "message_content");
+    BIND_METHOD(accept_invite, "user_id");
+    BIND_METHOD(get_current_user);
+    BIND_METHOD(get_all_relationships);
+    BIND_METHOD(get_is_overlay_enabled);
+    BIND_METHOD(get_is_overlay_locked);
+    BIND_METHOD(open_invite_overlay, "is_spectate");
+    BIND_METHOD(open_server_invite_overlay, "invite_code");
+    BIND_METHOD(open_voice_settings);
+    BIND_METHOD(get_is_discord_working);
+    BIND_METHOD(get_result_int);
 }
-
-discord_sdk *discord_sdk::get_singleton()
-{
-    return singleton;
-}
+SET_GET(state, activity.SetState(value.utf8().get_data()))
+SET_GET(details, activity.SetDetails(value.utf8().get_data()))
+SET_GET(large_image, activity.GetAssets().SetLargeImage(value.utf8().get_data()))
+SET_GET(large_image_text, activity.GetAssets().SetLargeText(value.utf8().get_data()))
+SET_GET(small_image, activity.GetAssets().SetSmallImage(value.utf8().get_data()))
+SET_GET(small_image_text, activity.GetAssets().SetSmallText(value.utf8().get_data()))
+SET_GET(start_timestamp, activity.GetTimestamps().SetStart(value))
+SET_GET(end_timestamp, activity.GetTimestamps().SetEnd(value))
+SET_GET(party_id, activity.GetParty().SetId(value.utf8().get_data()))
+SET_GET(current_party_size, activity.GetParty().GetSize().SetCurrentSize(value))
+SET_GET(max_party_size, activity.GetParty().GetSize().SetMaxSize(value))
+SET_GET(match_secret, activity.GetSecrets().SetMatch(value.utf8().get_data()))
+SET_GET(join_secret, activity.GetSecrets().SetJoin(value.utf8().get_data()))
+SET_GET(spectate_secret, activity.GetSecrets().SetSpectate(value.utf8().get_data()))
+SET_GET(instanced, activity.SetInstance(value))
+SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)))
 
 discord_sdk::discord_sdk()
 {
@@ -128,9 +96,15 @@ discord_sdk::discord_sdk()
 discord_sdk::~discord_sdk()
 {
     ERR_FAIL_COND(singleton != this);
-    singleton = nullptr;
+    set_app_id(0);
     delete core;
     core = nullptr;
+    singleton = nullptr;
+}
+
+discord_sdk *discord_sdk::get_singleton()
+{
+    return singleton;
 }
 
 void discord_sdk::coreupdate()
@@ -165,7 +139,7 @@ void discord_sdk::set_app_id(int64_t value)
 
         if (result == discord::Result::Ok)
         {
-            // initialize currentuser stuff
+            // initialize currentuser
             core->UserManager().OnCurrentUserUpdate.Connect([]()
                                                             {discord::User user{};
             core->UserManager().GetCurrentUser(&user); });
@@ -179,7 +153,6 @@ void discord_sdk::set_app_id(int64_t value)
             core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
                                                                   { discord_sdk::get_singleton()
                                                                         ->emit_signal("activity_join_request", user2dict(user)); });
-
             core->OverlayManager().OnToggle.Connect([](bool is_locked)
                                                     { discord_sdk::get_singleton()
                                                           ->emit_signal("overlay_toggle", is_locked); });
@@ -197,25 +170,6 @@ int64_t discord_sdk::get_app_id()
     if (app_id != 0)
         return app_id;
     return old_app_id;
-}
-
-void discord_sdk::set_state(String value)
-{
-    state = value;
-    activity.SetState(value.utf8().get_data());
-}
-String discord_sdk::get_state()
-{
-    return state;
-}
-void discord_sdk::set_details(String value)
-{
-    details = value;
-    activity.SetDetails(value.utf8().get_data());
-}
-String discord_sdk::get_details()
-{
-    return details;
 }
 
 void discord_sdk::refresh()
@@ -276,129 +230,6 @@ void discord_sdk::unclear()
         UtilityFunctions::push_warning("Discord Activity couldn't be uncleared. Maybe it didn't get cleared before?");
 }
 
-void discord_sdk::set_large_image(String value)
-{
-    large_image = value;
-    activity.GetAssets().SetLargeImage(value.utf8().get_data());
-}
-String discord_sdk::get_large_image()
-{
-    return large_image;
-}
-void discord_sdk::set_large_image_text(String value)
-{
-    large_image_text = value;
-    activity.GetAssets().SetLargeText(value.utf8().get_data());
-}
-String discord_sdk::get_large_image_text()
-{
-    return large_image_text;
-}
-void discord_sdk::set_small_image(String value)
-{
-    small_image = value;
-    activity.GetAssets().SetSmallImage(value.utf8().get_data());
-}
-String discord_sdk::get_small_image()
-{
-    return small_image;
-}
-void discord_sdk::set_small_image_text(String value)
-{
-    small_image_text = value;
-    activity.GetAssets().SetSmallText(value.utf8().get_data());
-}
-String discord_sdk::get_small_image_text()
-{
-    return small_image_text;
-}
-
-void discord_sdk::set_start_timestamp(int64_t value)
-{
-    start_timestamp = value;
-    activity.GetTimestamps().SetStart(value);
-}
-int64_t discord_sdk::get_start_timestamp()
-{
-    return activity.GetTimestamps().GetStart();
-}
-void discord_sdk::set_end_timestamp(int64_t value)
-{
-    end_timestamp = value;
-    activity.GetTimestamps().SetEnd(value);
-}
-int64_t discord_sdk::get_end_timestamp()
-{
-    return activity.GetTimestamps().GetEnd();
-}
-
-void discord_sdk::set_party_id(String value)
-{
-    party_id = value;
-    activity.GetParty().SetId(value.utf8().get_data());
-}
-String discord_sdk::get_party_id()
-{
-    return party_id;
-}
-
-void discord_sdk::set_current_party_size(int32_t value)
-{
-    current_party_size = value;
-    activity.GetParty().GetSize().SetCurrentSize(value);
-}
-int32_t discord_sdk::get_current_party_size()
-{
-    return current_party_size;
-}
-void discord_sdk::set_max_party_size(int32_t value)
-{
-    max_party_size = value;
-    activity.GetParty().GetSize().SetMaxSize(value);
-}
-int32_t discord_sdk::get_max_party_size()
-{
-    return max_party_size;
-}
-
-void discord_sdk::set_match_secret(String value)
-{
-    match_secret = value;
-    activity.GetSecrets().SetMatch(value.utf8().get_data());
-}
-String discord_sdk::get_match_secret()
-{
-    return match_secret;
-}
-void discord_sdk::set_join_secret(String value)
-{
-    join_secret = value;
-    activity.GetSecrets().SetJoin(value.utf8().get_data());
-}
-String discord_sdk::get_join_secret()
-{
-    return join_secret;
-}
-void discord_sdk::set_spectate_secret(String value)
-{
-    spectate_secret = value;
-    activity.GetSecrets().SetSpectate(value.utf8().get_data());
-}
-String discord_sdk::get_spectate_secret()
-{
-    return spectate_secret;
-}
-
-void discord_sdk::set_instanced(bool value)
-{
-    instanced = value;
-    activity.SetInstance(value);
-}
-bool discord_sdk::get_instanced()
-{
-    return instanced;
-}
-
 bool discord_sdk::get_is_overlay_enabled()
 {
     bool ie;
@@ -433,16 +264,6 @@ void discord_sdk::open_voice_settings()
 {
     if (result == discord::Result::Ok && app_id > 0)
         core->OverlayManager().OpenVoiceSettings({});
-}
-
-void discord_sdk::set_is_public_party(bool value)
-{
-    is_public_party = value;
-    activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)); // normaly true
-}
-bool discord_sdk::get_is_public_party()
-{
-    return is_public_party;
 }
 
 void discord_sdk::accept_join_request(int64_t user_id)
@@ -510,11 +331,6 @@ Array discord_sdk::get_all_relationships()
         all_relationships.append(relationship2dict(relationship));
     }
     return all_relationships;
-}
-
-bool discord_sdk::get_is_discord_working()
-{
-    return result == discord::Result::Ok && app_id > 0;
 }
 
 int discord_sdk::get_result_int()
@@ -608,4 +424,9 @@ Dictionary discord_sdk::relationship2dict(discord::Relationship relationship)
     dict_relationship["presence"] = presence;
     dict_relationship.make_read_only();
     return dict_relationship;
+}
+
+bool discord_sdk::get_is_discord_working()
+{
+    return result == discord::Result::Ok && app_id > 0;
 }

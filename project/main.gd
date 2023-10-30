@@ -9,7 +9,7 @@ func _ready() -> void:
 	discord_sdk.connect("updated_relationship", _on_updated_relationship)
 
 func set_activity() -> void:
-	discord_sdk.clear()
+	discord_sdk.clear(false)
 	discord_sdk.app_id = 1099618430065324082
 	discord_sdk.details = "A demo activity by vaporvee#1231"
 	discord_sdk.state = "Checkpoint 23/23"
