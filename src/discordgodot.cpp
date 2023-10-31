@@ -5,12 +5,12 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/time.hpp>
 
-#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &discord_sdk::method)
+#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, __VA_ARGS__), &discord_sdk::method)
 #define BIND_SET_GET(property_name, variant_type)                                                                   \
     godot::ClassDB::bind_method(D_METHOD("get_" #property_name), &discord_sdk::get_##property_name);                \
     godot::ClassDB::bind_method(D_METHOD("set_" #property_name, #variant_type), &discord_sdk::set_##property_name); \
     godot::ClassDB::add_property(get_class_static(), PropertyInfo(variant_type, #property_name), "set_" #property_name, "get_" #property_name)
-#define BIND_SIGNAL(signal_name, ...) godot::ClassDB::add_signal(get_class_static(), MethodInfo(#signal_name, __VA_ARGS__))
+#define BIND_SIGNAL(signal_name, ...) godot::ClassDB::add_signal(get_class_static(), MethodInfo(#signal_name, ##__VA_ARGS__))
 #define SET_GET(variable, setter, ...) /*getter isn't mandatory for this project*/     \
     decltype(discord_sdk::variable) discord_sdk::get_##variable() { return variable; } \
     void discord_sdk::set_##variable(decltype(discord_sdk::variable) value)            \
