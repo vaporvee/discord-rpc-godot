@@ -20,6 +20,7 @@ func _process(_delta):
 		$Panel/TextureRect.self_modulate = Color(\"#797979\")
 		$Panel/TextureRect/AnimationPlayer.stop()
 		debug_text_update()
+		
 
 func debug_text_update():
 	$Panel/Info.text = \"Application ID : {id}

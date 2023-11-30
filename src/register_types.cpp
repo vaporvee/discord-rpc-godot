@@ -7,6 +7,7 @@
 #include <godot_cpp/godot.hpp>
 
 #include "discordgodot.h"
+#include "loader_node.h"
 using namespace godot;
 
 static discord_sdk *discordsdk;
@@ -19,6 +20,7 @@ void initialize_discordsdk_module(ModuleInitializationLevel p_level)
         discordsdk = memnew(discord_sdk);
         Engine::get_singleton()->register_singleton("discord_sdk", discord_sdk::get_singleton());
     }
+    ClassDB::register_class<DiscordLoader>();
 }
 
 void uninitialize_discordsdk_module(ModuleInitializationLevel p_level)
