@@ -13,7 +13,6 @@ func _enter_tree() -> void:
 	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
 	ProjectSettings.set_as_basic("DiscordSDK/EditorPresence/enabled",true)
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
-	ProjectSettings.set_restart_if_changed("DiscordSDK/EditorPresence/enabled",true)
 
 func _enable_plugin() -> void:
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):

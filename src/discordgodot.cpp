@@ -89,16 +89,17 @@ SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discord::Act
 
 discord_sdk::discord_sdk()
 {
-    ERR_FAIL_COND(singleton != nullptr);
     singleton = this;
+    app_id = 0;
 }
 
 discord_sdk::~discord_sdk()
 {
-    ERR_FAIL_COND(singleton != this);
-    set_app_id(0);
-    delete core;
-    core = nullptr;
+    if (app_id != 0)
+    {
+        set_app_id(0);
+        core->~Core();
+    }
     singleton = nullptr;
 }
 
