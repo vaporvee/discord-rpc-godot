@@ -49,6 +49,13 @@ body:
     validations:
       required: true
   - type: textarea
+    id: steps_reproduce
+    attributes:
+      label: Exact steps to reproduce this error
+      description: Tell what completely exactly you did from downloading and copying the plugin to the error. You can also drag and drop a zip file of how you would setup a fresh project with it.
+    validations:
+      required: true
+  - type: textarea
     id: gdscript
     attributes:
       label: GDScript
