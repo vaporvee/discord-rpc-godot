@@ -54,7 +54,7 @@ public:
     H_SET_GET(bool, is_overlay_locked)
 
     void debug();
-    void coreupdate();
+    void run_callbacks();
     void refresh();
     void clear(bool reset_values);
     void unclear();

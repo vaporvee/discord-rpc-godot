@@ -3,7 +3,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
-#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, __VA_ARGS__), &discord_sdk::method)
+#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &discord_sdk::method)
 #define BIND_SET_GET(property_name, variant_type)                                                                   \
     godot::ClassDB::bind_method(D_METHOD("get_" #property_name), &discord_sdk::get_##property_name);                \
     godot::ClassDB::bind_method(D_METHOD("set_" #property_name, #variant_type), &discord_sdk::set_##property_name); \
@@ -49,7 +49,7 @@ void discord_sdk::_bind_methods()
     BIND_SIGNAL(overlay_toggle, PropertyInfo(Variant::BOOL, "is_locked"));
     BIND_SIGNAL(relationships_init);
     BIND_METHOD(debug);
-    BIND_METHOD(coreupdate);
+    BIND_METHOD(run_callbacks);
     BIND_METHOD(refresh);
     ClassDB::bind_method(D_METHOD("clear", "reset_values"), &discord_sdk::clear, DEFVAL(false));
     BIND_METHOD(unclear);
@@ -93,11 +93,8 @@ discord_sdk::discord_sdk()
 
 discord_sdk::~discord_sdk()
 {
-    if (app_id != 0)
-    {
-        set_app_id(0);
-        core->~Core();
-    }
+    app_id = 0;
+    core->~Core();
     singleton = nullptr;
 }
 
@@ -106,7 +103,7 @@ discord_sdk *discord_sdk::get_singleton()
     return singleton;
 }
 
-void discord_sdk::coreupdate()
+void discord_sdk::run_callbacks()
 {
     if (result == discord::Result::Ok && app_id > 0)
         ::core->RunCallbacks();
@@ -173,7 +170,7 @@ int64_t discord_sdk::get_app_id()
 
 void discord_sdk::refresh()
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
     {
         activity.GetParty().SetPrivacy(discord::ActivityPartyPrivacy::Public);
         activity.SetType(discord::ActivityType::Playing);
@@ -185,7 +182,7 @@ void discord_sdk::refresh()
 
 void discord_sdk::clear(bool reset_values = false)
 {
-    if (result == discord::Result::Ok)
+    if (get_is_discord_working())
     {
         if (reset_values)
         {
@@ -212,8 +209,7 @@ void discord_sdk::clear(bool reset_values = false)
         else
             old_app_id = app_id;
         set_app_id(0);
-        delete core;
-        core = nullptr;
+        core->~Core();
     }
 }
 
@@ -232,69 +228,69 @@ void discord_sdk::unclear()
 bool discord_sdk::get_is_overlay_enabled()
 {
     bool ie;
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().IsEnabled(&ie);
     return ie;
 }
 bool discord_sdk::get_is_overlay_locked()
 {
     bool il;
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().IsLocked(&il);
     return il;
 }
 void discord_sdk::set_is_overlay_locked(bool value)
 {
     is_overlay_locked = value;
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().SetLocked(value, {});
 }
 void discord_sdk::open_invite_overlay(bool is_spectate)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().OpenActivityInvite(static_cast<discord::ActivityActionType>(is_spectate + 1), {});
 }
 void discord_sdk::open_server_invite_overlay(String invite_code)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
 }
 void discord_sdk::open_voice_settings()
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->OverlayManager().OpenVoiceSettings({});
 }
 
 void discord_sdk::accept_join_request(int64_t user_id)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->ActivityManager().SendRequestReply(user_id, static_cast<discord::ActivityJoinRequestReply>(1), {});
 }
 void discord_sdk::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->ActivityManager().SendInvite(user_id, static_cast<discord::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
 }
 void discord_sdk::accept_invite(int64_t user_id)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->ActivityManager().AcceptInvite(user_id, {});
 }
 
 void discord_sdk::register_command(String value)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->ActivityManager().RegisterCommand(value.utf8().get_data());
 }
 void discord_sdk::register_steam(int32_t value)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
         core->ActivityManager().RegisterSteam(value);
 }
 Dictionary discord_sdk::get_current_user()
 {
     Dictionary userdict;
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
     {
         discord::User user{};
         core->UserManager().GetCurrentUser(&user);
@@ -305,7 +301,7 @@ Dictionary discord_sdk::get_current_user()
 
 Dictionary discord_sdk::get_relationship(int64_t user_id)
 {
-    if (result == discord::Result::Ok && app_id > 0)
+    if (get_is_discord_working())
     {
         discord::Relationship relationship{};
         core->RelationshipManager().Get(user_id, &relationship);

@@ -28,7 +28,9 @@ else:
 # make sure our binding library is properly includes
 env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
 sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
-env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])  # this line for some reason doesn't get understanded by most linux distros
+env.Append(
+    CPPPATH=["src/lib/discord_game_sdk/cpp/"]
+)  # this line for some reason doesn't get understanded by most linux distros
 env.Append(LIBS=["discord_game_sdk"])
 
 # tweak this if you want to use different folders, or more folders, to store your source code in.
@@ -51,11 +53,13 @@ env.Depends(
         Copy("$TARGET", "$SOURCE"),
     ),
 )
-if(discord_library_second != ""):
+if discord_library_second != "":
     env.Depends(
         library,
         Command(
-            "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library_second,
+            "project/addons/discord-sdk-gd/bin/"
+            + libexportfolder
+            + discord_library_second,
             "src/lib/discord_game_sdk/bin/" + discord_library_second,
             Copy("$TARGET", "$SOURCE"),
         ),
