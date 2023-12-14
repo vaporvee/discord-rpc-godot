@@ -88,14 +88,13 @@ SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discord::Act
 discord_sdk::discord_sdk()
 {
     singleton = this;
-    app_id = 0;
 }
 
 discord_sdk::~discord_sdk()
 {
-    app_id = 0;
-    core->~Core();
     singleton = nullptr;
+    delete core;
+    core = nullptr;
 }
 
 discord_sdk *discord_sdk::get_singleton()
@@ -208,8 +207,8 @@ void discord_sdk::clear(bool reset_values = false)
         }
         else
             old_app_id = app_id;
-        set_app_id(0);
-        core->~Core();
+        delete core;
+        core = nullptr;
     }
 }
 
