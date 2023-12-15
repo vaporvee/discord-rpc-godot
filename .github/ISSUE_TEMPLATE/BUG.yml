@@ -90,3 +90,5 @@ body:
           required: true
         - label: I tried restarting Discord and Godot completely.
           required: true
+        - label: I did read the [documentation](https://github.com/vaporvee/discord-sdk-godot/wiki)
+          required: true
