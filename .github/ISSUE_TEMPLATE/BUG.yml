@@ -23,7 +23,7 @@ body:
       label: Version
       description: What version of the Discord Game SDK Godot plugin are you running?
       options:
-        - R1.0.0
+        - 1.0.0
         - 0.3.2
         - 0.3.1
         - 0.3.0
