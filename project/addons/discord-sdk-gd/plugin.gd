@@ -13,7 +13,6 @@ func _enter_tree() -> void:
 	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
 
 func _enable_plugin() -> void:
-	GDExtensionManager.reload_extension("res://addons/discord-sdk-gd/bin/discord-rpc-gd.gdextension")
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore")
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/nodes/.gdignore"):
@@ -24,7 +23,6 @@ func _enable_plugin() -> void:
 	EditorInterface.popup_dialog_centered(restart_window)
 
 func _disable_plugin() -> void:
-	GDExtensionManager.unload_extension("res://addons/discord-sdk-gd/bin/discord-rpc-gd.gdextension")
 	remove_autoload_singleton("DiscordSDKAutoload")
 	FileAccess.open("res://addons/discord-sdk-gd/bin/.gdignore",FileAccess.WRITE)
 	FileAccess.open("res://addons/discord-sdk-gd/nodes/.gdignore",FileAccess.WRITE)
