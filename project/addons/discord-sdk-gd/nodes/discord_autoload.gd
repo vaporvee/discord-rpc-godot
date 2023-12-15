@@ -8,15 +8,16 @@
 extends Node
 class_name  DiscordSDKLoaderAutoload
 
-func  _process(_delta):
-	if(ProjectSettings.get_setting("DiscordSDK/EditorPresence/enabled") && Engine.is_editor_hint()):
-		if(discord_sdk.app_id != 1108142249990176808):
-			discord_sdk.app_id = 1108142249990176808
-			discord_sdk.details = ProjectSettings.get_setting("application/config/name")
-			discord_sdk.state = "Editing: \""+ str(get_tree().edited_scene_root.scene_file_path).replace("res://","") +"\""
-			discord_sdk.large_image = "godot"
-			discord_sdk.large_image_text = str(Engine.get_version_info().string)
-			discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
-			discord_sdk.refresh()
-	if(discord_sdk.app_id == 1108142249990176808 || !Engine.is_editor_hint()):
-		discord_sdk.run_callbacks()
+func  _process(_delta) -> void:
+	if GDExtensionManager.get_loaded_extensions().has("res://addons/discord-sdk-gd/bin/discord-rpc-gd.gdextension"):
+		if ProjectSettings.get_setting("DiscordSDK/EditorPresence/enabled",false) && Engine.is_editor_hint():
+			if discord_sdk.app_id != 1108142249990176808:
+				discord_sdk.app_id = 1108142249990176808
+				discord_sdk.details = ProjectSettings.get_setting("application/config/name")
+				discord_sdk.state = "Editing: \""+ str(get_tree().edited_scene_root.scene_file_path).replace("res://","") +"\""
+				discord_sdk.large_image = "godot"
+				discord_sdk.large_image_text = str(Engine.get_version_info().string)
+				discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
+				discord_sdk.refresh()
+		if discord_sdk.app_id == 1108142249990176808 || !Engine.is_editor_hint():
+			discord_sdk.run_callbacks()

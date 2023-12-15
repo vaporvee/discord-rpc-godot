@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://c1slhdnlsv2qt"]
 
-[ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://addons/discord-sdk-gd/nodes/assets/Checked.svg" id="2_q6tao"]
-[ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://addons/discord-sdk-gd/nodes/assets/Unchecked.svg" id="3_5cyem"]
-[ext_resource type="Texture2D" uid="uid://dtc6ckladq0td" path="res://addons/discord-sdk-gd/nodes/assets/circle.svg" id="3_goflf"]
+[ext_resource type="Texture2D" path="res://addons/discord-sdk-gd/nodes/assets/Checked.svg" id="2_q6tao"]
+[ext_resource type="Texture2D" path="res://addons/discord-sdk-gd/nodes/assets/Unchecked.svg" id="3_5cyem"]
+[ext_resource type="Texture2D" path="res://addons/discord-sdk-gd/nodes/assets/circle.svg" id="3_goflf"]
 
 [sub_resource type="GDScript" id="GDScript_ak1tp"]
 resource_name = "Debug"

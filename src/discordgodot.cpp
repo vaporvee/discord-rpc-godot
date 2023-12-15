@@ -93,7 +93,7 @@ discord_sdk::discord_sdk()
 discord_sdk::~discord_sdk()
 {
     singleton = nullptr;
-    delete core;
+    delete core; // couldn't use destructor because it would not compile on linux
     core = nullptr;
 }
 

@@ -1,10 +1,8 @@
 #!python
 import os
 
-# Gets the standard flags CC, CCX, etc.
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
-# Check our platform specifics
 if env["platform"] == "macos":
     discord_library = "libdiscord_game_sdk.dylib"
     discord_library_second = "libdiscord_game_sdk_aarch64.dylib"
@@ -25,19 +23,16 @@ if env["target"] == "template_debug":
 else:
     debugsuffix = ""
 
-# make sure our binding library is properly includes
 env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
 sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
-env.Append(
-    CPPPATH=["src/lib/discord_game_sdk/cpp/"]
-)  # this line for some reason doesn't get understanded by most linux distros
+env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])
 env.Append(LIBS=["discord_game_sdk"])
 
-# tweak this if you want to use different folders, or more folders, to store your source code in.
 env.Append(CPPPATH=["src/"])
 sources += Glob("src/*.cpp")
 
-# The finished exports
+env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
+
 library = env.SharedLibrary(
     target="project/addons/discord-sdk-gd/bin/"
     + libexportfolder

@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "lib/discord_game_sdk/cpp/discord.h"
-#include <godot_cpp/classes/ref_counted.hpp>
+#include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
 #define H_SET_GET(variable_type, property_name) \
@@ -13,7 +13,7 @@
 
 using namespace godot;
 
-class discord_sdk : public RefCounted
+class discord_sdk : public Object
 {
     GDCLASS(discord_sdk, Object);
 

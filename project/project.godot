@@ -19,6 +19,10 @@ boot_splash/image="res://assets/Banner_v1.png"
 boot_splash/fullsize=false
 config/icon="res://assets/Logo_V2.png"
 
+[autoload]
+
+DiscordSDKAutoload="*res://addons/discord-sdk-gd/nodes/discord_autoload.gd"
+
 [display]
 
 window/size/resizable=false
