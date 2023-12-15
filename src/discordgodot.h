@@ -34,7 +34,9 @@ public:
     Dictionary relationship2dict(discord::Relationship relationship);
     Dictionary user2dict(discord::User user);
     ///
-    H_SET_GET(int64_t, app_id)
+    void set_app_id(int64_t value);
+    int64_t get_app_id();
+    int64_t app_id = 0; // needs to be directly setted to 0 or it will crash randomly
     H_SET_GET(String, state)
     H_SET_GET(String, details)
     H_SET_GET(String, large_image)
