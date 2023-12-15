@@ -9,10 +9,10 @@ resource_name = "Debug"
 script/source = "extends Node
 
 func _ready():
-	discord_sdk.connect(\"activity_join_request\",_on_activity_join_request)
+	DiscordSDK.connect(\"activity_join_request\",_on_activity_join_request)
 
 func _process(_delta):
-	if(discord_sdk.get_is_discord_working()):
+	if(DiscordSDK.get_is_discord_working()):
 		$Panel/TextureRect.self_modulate = Color(\"#3eff8d\")
 		$Panel/TextureRect/AnimationPlayer.play(\"pulsate\")
 		debug_text_update()
@@ -45,7 +45,7 @@ Is party public: {ppublic} (needs to be activated in Discord client settings)
 
 Is instanced: {instanced}
 \"
-	$Panel/Info.text = $Panel/Info.text.replace(\"{ppublic}\",str(discord_sdk.is_public_party)).replace(\"{instanced}\",str(discord_sdk.instanced)).replace(\"{ssecret}\",discord_sdk.spectate_secret).replace(\"{jsecret}\",discord_sdk.join_secret).replace(\"{msecret}\",discord_sdk.match_secret).replace(\"{mpartysize}\",str(discord_sdk.max_party_size)).replace(\"{cpartysize}\",str(discord_sdk.current_party_size)).replace(\"{partyid}\",discord_sdk.party_id).replace(\"{id}\",str(discord_sdk.app_id)).replace(\"{details}\",discord_sdk.details).replace(\"{state}\",discord_sdk.state).replace(\"{lkey}\",discord_sdk.large_image).replace(\"{ltext}\",discord_sdk.large_image_text).replace(\"{skey}\",discord_sdk.small_image).replace(\"{stext}\",discord_sdk.small_image_text).replace(\"{stimestamp}\",str(discord_sdk.start_timestamp)).replace(\"{etimestamp}\",str(discord_sdk.end_timestamp))
+	$Panel/Info.text = $Panel/Info.text.replace(\"{ppublic}\",str(DiscordSDK.is_public_party)).replace(\"{instanced}\",str(DiscordSDK.instanced)).replace(\"{ssecret}\",DiscordSDK.spectate_secret).replace(\"{jsecret}\",DiscordSDK.join_secret).replace(\"{msecret}\",DiscordSDK.match_secret).replace(\"{mpartysize}\",str(DiscordSDK.max_party_size)).replace(\"{cpartysize}\",str(DiscordSDK.current_party_size)).replace(\"{partyid}\",DiscordSDK.party_id).replace(\"{id}\",str(DiscordSDK.app_id)).replace(\"{details}\",DiscordSDK.details).replace(\"{state}\",DiscordSDK.state).replace(\"{lkey}\",DiscordSDK.large_image).replace(\"{ltext}\",DiscordSDK.large_image_text).replace(\"{skey}\",DiscordSDK.small_image).replace(\"{stext}\",DiscordSDK.small_image_text).replace(\"{stimestamp}\",str(DiscordSDK.start_timestamp)).replace(\"{etimestamp}\",str(DiscordSDK.end_timestamp))
 
 var user_request = {};
 
@@ -55,25 +55,25 @@ func _on_activity_join_request(user_requesting):
 
 func _on_accept_join_request_pressed():
 	if(!user_request.is_empty()):
-		discord_sdk.accept_join_request(user_request.id)
+		DiscordSDK.accept_join_request(user_request.id)
 
 func _on_invite_with_user_id_text_submitted(new_text):
-	discord_sdk.send_invite(int(new_text),true,\"this is a test invite sent from godot\")
+	DiscordSDK.send_invite(int(new_text),true,\"this is a test invite sent from godot\")
 
 func _on_accept_with_user_id_text_submitted(new_text):
-	discord_sdk.accept_invite(int(new_text))
+	DiscordSDK.accept_invite(int(new_text))
 
 func _on_print_current_user_on_console_pressed():
-	print(discord_sdk.get_current_user())
+	print(DiscordSDK.get_current_user())
 
 func _on_toggle_sdk_toggled(button_pressed):
 	if(button_pressed):
-		discord_sdk.unclear()
+		DiscordSDK.unclear()
 	else:
-		discord_sdk.clear(false)
+		DiscordSDK.clear(false)
 
 func _on_print_friends_pressed():
-	print(discord_sdk.get_all_relationships())
+	print(DiscordSDK.get_all_relationships())
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8abo6"]

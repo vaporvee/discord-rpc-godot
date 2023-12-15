@@ -11,27 +11,27 @@ extends Node
 ## [codeblock]
 ## func _ready():
 ##     # Application ID
-##     discord_sdk.app_id = 1099618430065324082
+##     DiscordSDK.app_id = 1099618430065324082
 ##     # this is boolean if everything worked
-##     print("Discord working: " + str(discord_sdk.get_is_discord_working()))
+##     print("Discord working: " + str(DiscordSDK.get_is_discord_working()))
 ##     # Set the first custom text row of the activity here
-##     discord_sdk.details = "A demo activity by vaporvee#1231"
+##     DiscordSDK.details = "A demo activity by vaporvee#1231"
 ##     # Set the second custom text row of the activity here
-##     discord_sdk.state = "Checkpoint 23/23"
+##     DiscordSDK.state = "Checkpoint 23/23"
 ##     # Image key for small image from "Art Assets" from the Discord Developer website
-##     discord_sdk.large_image = "game"
+##     DiscordSDK.large_image = "game"
 ##     # Tooltip text for the large image
-##     discord_sdk.large_image_text = "Try it now!"
+##     DiscordSDK.large_image_text = "Try it now!"
 ##     # Image key for large image from "Art Assets" from the Discord Developer website
-##     discord_sdk.small_image = "boss"
+##     DiscordSDK.small_image = "boss"
 ##     # Tooltip text for the small image
-##     discord_sdk.small_image_text = "Fighting the end boss! D:"
+##     DiscordSDK.small_image_text = "Fighting the end boss! D:"
 ##     # "02:41 elapsed" timestamp for the activity
-##     discord_sdk.start_timestamp = int(Time.get_unix_time_from_system())
+##     DiscordSDK.start_timestamp = int(Time.get_unix_time_from_system())
 ##     # "59:59 remaining" timestamp for the activity
-##     discord_sdk.end_timestamp = int(Time.get_unix_time_from_system()) + 3600
+##     DiscordSDK.end_timestamp = int(Time.get_unix_time_from_system()) + 3600
 ##     # Always refresh after changing the values!
-##     discord_sdk.refresh() 
+##     DiscordSDK.refresh() 
 ## [/codeblock]
 ##
 ## @tutorial(More information here): https://github.com/vaporvee/discord-sdk-godot/wiki/Quick-start

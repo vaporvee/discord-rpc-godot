@@ -13,21 +13,21 @@
 
 using namespace godot;
 
-class discord_sdk : public Object
+class DiscordSDK : public Object
 {
-    GDCLASS(discord_sdk, Object);
+    GDCLASS(DiscordSDK, Object);
 
-    static discord_sdk *singleton;
+    static DiscordSDK *singleton;
 
 protected:
     static void _bind_methods();
 
 public:
-    static discord_sdk *
+    static DiscordSDK *
     get_singleton();
 
-    discord_sdk();
-    ~discord_sdk();
+    DiscordSDK();
+    ~DiscordSDK();
 
     // INTERBNAL
     int64_t old_app_id;
