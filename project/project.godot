@@ -21,7 +21,7 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-DiscordSDKAutoload="*res://addons/discord-sdk-gd/nodes/discord_autoload.gd"
+DiscordSDKLoader="*res://addons/discord-sdk-gd/nodes/discord_autoload.gd"
 
 [display]
 

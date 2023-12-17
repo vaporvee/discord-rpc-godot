@@ -6,7 +6,6 @@
 ## @tutorial: https://github.com/vaporvee/discord-sdk-godot/wiki
 @tool
 extends Node
-class_name  DiscordSDKLoaderAutoload
 
 func  _process(_delta) -> void:
 	if GDExtensionManager.get_loaded_extensions().has("res://addons/discord-sdk-gd/bin/discord-rpc-gd.gdextension"):

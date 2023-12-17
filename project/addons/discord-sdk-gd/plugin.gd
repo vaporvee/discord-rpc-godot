@@ -15,18 +15,18 @@ func _enter_tree() -> void:
 func _enable_plugin() -> void:
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore")
-	add_autoload_singleton("DiscordSDKAutoload","res://addons/discord-sdk-gd/nodes/discord_autoload.gd")
+	add_autoload_singleton("DiscordSDKLoader","res://addons/discord-sdk-gd/nodes/discord_autoload.gd")
 	restart_window.connect("confirmed", save_no_restart)
 	restart_window.connect("canceled", save_and_restart)
 	EditorInterface.popup_dialog_centered(restart_window)
-	print("IGNORE THE RED ERROR MESSAGES BEFORE THE SECOND RESTART!")
+	print("IGNORE RED ERROR MESSAGES BEFORE THE SECOND RESTART!")
 
 func _disable_plugin() -> void:
-	remove_autoload_singleton("DiscordSDKAutoload")
+	remove_autoload_singleton("DiscordSDKLoader")
 	FileAccess.open("res://addons/discord-sdk-gd/bin/.gdignore",FileAccess.WRITE)
 	remove_custom_type("DiscordSDKDebug")
 	ProjectSettings.clear("DiscordSDK/EditorPresence/enabled")
-	push_warning("Please restart the editor to dully disable the DiscordSDK plugin")
+	push_warning("Please restart the editor to fully disable the DiscordSDK plugin")
 
 func save_and_restart() -> void:
 	EditorInterface.save_all_scenes()
