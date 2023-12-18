@@ -8,9 +8,7 @@ var restart_window: ConfirmationDialog = preload("res://addons/discord-sdk-gd/re
 
 func _enter_tree() -> void:
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
-	ProjectSettings.set_setting("DiscordSDK/EditorPresence/enabled",false)
-	ProjectSettings.set_as_basic("DiscordSDK/EditorPresence/enabled",true)
-	ProjectSettings.set_initial_value("DiscordSDK/EditorPresence/enabled",false)
+	EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",false)
 
 func _enable_plugin() -> void:
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):
@@ -25,7 +23,7 @@ func _disable_plugin() -> void:
 	remove_autoload_singleton("DiscordSDKLoader")
 	FileAccess.open("res://addons/discord-sdk-gd/bin/.gdignore",FileAccess.WRITE)
 	remove_custom_type("DiscordSDKDebug")
-	ProjectSettings.clear("DiscordSDK/EditorPresence/enabled")
+	EditorInterface.get_editor_settings().erase("DiscordSDK/EditorPresence/enabled")
 	push_warning("Please restart the editor to fully disable the DiscordSDK plugin")
 
 func save_and_restart() -> void:
