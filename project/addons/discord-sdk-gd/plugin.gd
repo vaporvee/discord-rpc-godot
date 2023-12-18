@@ -38,11 +38,11 @@ func save_and_restart() -> void:
 func save_no_restart() -> void:
 	EditorInterface.restart_editor(false)
 	
-var editor_presence
+var editor_presence: Node
 func _on_editor_settings_changed() -> void:
 	if ClassDB.class_exists("EditorPresence") && editor_presence == null:
 		editor_presence = ClassDB.instantiate("EditorPresence")
 	if EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled") && EditorInterface.get_editor_settings().get_setting("DiscordSDK/EditorPresence/enabled"):
 		add_child(editor_presence)
 	else:
-		remove_child(editor_presence)
+		editor_presence.queue_free()

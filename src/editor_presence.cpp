@@ -15,6 +15,8 @@ EditorPresence::EditorPresence()
 EditorPresence::~EditorPresence()
 {
     singleton = nullptr;
+    delete core; // couldn't use destructor because it would not compile on linux
+    core = nullptr;
 }
 EditorPresence *EditorPresence::get_singleton()
 {
