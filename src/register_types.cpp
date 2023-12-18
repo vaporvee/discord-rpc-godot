@@ -7,6 +7,7 @@
 #include <godot_cpp/godot.hpp>
 
 #include "discordgodot.h"
+#include "editor_presence.h"
 using namespace godot;
 
 static DiscordSDK *discordsdk;
@@ -18,6 +19,7 @@ void initialize_discordsdk_module(ModuleInitializationLevel p_level)
         ClassDB::register_class<DiscordSDK>();
         discordsdk = memnew(DiscordSDK);
         Engine::get_singleton()->register_singleton("DiscordSDK", DiscordSDK::get_singleton());
+        ClassDB::register_class<EditorPresence>();
     }
 }
 

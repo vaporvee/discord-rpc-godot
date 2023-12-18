@@ -8,9 +8,14 @@ var restart_window: ConfirmationDialog = preload("res://addons/discord-sdk-gd/re
 
 func _enter_tree() -> void:
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
-	EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",false)
+	EditorInterface.get_editor_settings().settings_changed.connect(_on_editor_settings_changed)
+
+func  _ready() -> void:
+	await RenderingServer.frame_post_draw
+	_on_editor_settings_changed()
 
 func _enable_plugin() -> void:
+	EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",false)
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore")
 	add_autoload_singleton("DiscordSDKLoader","res://addons/discord-sdk-gd/nodes/discord_autoload.gd")
@@ -32,3 +37,12 @@ func save_and_restart() -> void:
 
 func save_no_restart() -> void:
 	EditorInterface.restart_editor(false)
+	
+var editor_presence
+func _on_editor_settings_changed() -> void:
+	if ClassDB.class_exists("EditorPresence") && editor_presence == null:
+		editor_presence = ClassDB.instantiate("EditorPresence")
+	if EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled") && EditorInterface.get_editor_settings().get_setting("DiscordSDK/EditorPresence/enabled"):
+		add_child(editor_presence)
+	else:
+		remove_child(editor_presence)

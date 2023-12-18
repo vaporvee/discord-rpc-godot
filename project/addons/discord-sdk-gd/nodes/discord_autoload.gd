@@ -6,16 +6,8 @@
 ## @tutorial: https://github.com/vaporvee/discord-sdk-godot/wiki
 extends Node
 
+func _ready() -> void:
+	pass
+
 func  _process(_delta) -> void:
-	#if GDExtensionManager.get_loaded_extensions().has("res://addons/discord-sdk-gd/bin/discord-rpc-gd.gdextension"):
-		#if EditorInterface.get_editor_settings().get_setting("DiscordSDK/EditorPresence/enabled") && Engine.is_editor_hint():
-			#if DiscordSDK.app_id != 1108142249990176808:
-				#DiscordSDK.app_id = 1108142249990176808
-				#DiscordSDK.details = ProjectSettings.get_setting("application/config/name")
-				#DiscordSDK.state = "Editing: \""+ str(get_tree().edited_scene_root.scene_file_path).replace("res://","") +"\""
-				#DiscordSDK.large_image = "godot"
-				#DiscordSDK.large_image_text = str(Engine.get_version_info().string)
-				#DiscordSDK.start_timestamp = int(Time.get_unix_time_from_system())
-				#DiscordSDK.refresh()
-		#if DiscordSDK.app_id == 1108142249990176808 || !Engine.is_editor_hint():
 	DiscordSDK.run_callbacks()
