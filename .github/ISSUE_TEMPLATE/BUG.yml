@@ -1,6 +1,6 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug/Crash]: "
+name: Error
+description: Get help with an error or report a bug
+title: "[Issue/Bug]: "
 labels: ["bug"]
 assignees:
   - vaporvee
