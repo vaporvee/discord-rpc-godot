@@ -5,6 +5,7 @@ const DiscordSDKDebug = preload("res://addons/discord-sdk-gd/nodes/debug.gd")
 const DiscordSDKDebug_icon = preload("res://addons/discord-sdk-gd/Debug.svg")
 var loaded_DiscordSDKDebug = DiscordSDKDebug.new()
 var restart_window: ConfirmationDialog = preload("res://addons/discord-sdk-gd/restart_window.tscn").instantiate()
+var plugin_cfg: ConfigFile = ConfigFile.new()
 
 func _enter_tree() -> void:
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
@@ -12,10 +13,15 @@ func _enter_tree() -> void:
 
 func  _ready() -> void:
 	await RenderingServer.frame_post_draw
-	_on_editor_settings_changed()
+	plugin_cfg.load("res://addons/discord-sdk-gd/plugin.cfg")
+	if !EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled"):
+		EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",plugin_cfg.get_value("plugin","editor_presence",false))
+
+func _exit_tree():
+	if EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled"):
+		EditorInterface.get_editor_settings().erase("DiscordSDK/EditorPresence/enabled")
 
 func _enable_plugin() -> void:
-	EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",false)
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-sdk-gd/bin/.gdignore")
 	add_autoload_singleton("DiscordSDKLoader","res://addons/discord-sdk-gd/nodes/discord_autoload.gd")
@@ -40,6 +46,8 @@ func save_no_restart() -> void:
 	
 var editor_presence: Node
 func _on_editor_settings_changed() -> void:
+	plugin_cfg.set_value("plugin","editor_presence",EditorInterface.get_editor_settings().get_setting("DiscordSDK/EditorPresence/enabled"))
+	plugin_cfg.save("res://addons/discord-sdk-gd/plugin.cfg")
 	if ClassDB.class_exists("EditorPresence") && editor_presence == null:
 		editor_presence = ClassDB.instantiate("EditorPresence")
 	if EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled") && EditorInterface.get_editor_settings().get_setting("DiscordSDK/EditorPresence/enabled"):
