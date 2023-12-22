@@ -23,6 +23,11 @@ if env["target"] == "template_debug":
 else:
     debugsuffix = ""
 
+if env.get("arch") == "arm64":
+    armsuffix = "_arm64"
+else:
+    armsuffix = ""
+
 env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
 sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
 env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])
@@ -37,6 +42,7 @@ library = env.SharedLibrary(
     target="project/addons/discord-sdk-gd/bin/"
     + libexportfolder
     + "discord_game_sdk_binding"
+    + armsuffix
     + debugsuffix,
     source=sources,
 )
