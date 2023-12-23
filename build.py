@@ -1,4 +1,5 @@
 import os
+import platform
 import sys
 
 yes = {"yes", "y", "ye", ""}
@@ -16,15 +17,16 @@ if choice in yes:
         "python -m SCons && python -m SCons target=template_release && cd project && godot"
     )
 elif choice in no:
-    if os.name == "nt":  # Windows
+    system = platform.system()
+    if system == "Windows": # Windows
         os.system(
-            "python -m SCons && python -m SCons target=template_release && godot project\project.godot"
+            "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
         )
-    elif os.name == "darwin":  # macOS
+    elif system == "Darwin":  # macOS
         os.system(
             "python -m SCons target=template_release arch=x86_64 && python -m SCons target=template_debug arch=x86_64 && python -m SCons target=template_release arch=arm64 && python -m SCons target=template_debug arch=arm64 && godot project/project.godot"
         )
-    else:
+    else:  # Linux
         os.system(
             "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
         )
