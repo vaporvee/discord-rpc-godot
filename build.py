@@ -18,6 +18,7 @@ if choice in yes:
     )
 elif choice in no:
     system = platform.system()
+    print("Building for: '%s'" % (system))
     if system == "Windows": # Windows
         os.system(
             "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
