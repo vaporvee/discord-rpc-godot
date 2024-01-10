@@ -11,9 +11,10 @@ const plugin_data_filename = "/plugin_data.cfg"
 func _enter_tree() -> void:
 	add_custom_type("DiscordSDKDebug","Node",DiscordSDKDebug,DiscordSDKDebug_icon)
 	EditorInterface.get_editor_settings().settings_changed.connect(_on_editor_settings_changed)
-	await RenderingServer.frame_post_draw
+
+func _ready() -> void:
+	await get_tree().create_timer(0.5).timeout
 	plugin_cfg.load(EditorInterface.get_editor_paths().get_data_dir() + plugin_data_filename)
-	print(EditorInterface.get_editor_paths().get_data_dir())
 	if !EditorInterface.get_editor_settings().has_setting("DiscordSDK/EditorPresence/enabled"):
 		EditorInterface.get_editor_settings().set_setting("DiscordSDK/EditorPresence/enabled",plugin_cfg.get_value("Discord","editor_presence",false))
 
