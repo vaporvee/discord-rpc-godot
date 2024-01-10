@@ -93,6 +93,7 @@ DiscordSDK::DiscordSDK()
 DiscordSDK::~DiscordSDK()
 {
     singleton = nullptr;
+    app_id = 0;
     delete core; // couldn't use destructor because it would not compile on linux
     core = nullptr;
 }
@@ -207,6 +208,7 @@ void DiscordSDK::clear(bool reset_values = false)
         }
         else
             old_app_id = app_id;
+        app_id = 0;
         delete core;
         core = nullptr;
     }
