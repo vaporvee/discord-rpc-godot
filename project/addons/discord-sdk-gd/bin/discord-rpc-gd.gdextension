@@ -5,10 +5,10 @@ compatibility_minimum = 4.2
 
 [libraries]
 
-macos.debug.x86_64 = "macos/libdiscord_game_sdk_binding_debug.dylib"
-macos.release.x86_64 = "macos/libdiscord_game_sdk_binding.dylib"
-macos.debug.arm64 = "macos/libdiscord_game_sdk_binding_arm64_debug.dylib"
-macos.release.arm64 = "macos/libdiscord_game_sdk_binding_arm64.dylib"
+macos.debug.x86_64 = "macos/discord_game_sdk_binding_debug.dylib"
+macos.release.x86_64 = "macos/discord_game_sdk_binding.dylib"
+macos.debug.arm64 = "macos/discord_game_sdk_binding_arm64_debug.dylib"
+macos.release.arm64 = "macos/discord_game_sdk_binding_arm64.dylib"
 windows.debug.x86_64 = "windows/discord_game_sdk_binding_debug.dll"
 windows.release.x86_64 = "windows/discord_game_sdk_binding.dll"
 linux.debug.x86_64 = "linux/libdiscord_game_sdk_binding_debug.so"
@@ -20,10 +20,10 @@ linux.release.rv64 = "linux/libdiscord_game_sdk_binding.so"
 
 [dependencies]
 
-macos.debug.x86_64 = { "macos/libdiscord_game_sdk.dylib": "" }
-macos.release.x86_64 = { "macos/libdiscord_game_sdk.dylib": "" }
-macos.debug.arm64 = { "macos/libdiscord_game_sdk_aarch64": "" }
-macos.release.arm64 = { "macos/libdiscord_game_sdk_aarch64": "" }
+macos.debug.x86_64 = { "macos/discord_game_sdk.dylib": "" }
+macos.release.x86_64 = { "macos/discord_game_sdk.dylib": "" }
+macos.debug.arm64 = { "macos/discord_game_sdk_aarch64": "" }
+macos.release.arm64 = { "macos/discord_game_sdk_aarch64": "" }
 windows.debug.x86_64 = { "windows/discord_game_sdk.dll": "" }
 windows.release.x86_64 = { "windows/discord_game_sdk.dll": "" }
 linux.debug.x86_64 = { "linux/libdiscord_game_sdk.so": "" }

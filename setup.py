@@ -15,11 +15,7 @@ with open("src/lib/discord_game_sdk/cpp/types.h", "r+") as f:
 copy_tree("src/lib/discord_game_sdk/lib/", "src/lib/discord_game_sdk/bin/")
 os.rename(
     "src/lib/discord_game_sdk/bin/aarch64/discord_game_sdk.dylib",
-    "src/lib/discord_game_sdk/bin/aarch64/libdiscord_game_sdk_aarch64.dylib",
-)
-os.rename(
-    "src/lib/discord_game_sdk/bin/x86_64/discord_game_sdk.dylib",
-    "src/lib/discord_game_sdk/bin/x86_64/libdiscord_game_sdk.dylib",
+    "src/lib/discord_game_sdk/bin/aarch64/discord_game_sdk_aarch64.dylib",
 )
 os.rename(
     "src/lib/discord_game_sdk/bin/x86_64/discord_game_sdk.so",
