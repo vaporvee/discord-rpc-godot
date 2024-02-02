@@ -23,3 +23,6 @@ src/lib/discord_game_sdk/
 
 # release.py
 release/
+
+# venv
+venv/
