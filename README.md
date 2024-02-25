@@ -3,7 +3,7 @@
 
 **Discord Game SDK support for GDScript in Godot Engine 4.2. with the easiest code pattern!**<br><br>
 <br />
-[My Discord Server](https://discord.gg/EBdaTefpWy)
+### [My Discord Server](https://discord.gg/EBdaTefpWy)
 # [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-sdk-godot#quick-start)
 <br />
 
