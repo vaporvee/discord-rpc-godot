@@ -8,7 +8,6 @@
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/time.hpp>
-#include <godot_cpp/classes/editor_interface.hpp>
 
 using namespace godot;
 
@@ -28,7 +27,6 @@ public:
     godot::Engine *engine = godot::Engine::get_singleton();
     godot::ProjectSettings *project_settings = godot::ProjectSettings::get_singleton();
     godot::Time *time = godot::Time::get_singleton();
-    godot::EditorInterface *editor_interface = godot::EditorInterface::get_singleton();
 
     discord::Core *core{};
     discord::Result result;
