@@ -19,8 +19,10 @@ build/
 *.exp
 *.lib
 
-#Clean files from the Game SDK
+#Clean files from setup.py
 src/lib/discord_game_sdk/
+src/lib/godot-cpp/
+src/lib/godot-cpp.zip
 
 # release.py
 release/
