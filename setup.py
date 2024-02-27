@@ -2,6 +2,7 @@ import zipfile
 from distutils.dir_util import copy_tree
 import shutil
 import os
+import sys
 
 with zipfile.ZipFile("src/lib/discord_game_sdk.zip", "r") as zip_ref:
     zip_ref.extractall("src/lib/discord_game_sdk/")
@@ -42,5 +43,15 @@ shutil.rmtree("src/lib/discord_game_sdk/bin/aarch64/", ignore_errors=True)
 shutil.rmtree("src/lib/discord_game_sdk/bin/x86/", ignore_errors=True)
 shutil.rmtree("src/lib/discord_game_sdk/bin/x86_64/", ignore_errors=True)
 os.remove("src/lib/discord_game_sdk/README.md")
+
+if sys.platform == "darwin":
+    # Combine the two libraries into one
+    os.system("lipo src/lib/discord_game_sdk/bin/{discord_game_sdk.dylib,discord_game_sdk_aarch64.dylib} -output src/lib/discord_game_sdk/bin/libdiscord_game_sdk.dylib -create")
+    # Change the install name to (library's location)/(its new name)
+    os.system("install_name_tool -id '@loader_path/libdiscord_game_sdk.dylib'\
+    src/lib/discord_game_sdk/bin/libdiscord_game_sdk.dylib")
+    # Remove the ones it's made of
+    os.remove("src/lib/discord_game_sdk/bin/discord_game_sdk.dylib")
+    os.remove("src/lib/discord_game_sdk/bin/discord_game_sdk_aarch64.dylib")
 
 os.system("git submodule update --init --remote")
