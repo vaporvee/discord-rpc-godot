@@ -28,6 +28,7 @@ void uninitialize_discordsdk_module(ModuleInitializationLevel p_level)
     if (p_level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
         Engine::get_singleton()->unregister_singleton("DiscordSDK");
+        memdelete(discordsdk);
     }
 }
 

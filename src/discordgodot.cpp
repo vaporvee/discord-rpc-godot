@@ -87,15 +87,17 @@ SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discord::Act
 
 DiscordSDK::DiscordSDK()
 {
+    ERR_FAIL_COND(singleton != nullptr);
     singleton = this;
 }
 
 DiscordSDK::~DiscordSDK()
 {
-    singleton = nullptr;
     app_id = 0;
     delete core; // couldn't use destructor because it would not compile on linux
     core = nullptr;
+    ERR_FAIL_COND(singleton != this);
+    singleton = nullptr;
 }
 
 DiscordSDK *DiscordSDK::get_singleton()
