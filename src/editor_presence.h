@@ -8,6 +8,7 @@
 #include <godot_cpp/classes/project_settings.hpp>
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/classes/time.hpp>
+#include <godot_cpp/classes/tree.hpp>
 
 using namespace godot;
 

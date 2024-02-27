@@ -33,7 +33,7 @@ func set_activity() -> void:
 	DiscordSDK.is_public_party = true
 	DiscordSDK.instanced = true #required for spectate
 	#DiscordSDK.start_timestamp = int(Time.get_unix_time_from_system())
-	DiscordSDK.register_command(r"C:\Users\yanni\Desktop\demo\DiscordSDK.exe")
+	DiscordSDK.register_command("C:\\Users\\yanni\\Desktop\\demo\\DiscordSDK.exe")
 	#DiscordSDK.register_steam(1389990)
 	DiscordSDK.refresh()
 
