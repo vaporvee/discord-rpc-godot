@@ -8,6 +8,7 @@
 .sconsign.dblite
 *.pyc
 
+
 # MacOS
 .DS_Store
 
@@ -18,11 +19,10 @@ build/
 *.obj
 *.exp
 *.lib
+*.a
 
 #Clean files from setup.py
 src/lib/discord_game_sdk/
-src/lib/godot-cpp/
-src/lib/godot-cpp.zip
 
 # release.py
 release/
