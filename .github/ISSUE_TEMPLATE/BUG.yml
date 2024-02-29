@@ -23,6 +23,7 @@ body:
       label: Version
       description: What version of the Discord Game SDK Godot plugin are you running?
       options:
+        - 1.2.0
         - 1.1.0
         - 1.0.1
         - 1.0.0
@@ -88,7 +89,7 @@ body:
     attributes:
       label: Checks
       description: Common mistakes (Adding more in the future sorry btw)
-      options: 
+      options:
         - label: I tried reinstalling the addon or tried to fix it myself with other methods.
           required: true
         - label: I tried restarting Discord and Godot completely.
