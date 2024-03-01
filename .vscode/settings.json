@@ -4,7 +4,7 @@
         "${workspaceFolder}/src/lib/godot-cpp/include"
     ],
     "files.associations": {
-        "*.gdextension": "config-definition"
+        "*.gdextension": "ini"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
