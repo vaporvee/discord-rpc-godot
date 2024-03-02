@@ -5,10 +5,8 @@ compatibility_minimum = 4.1
 
 [libraries]
 
-macos.debug.x86_64 = "macos/libdiscord_game_sdk_binding_debug.dylib"
-macos.release.x86_64 = "macos/libdiscord_game_sdk_binding.dylib"
-macos.debug.arm64 = "macos/libdiscord_game_sdk_binding_arm64_debug.dylib"
-macos.release.arm64 = "macos/libdiscord_game_sdk_binding_arm64.dylib"
+macos.debug = "macos/libdiscord_game_sdk_binding_debug.dylib"
+macos.release = "macos/libdiscord_game_sdk_binding.dylib"
 windows.debug.x86_64 = "windows/discord_game_sdk_binding_debug.dll"
 windows.release.x86_64 = "windows/discord_game_sdk_binding.dll"
 linux.debug.x86_64 = "linux/libdiscord_game_sdk_binding_debug.so"
