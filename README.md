@@ -1,8 +1,9 @@
 <img src="/project/assets/Banner.svg" alt="Project Banner" />
 
-
-**Discord Game SDK support for GDScript for Godot Engine 4.1.3-4.X**
-<br><br>
+### This is for the Discord Game SDK NOT the Embedded App SDK
+**Discord will probably release an updated library soon. Stay tuned!**
+<br><br><br><br>
+Discord Game SDK support for GDScript for Godot Engine 4.1.3-4.X
 <br />
 ### [My Discord Server](https://discord.gg/EBdaTefpWy)
 # [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-sdk-godot#quick-start)
