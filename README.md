@@ -12,7 +12,7 @@ Discord Game SDK support for GDScript for Godot Engine 4.1.3-4.X
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
 
 # Features
-- Activities (Make people see what you are playing)
+- Rich Presence (Make people see what you are playing)
 - Invites
 - Steam and launch command registering
 - User information
