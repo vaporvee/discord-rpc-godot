@@ -1,10 +1,10 @@
 <img src="/project/assets/Banner.svg" alt="Project Banner" />
 
 
-**Discord Game SDK support for GDScript in Godot Engine 4.2. with the easiest code pattern!**<br><br>
+**Discord Game RPC support for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
 ### [My Discord Server](https://discord.gg/EBdaTefpWy)
-# [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-sdk-godot#quick-start)
+# [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-rpc-godot#quick-start)
 <br />
 
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
@@ -17,7 +17,7 @@
 - Relationship Manager (Get friendlist and its updates)
 - Overlay management
 - Editor Presence (optional)
-<img width="600px" src="https://raw.githubusercontent.com/vaporvee/discord-sdk-godot/main/project/assets/GodotEditorPresenceBanner.png">
+<img width="600px" src="https://raw.githubusercontent.com/vaporvee/discord-rpc-godot/main/project/assets/GodotEditorPresenceBanner.png">
 <br />
 
 <br />

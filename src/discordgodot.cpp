@@ -3,27 +3,27 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 
-#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &DiscordSDK::method)
+#define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &DiscordRPC::method)
 #define BIND_SET_GET(property_name, variant_type)                                                                  \
-    godot::ClassDB::bind_method(D_METHOD("get_" #property_name), &DiscordSDK::get_##property_name);                \
-    godot::ClassDB::bind_method(D_METHOD("set_" #property_name, #variant_type), &DiscordSDK::set_##property_name); \
+    godot::ClassDB::bind_method(D_METHOD("get_" #property_name), &DiscordRPC::get_##property_name);                \
+    godot::ClassDB::bind_method(D_METHOD("set_" #property_name, #variant_type), &DiscordRPC::set_##property_name); \
     godot::ClassDB::add_property(get_class_static(), PropertyInfo(variant_type, #property_name), "set_" #property_name, "get_" #property_name)
 #define BIND_SIGNAL(signal_name, ...) godot::ClassDB::add_signal(get_class_static(), MethodInfo(#signal_name, ##__VA_ARGS__))
 #define SET_GET(variable, setter, ...) /*getter isn't mandatory for this project*/   \
-    decltype(DiscordSDK::variable) DiscordSDK::get_##variable() { return variable; } \
-    void DiscordSDK::set_##variable(decltype(DiscordSDK::variable) value)            \
+    decltype(DiscordRPC::variable) DiscordRPC::get_##variable() { return variable; } \
+    void DiscordRPC::set_##variable(decltype(DiscordRPC::variable) value)            \
     {                                                                                \
         variable = value;                                                            \
         setter;                                                                      \
     }
 
-DiscordSDK *DiscordSDK::singleton = nullptr;
+DiscordRPC *DiscordRPC::singleton = nullptr;
 discord::Core *core{};
 discord::Result result;
 discord::Activity activity{};
 discord::User user{};
 
-void DiscordSDK::_bind_methods()
+void DiscordRPC::_bind_methods()
 {
     BIND_SET_GET(app_id, Variant::INT);
     BIND_SET_GET(state, Variant::STRING);
@@ -51,7 +51,7 @@ void DiscordSDK::_bind_methods()
     BIND_METHOD(debug);
     BIND_METHOD(run_callbacks);
     BIND_METHOD(refresh);
-    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &DiscordSDK::clear, DEFVAL(false));
+    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &DiscordRPC::clear, DEFVAL(false));
     BIND_METHOD(unclear);
     BIND_METHOD(register_command, "command");
     BIND_METHOD(register_steam, "steam_id");
@@ -85,13 +85,13 @@ SET_GET(spectate_secret, activity.GetSecrets().SetSpectate(value.utf8().get_data
 SET_GET(instanced, activity.SetInstance(value))
 SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discord::ActivityPartyPrivacy>(value)))
 
-DiscordSDK::DiscordSDK()
+DiscordRPC::DiscordRPC()
 {
     ERR_FAIL_COND(singleton != nullptr);
     singleton = this;
 }
 
-DiscordSDK::~DiscordSDK()
+DiscordRPC::~DiscordRPC()
 {
     app_id = 0;
     delete core; // couldn't use destructor because it would not compile on linux
@@ -100,17 +100,17 @@ DiscordSDK::~DiscordSDK()
     singleton = nullptr;
 }
 
-DiscordSDK *DiscordSDK::get_singleton()
+DiscordRPC *DiscordRPC::get_singleton()
 {
     return singleton;
 }
 
-void DiscordSDK::run_callbacks()
+void DiscordRPC::run_callbacks()
 {
     if (result == discord::Result::Ok && app_id > 0)
         ::core->RunCallbacks();
 }
-void DiscordSDK::debug()
+void DiscordRPC::debug()
 {
     result = discord::Core::Create(1080224638845591692, DiscordCreateFlags_NoRequireDiscord, &core);
     activity.SetState("Test from Godot!");
@@ -128,7 +128,7 @@ void DiscordSDK::debug()
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
-void DiscordSDK::set_app_id(int64_t value)
+void DiscordRPC::set_app_id(int64_t value)
 {
     app_id = value;
     if (app_id > 0)
@@ -143,34 +143,34 @@ void DiscordSDK::set_app_id(int64_t value)
             core->UserManager().GetCurrentUser(&user); });
             // signals
             core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
-                                                           { DiscordSDK::get_singleton()
+                                                           { DiscordRPC::get_singleton()
                                                                  ->emit_signal("activity_join", secret); });
             core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
-                                                               { DiscordSDK::get_singleton()
+                                                               { DiscordRPC::get_singleton()
                                                                      ->emit_signal("activity_spectate", secret); });
             core->ActivityManager().OnActivityJoinRequest.Connect([this](discord::User const &user)
-                                                                  { DiscordSDK::get_singleton()
+                                                                  { DiscordRPC::get_singleton()
                                                                         ->emit_signal("activity_join_request", user2dict(user)); });
             core->OverlayManager().OnToggle.Connect([](bool is_locked)
-                                                    { DiscordSDK::get_singleton()
+                                                    { DiscordRPC::get_singleton()
                                                           ->emit_signal("overlay_toggle", is_locked); });
             core->RelationshipManager().OnRefresh.Connect([&]()
-                                                          { DiscordSDK::get_singleton()
+                                                          { DiscordRPC::get_singleton()
                                                                 ->emit_signal("relationships_init"); });
             core->RelationshipManager().OnRelationshipUpdate.Connect([&](discord::Relationship const &relationship)
-                                                                     { DiscordSDK::get_singleton()
+                                                                     { DiscordRPC::get_singleton()
                                                                            ->emit_signal("updated_relationship", relationship2dict(relationship)); });
         }
     }
 }
-int64_t DiscordSDK::get_app_id()
+int64_t DiscordRPC::get_app_id()
 {
     if (app_id != 0)
         return app_id;
     return old_app_id;
 }
 
-void DiscordSDK::refresh()
+void DiscordRPC::refresh()
 {
     if (get_is_discord_working())
     {
@@ -182,7 +182,7 @@ void DiscordSDK::refresh()
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
 }
 
-void DiscordSDK::clear(bool reset_values = false)
+void DiscordRPC::clear(bool reset_values = false)
 {
     if (get_is_discord_working())
     {
@@ -216,7 +216,7 @@ void DiscordSDK::clear(bool reset_values = false)
     }
 }
 
-void DiscordSDK::unclear()
+void DiscordRPC::unclear()
 {
     if (old_app_id > 0)
     {
@@ -228,69 +228,69 @@ void DiscordSDK::unclear()
         UtilityFunctions::push_warning("Discord Activity couldn't be uncleared. Maybe it didn't get cleared before?");
 }
 
-bool DiscordSDK::get_is_overlay_enabled()
+bool DiscordRPC::get_is_overlay_enabled()
 {
     bool ie;
     if (get_is_discord_working())
         core->OverlayManager().IsEnabled(&ie);
     return ie;
 }
-bool DiscordSDK::get_is_overlay_locked()
+bool DiscordRPC::get_is_overlay_locked()
 {
     bool il;
     if (get_is_discord_working())
         core->OverlayManager().IsLocked(&il);
     return il;
 }
-void DiscordSDK::set_is_overlay_locked(bool value)
+void DiscordRPC::set_is_overlay_locked(bool value)
 {
     is_overlay_locked = value;
     if (get_is_discord_working())
         core->OverlayManager().SetLocked(value, {});
 }
-void DiscordSDK::open_invite_overlay(bool is_spectate)
+void DiscordRPC::open_invite_overlay(bool is_spectate)
 {
     if (get_is_discord_working())
         core->OverlayManager().OpenActivityInvite(static_cast<discord::ActivityActionType>(is_spectate + 1), {});
 }
-void DiscordSDK::open_server_invite_overlay(String invite_code)
+void DiscordRPC::open_server_invite_overlay(String invite_code)
 {
     if (get_is_discord_working())
         core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
 }
-void DiscordSDK::open_voice_settings()
+void DiscordRPC::open_voice_settings()
 {
     if (get_is_discord_working())
         core->OverlayManager().OpenVoiceSettings({});
 }
 
-void DiscordSDK::accept_join_request(int64_t user_id)
+void DiscordRPC::accept_join_request(int64_t user_id)
 {
     if (get_is_discord_working())
         core->ActivityManager().SendRequestReply(user_id, static_cast<discord::ActivityJoinRequestReply>(1), {});
 }
-void DiscordSDK::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
+void DiscordRPC::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
 {
     if (get_is_discord_working())
         core->ActivityManager().SendInvite(user_id, static_cast<discord::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
 }
-void DiscordSDK::accept_invite(int64_t user_id)
+void DiscordRPC::accept_invite(int64_t user_id)
 {
     if (get_is_discord_working())
         core->ActivityManager().AcceptInvite(user_id, {});
 }
 
-void DiscordSDK::register_command(String value)
+void DiscordRPC::register_command(String value)
 {
     if (get_is_discord_working())
         core->ActivityManager().RegisterCommand(value.utf8().get_data());
 }
-void DiscordSDK::register_steam(int32_t value)
+void DiscordRPC::register_steam(int32_t value)
 {
     if (get_is_discord_working())
         core->ActivityManager().RegisterSteam(value);
 }
-Dictionary DiscordSDK::get_current_user()
+Dictionary DiscordRPC::get_current_user()
 {
     Dictionary userdict;
     if (get_is_discord_working())
@@ -302,7 +302,7 @@ Dictionary DiscordSDK::get_current_user()
     return userdict;
 }
 
-Dictionary DiscordSDK::get_relationship(int64_t user_id)
+Dictionary DiscordRPC::get_relationship(int64_t user_id)
 {
     if (get_is_discord_working())
     {
@@ -314,7 +314,7 @@ Dictionary DiscordSDK::get_relationship(int64_t user_id)
     return dict;
 }
 
-Array DiscordSDK::get_all_relationships()
+Array DiscordRPC::get_all_relationships()
 {
     Array all_relationships;
     core->RelationshipManager().Filter(
@@ -331,12 +331,12 @@ Array DiscordSDK::get_all_relationships()
     return all_relationships;
 }
 
-int DiscordSDK::get_result_int()
+int DiscordRPC::get_result_int()
 {
     return static_cast<int>(result);
 }
 
-Dictionary DiscordSDK::user2dict(discord::User user)
+Dictionary DiscordRPC::user2dict(discord::User user)
 {
     Dictionary userdict;
     userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
@@ -352,7 +352,7 @@ Dictionary DiscordSDK::user2dict(discord::User user)
     return userdict;
 }
 
-Dictionary DiscordSDK::relationship2dict(discord::Relationship relationship)
+Dictionary DiscordRPC::relationship2dict(discord::Relationship relationship)
 {
     Dictionary dict_relationship;
     Dictionary presence;
@@ -424,7 +424,7 @@ Dictionary DiscordSDK::relationship2dict(discord::Relationship relationship)
     return dict_relationship;
 }
 
-bool DiscordSDK::get_is_discord_working()
+bool DiscordRPC::get_is_discord_working()
 {
     return result == discord::Result::Ok && app_id > 0;
 }

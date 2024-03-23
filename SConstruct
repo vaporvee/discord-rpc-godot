@@ -39,7 +39,7 @@ sources += Glob("src/*.cpp")
 env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
 
 library = env.SharedLibrary(
-    target="project/addons/discord-sdk-gd/bin/"
+    target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder
     + "discord_game_sdk_binding"
     + armsuffix
@@ -49,7 +49,7 @@ library = env.SharedLibrary(
 env.Depends(
     library,
     Command(
-        "project/addons/discord-sdk-gd/bin/" + libexportfolder + discord_library,
+        "project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library,
         "src/lib/discord_game_sdk/bin/" + discord_library,
         Copy("$TARGET", "$SOURCE"),
     ),
@@ -58,7 +58,7 @@ if discord_library_second != "":
     env.Depends(
         library,
         Command(
-            "project/addons/discord-sdk-gd/bin/"
+            "project/addons/discord-rpc-gd/bin/"
             + libexportfolder
             + discord_library_second,
             "src/lib/discord_game_sdk/bin/" + discord_library_second,

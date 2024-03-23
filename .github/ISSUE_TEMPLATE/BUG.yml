@@ -21,7 +21,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of the Discord Game SDK Godot plugin are you running?
+      description: What version of the Discord RPC Godot plugin are you running?
       options:
         - 1.2.0
         - 1.1.0
@@ -94,5 +94,5 @@ body:
           required: true
         - label: I tried restarting Discord and Godot completely.
           required: true
-        - label: I did read the documentation https://vaporvee.com/docs/discord-sdk-godot/
+        - label: I did read the documentation https://vaporvee.com/docs/discord-rpc-godot/
           required: true

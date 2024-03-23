@@ -22,7 +22,7 @@ build/
 *.a
 
 #Clean files from setup.py
-src/lib/discord_game_sdk/
+src/lib/discord_rpc/
 
 # release
 release/

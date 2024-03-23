@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
-[ext_resource type="Script" path="res://addons/discord-sdk-gd/nodes/debug.gd" id="6_ujijw"]
+[ext_resource type="Script" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")
@@ -23,7 +23,7 @@ position = Vector2(789, 330.5)
 scale = Vector2(0.408203, 0.408203)
 texture = ExtResource("2_gd222")
 
-[node name="DiscordSDK Test" type="RichTextLabel" parent="."]
+[node name="DiscordRPC Test" type="RichTextLabel" parent="."]
 anchors_preset = -1
 anchor_left = 0.293
 anchor_top = 0.59
@@ -38,7 +38,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 bbcode_enabled = true
-text = "[center][font s=60]DiscordSDK Test"
+text = "[center][font s=60]DiscordRPC Test"
 
-[node name="DiscordSDKDebug" type="Node" parent="."]
+[node name="DiscordRPCDebug" type="Node" parent="."]
 script = ExtResource("6_ujijw")

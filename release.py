@@ -2,21 +2,21 @@ import os
 import shutil
 from distutils.dir_util import copy_tree
 
-win_folder_path = "project/addons/discord-sdk-gd/bin/windows"
+win_folder_path = "project/addons/discord-rpc-gd/bin/windows"
 
 matching_files = [file for file in os.listdir(win_folder_path) if file.endswith(("TMP", "exp", "lib"))]
 for file in matching_files:
     file_path = os.path.join(win_folder_path, file)
     os.remove(file_path)
 
-if os.path.exists("release/ADDON-Discord-SDK-Godot/addons"):
-    shutil.rmtree("release/ADDON-Discord-SDK-Godot/addons", ignore_errors=True)
+if os.path.exists("release/ADDON-Discord-RPC-Godot/addons"):
+    shutil.rmtree("release/ADDON-Discord-RPC-Godot/addons", ignore_errors=True)
 
-copy_tree("project/addons/", "release/temp/ADDON-Discord-SDK-Godot/addons")
+copy_tree("project/addons/", "release/temp/ADDON-Discord-RPC-Godot/addons")
 
-open("release/temp/ADDON-Discord-SDK-Godot/addons/discord-sdk-gd/bin/.gdignore", "a").close()
+open("release/temp/ADDON-Discord-RPC-Godot/addons/discord-RPC-gd/bin/.gdignore", "a").close()
 
-shutil.make_archive('release/ADDON-Discord-SDK-Godot', 'zip', 'release/temp/')
+shutil.make_archive('release/ADDON-Discord-RPC-Godot', 'zip', 'release/temp/')
 
 shutil.rmtree("release/temp/")
 # Export Demos
@@ -34,4 +34,4 @@ shutil.make_archive('release/Demo-Export', 'zip', temp_dir)
 
 shutil.rmtree(temp_dir)
 
-print("ADDON-Discord-SDK-Godot.zip and Demo-Export.zip have been created successfully.")
+print("ADDON-Discord-RPC-Godot.zip and Demo-Export.zip have been created successfully.")
