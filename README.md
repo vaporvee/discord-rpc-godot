@@ -1,6 +1,6 @@
 <img src="/project/assets/Banner.svg" alt="Project Banner" />
 
-
+### This is for the Discord Game SDK NOT the Embedded App SDK
 **Discord Game RPC support for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
 ### [My Discord Server](https://discord.gg/EBdaTefpWy)
@@ -10,7 +10,7 @@
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
 
 # Features
-- Activities (Make people see what you are playing)
+- Rich Presence (Make people see what you are playing)
 - Invites
 - Steam and launch command registering
 - User information
