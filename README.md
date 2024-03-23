@@ -1,7 +1,7 @@
 <img src="/project/assets/discordgodot_banner.png" alt="Project Banner" />
 
 ### This is for the Discord Game SDK NOT the Embedded App SDK
-**Discord Game RPC support for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
+**Discord RPC Plugin for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
 ### [My Discord Server](https://discord.gg/EBdaTefpWy)
 # [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-sdk-godot#quick-start)
