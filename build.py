@@ -27,6 +27,15 @@ elif choice in no:
         os.system(
             "python -m SCons target=template_release arch=x86_64 && python -m SCons target=template_debug arch=x86_64 && python -m SCons target=template_release arch=arm64 && python -m SCons target=template_debug arch=arm64 && godot project/project.godot"
         )
+        # Create universal binaries
+        cur_working_dir = os.path.dirname(os.path.realpath(__file__)) + '/project/addons/discord-rpc-gd/bin/macos/'
+        os.chdir(cur_working_dir)
+        os.system(
+            "lipo -create libdiscord_game_sdk_binding_arm64_debug.dylib libdiscord_game_sdk_binding_debug.dylib -output libdiscord_game_sdk_binding_debug_universal.dylib"
+        )
+        os.system(
+            "lipo -create libdiscord_game_sdk_binding_arm64.dylib libdiscord_game_sdk_binding.dylib -output libdiscord_game_sdk_binding_universal.dylib"
+        )
     else:  # Linux
         os.system(
             "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
