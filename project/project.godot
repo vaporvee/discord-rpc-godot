@@ -13,7 +13,7 @@ config_version=5
 config/name="GDExtension DiscordRPC Test Project"
 config/tags=PackedStringArray("vaporvee")
 run/main_scene="res://main.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.3")
 boot_splash/bg_color=Color(0.25098, 0.305882, 0.929412, 1)
 boot_splash/image="res://assets/discordgodot_cover.png"
 boot_splash/fullsize=false
@@ -21,7 +21,16 @@ config/icon="res://assets/Logo_V2.png"
 
 [autoload]
 
-DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
+PluginManager="*res://plugin_manager.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/inferred_declaration=1
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+gdscript/warnings/unsafe_cast=1
+gdscript/warnings/unsafe_call_argument=1
 
 [display]
 
@@ -30,10 +39,6 @@ window/size/resizable=false
 [dotnet]
 
 project/assembly_name="GDExtension Test Project"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg")
 
 [filesystem]
 

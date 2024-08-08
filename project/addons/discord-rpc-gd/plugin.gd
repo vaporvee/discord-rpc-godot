@@ -1,12 +1,12 @@
 @tool
 extends EditorPlugin
 
-const DiscordRPCDebug = preload("res://addons/discord-rpc-gd/nodes/debug.gd")
-const DiscordRPCDebug_icon = preload("res://addons/discord-rpc-gd/Debug.svg")
-var loaded_DiscordRPCDebug = DiscordRPCDebug.new()
+const DiscordRPCDebug: GDScript = preload("res://addons/discord-rpc-gd/nodes/debug.gd")
+const DiscordRPCDebug_icon: Texture2D = preload("res://addons/discord-rpc-gd/Debug.svg")
+var loaded_DiscordRPCDebug: DiscordRPCDebug = DiscordRPCDebug.new()
 var restart_window: ConfirmationDialog = preload("res://addons/discord-rpc-gd/restart_window.tscn").instantiate()
 var plugin_cfg: ConfigFile = ConfigFile.new()
-const plugin_data_filename = "/plugin_data.cfg"
+const plugin_data_filename: String = "/plugin_data.cfg"
 
 func _enter_tree() -> void:
 	add_custom_type("DiscordRPCDebug","Node",DiscordRPCDebug,DiscordRPCDebug_icon)
@@ -18,7 +18,7 @@ func _ready() -> void:
 	if !get_editor_interface().get_editor_settings().has_setting("DiscordRPC/EditorPresence/enabled"):
 		get_editor_interface().get_editor_settings().set_setting("DiscordRPC/EditorPresence/enabled",plugin_cfg.get_value("Discord","editor_presence",false))
 
-func _exit_tree():
+func _exit_tree() -> void:
 	if get_editor_interface().get_editor_settings().has_setting("DiscordRPC/EditorPresence/enabled"):
 		get_editor_interface().get_editor_settings().erase("DiscordRPC/EditorPresence/enabled")
 

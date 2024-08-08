@@ -1,12 +1,13 @@
 extends Node
 
 func _ready() -> void:
-	set_activity()
-	DiscordRPC.connect("activity_join_request",_on_activity_join_request)
-	DiscordRPC.connect("activity_join",_on_activity_join)
-	DiscordRPC.connect("activity_spectate",_on_activity_spectate)
-	DiscordRPC.connect("relationships_init",_on_relationship_init)
-	DiscordRPC.connect("updated_relationship", _on_updated_relationship)
+	if GDExtensionManager.is_extension_loaded("res://addons/discord-rpc-gd/bin/discord-rpc-gd.gdextension"):
+		set_activity()
+		DiscordRPC.connect("activity_join_request",_on_activity_join_request)
+		DiscordRPC.connect("activity_join",_on_activity_join)
+		DiscordRPC.connect("activity_spectate",_on_activity_spectate)
+		DiscordRPC.connect("relationships_init",_on_relationship_init)
+		DiscordRPC.connect("updated_relationship", _on_updated_relationship)
 
 func set_activity() -> void:
 	DiscordRPC.clear(false)
@@ -39,11 +40,11 @@ func set_activity() -> void:
 
 var user_request: Dictionary;
 
-func _on_activity_join_request(user_requesting) -> void:
+func _on_activity_join_request(user_requesting: Dictionary) -> void:
 	print(user_requesting)
 	user_request = user_requesting
 
-func _on_activity_join(secret) -> void:
+func _on_activity_join(secret: String) -> void:
 	if(DiscordRPC.join_secret != secret):
 		DiscordRPC.current_party_size = clamp(int(secret) + 1, 0, DiscordRPC.max_party_size)
 		DiscordRPC.party_id = secret.replace("j_","mylobbycanbeeverything_")
@@ -52,12 +53,11 @@ func _on_activity_join(secret) -> void:
 		DiscordRPC.spectate_secret = secret.replace("j_","s_")
 		DiscordRPC.refresh()
 
-func _on_activity_spectate(secret) -> void:
+func _on_activity_spectate(secret: String) -> void:
 	print(secret)
 
-func _on_relationship_init():
+func _on_relationship_init() -> void:
 	print("initialized")
 
-func _on_updated_relationship(relationship):
+func _on_updated_relationship(relationship: Dictionary) -> void:
 	print(relationship)
-

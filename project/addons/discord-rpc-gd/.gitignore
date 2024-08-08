@@ -1,1 +1,3 @@
 bin/.gdignore
+*.TMP
+bin/windows/~*.dll

@@ -8,13 +8,16 @@
 resource_name = "Debug"
 script/source = "extends Node
 
+@onready var animation_player: AnimationPlayer = $Panel/TextureRect/AnimationPlayer
+
 func _ready():
 	DiscordRPC.connect(\"activity_join_request\",_on_activity_join_request)
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if(DiscordRPC.get_is_discord_working()):
 		$Panel/TextureRect.self_modulate = Color(\"#3eff8d\")
-		$Panel/TextureRect/AnimationPlayer.play(\"pulsate\")
+		if !animation_player.is_playing():
+			animation_player.play(\"pulsate\")
 		debug_text_update()
 	else:
 		$Panel/TextureRect.self_modulate = Color(\"#797979\")
@@ -22,7 +25,7 @@ func _process(_delta):
 		debug_text_update()
 		
 
-func debug_text_update():
+func debug_text_update() -> void:
 	$Panel/Info.text = \"Application ID : {id}
 Details: {details}
 State: {state}
@@ -47,32 +50,32 @@ Is instanced: {instanced}
 \"
 	$Panel/Info.text = $Panel/Info.text.replace(\"{ppublic}\",str(DiscordRPC.is_public_party)).replace(\"{instanced}\",str(DiscordRPC.instanced)).replace(\"{ssecret}\",DiscordRPC.spectate_secret).replace(\"{jsecret}\",DiscordRPC.join_secret).replace(\"{msecret}\",DiscordRPC.match_secret).replace(\"{mpartysize}\",str(DiscordRPC.max_party_size)).replace(\"{cpartysize}\",str(DiscordRPC.current_party_size)).replace(\"{partyid}\",DiscordRPC.party_id).replace(\"{id}\",str(DiscordRPC.app_id)).replace(\"{details}\",DiscordRPC.details).replace(\"{state}\",DiscordRPC.state).replace(\"{lkey}\",DiscordRPC.large_image).replace(\"{ltext}\",DiscordRPC.large_image_text).replace(\"{skey}\",DiscordRPC.small_image).replace(\"{stext}\",DiscordRPC.small_image_text).replace(\"{stimestamp}\",str(DiscordRPC.start_timestamp)).replace(\"{etimestamp}\",str(DiscordRPC.end_timestamp))
 
-var user_request = {};
+var user_request: Dictionary = {};
 
-func _on_activity_join_request(user_requesting):
+func _on_activity_join_request(user_requesting: Dictionary) -> void:
 	print(user_requesting)
 	user_request = user_requesting
 
-func _on_accept_join_request_pressed():
+func _on_accept_join_request_pressed() -> void:
 	if(!user_request.is_empty()):
 		DiscordRPC.accept_join_request(user_request.id)
 
-func _on_invite_with_user_id_text_submitted(new_text):
+func _on_invite_with_user_id_text_submitted(new_text: String) -> void:
 	DiscordRPC.send_invite(int(new_text),true,\"this is a test invite sent from godot\")
 
-func _on_accept_with_user_id_text_submitted(new_text):
+func _on_accept_with_user_id_text_submitted(new_text: String) -> void:
 	DiscordRPC.accept_invite(int(new_text))
 
-func _on_print_current_user_on_console_pressed():
+func _on_print_current_user_on_console_pressed() -> void:
 	print(DiscordRPC.get_current_user())
 
-func _on_toggle_sdk_toggled(button_pressed):
+func _on_toggle_sdk_toggled(button_pressed: bool) -> void:
 	if(button_pressed):
 		DiscordRPC.unclear()
 	else:
 		DiscordRPC.clear(false)
 
-func _on_print_friends_pressed():
+func _on_print_friends_pressed() -> void:
 	print(DiscordRPC.get_all_relationships())
 "
 
@@ -95,18 +98,19 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_5u02v"]
 resource_name = "pulsate"
-loop_mode = 1
+length = 0.5
+loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
-tracks/0/loop_wrap = true
+tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.5, 0.5), Vector2(0.8, 0.8), Vector2(0.5, 0.5)]
+"values": [Vector2(0.5, 0.5), Vector2(0.8, 0.8)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a7ofc"]
@@ -231,9 +235,9 @@ offset_right = 1144.0
 offset_bottom = 665.375
 grow_vertical = 2
 scale = Vector2(0.05, 0.05)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8abo6")
 theme_override_icons/checked = ExtResource("2_q6tao")
 theme_override_icons/unchecked = ExtResource("3_5cyem")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_8abo6")
 button_pressed = true
 
 [node name="TextureRect" type="TextureRect" parent="Panel"]
