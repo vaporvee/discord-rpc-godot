@@ -4,7 +4,7 @@
 **Discord RPC Plugin for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
 ### [My Discord Server](https://discord.gg/EBdaTefpWy)
-# [Quick start :rocket: (click here)](https://vaporvee.com/docs/discord-rpc-godot#quick-start)
+# [Quick start :rocket: (click here)](https://docs.vaporvee.com/discord-rpc-godot#quick-start)
 <br />
 
 **A small donation with the sponsor button would be nice if you sell your project with this addon but is of course not mandatory!**
