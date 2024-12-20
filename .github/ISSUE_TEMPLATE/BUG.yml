@@ -96,5 +96,5 @@ body:
           required: true
         - label: I tried restarting Discord and Godot completely.
           required: true
-        - label: I did read the documentation https://vaporvee.com/docs/discord-rpc-godot/
+        - label: I did read the documentation and its troubleshooting guide https://docs.vaporvee.com/discord-rpc-godot/
           required: true
