@@ -1,5 +1,10 @@
 <img src="/project/assets/discordgodot_banner.png" alt="Project Banner" />
 
+Discord recently released its new SDK. This plugin will get a huge overhaul and new docs as soon as possible.
+    <a href="https://discord.com/blog/announcing-discord-social-sdk-to-power-game-comms" target="_blank">Discord's anouncement</a>
+    
+---
+
 ### This is for the Discord Game SDK NOT the Embedded App SDK
 **Discord RPC Plugin for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
