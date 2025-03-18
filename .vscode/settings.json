@@ -4,10 +4,22 @@
         "${workspaceFolder}/src/lib/godot-cpp/include"
     ],
     "files.associations": {
-        "*.gdextension": "ini"
+        "*.gdextension": "ini",
+        "charconv": "cpp",
+        "chrono": "cpp",
+        "optional": "cpp",
+        "format": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "cmake.ignoreCMakeListsMissing": true
 }
