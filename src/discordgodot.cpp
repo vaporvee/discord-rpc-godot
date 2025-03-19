@@ -28,20 +28,6 @@ void DiscordRPC::_bind_methods()
     BIND_SET_GET(app_id, Variant::INT);
     BIND_SET_GET(state, Variant::STRING);
     BIND_SET_GET(details, Variant::STRING);
-    BIND_SET_GET(large_image, Variant::STRING);
-    BIND_SET_GET(large_image_text, Variant::STRING);
-    BIND_SET_GET(small_image, Variant::STRING);
-    BIND_SET_GET(small_image_text, Variant::STRING);
-    BIND_SET_GET(start_timestamp, Variant::INT);
-    BIND_SET_GET(end_timestamp, Variant::INT);
-    BIND_SET_GET(party_id, Variant::STRING);
-    BIND_SET_GET(current_party_size, Variant::INT);
-    BIND_SET_GET(max_party_size, Variant::INT);
-    BIND_SET_GET(match_secret, Variant::STRING);
-    BIND_SET_GET(join_secret, Variant::STRING);
-    BIND_SET_GET(spectate_secret, Variant::STRING);
-    BIND_SET_GET(instanced, Variant::BOOL);
-    BIND_SET_GET(is_public_party, Variant::BOOL);
     BIND_SIGNAL(activity_join, PropertyInfo(Variant::STRING, "join_secret"));
     BIND_SIGNAL(activity_spectate, PropertyInfo(Variant::STRING, "spectate_secret"));
     BIND_SIGNAL(activity_join_request, PropertyInfo(Variant::DICTIONARY, "user_requesting"));
@@ -70,20 +56,6 @@ void DiscordRPC::_bind_methods()
 }
 SET_GET(state, activity.SetState(value.utf8().get_data()))
 SET_GET(details, activity.SetDetails(value.utf8().get_data()))
-SET_GET(large_image, activity.GetAssets().SetLargeImage(value.utf8().get_data()))
-SET_GET(large_image_text, activity.GetAssets().SetLargeText(value.utf8().get_data()))
-SET_GET(small_image, activity.GetAssets().SetSmallImage(value.utf8().get_data()))
-SET_GET(small_image_text, activity.GetAssets().SetSmallText(value.utf8().get_data()))
-SET_GET(start_timestamp, activity.GetTimestamps().SetStart(value))
-SET_GET(end_timestamp, activity.GetTimestamps().SetEnd(value))
-SET_GET(party_id, activity.GetParty().SetId(value.utf8().get_data()))
-SET_GET(current_party_size, activity.GetParty().GetSize().SetCurrentSize(value))
-SET_GET(max_party_size, activity.GetParty().GetSize().SetMaxSize(value))
-SET_GET(match_secret, activity.GetSecrets().SetMatch(value.utf8().get_data()))
-SET_GET(join_secret, activity.GetSecrets().SetJoin(value.utf8().get_data()))
-SET_GET(spectate_secret, activity.GetSecrets().SetSpectate(value.utf8().get_data()))
-SET_GET(instanced, activity.SetInstance(value))
-SET_GET(is_public_party, activity.GetParty().SetPrivacy(static_cast<discordpp::ActivityPartyPrivacy>(value)))
 
 DiscordRPC::DiscordRPC()
 {
@@ -111,59 +83,46 @@ void DiscordRPC::run_callbacks()
         discordpp::RunCallbacks();
 }
 void DiscordRPC::debug()
-{   
-    client = std::make_shared<discordpp::Client>();
-    activity.SetState("Test from Godot!");
-    activity.SetDetails("I worked months on this");
-    activity.GetAssets().SetLargeImage("test1");
-    activity.GetAssets().SetLargeText("wow test text for large image");
-    activity.GetAssets().SetSmallImage("godot");
-    activity.GetAssets().SetSmallText("wow test text for small image");
-    activity.GetTimestamps().SetStart(1682242800);
-    if (result == discordpp::Result::Ok)
-    {
-        core->ActivityManager().UpdateActivity(activity, [](discordpp::Result result) {});
-    }
-    else
-        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
+{
 }
 
-void DiscordRPC::set_app_id(int64_t value)
+void DiscordRPC::set_app_id(uint64_t value)
 {
     app_id = value;
     if (app_id > 0)
     {
-        result = discordpp::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
-
-        if (result == discordpp::Result::Ok)
-        {
-            // initialize currentuser
-            core->UserManager().OnCurrentUserUpdate.Connect([]()
-                                                            {discordpp::User user{};
-            core->UserManager().GetCurrentUser(&user); });
-            // signals
-            core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
-                                                           { DiscordRPC::get_singleton()
-                                                                 ->emit_signal("activity_join", secret); });
-            core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
-                                                               { DiscordRPC::get_singleton()
-                                                                     ->emit_signal("activity_spectate", secret); });
-            core->ActivityManager().OnActivityJoinRequest.Connect([this](discordpp::User const &user)
-                                                                  { DiscordRPC::get_singleton()
-                                                                        ->emit_signal("activity_join_request", user2dict(user)); });
-            core->OverlayManager().OnToggle.Connect([](bool is_locked)
-                                                    { DiscordRPC::get_singleton()
-                                                          ->emit_signal("overlay_toggle", is_locked); });
-            core->RelationshipManager().OnRefresh.Connect([&]()
-                                                          { DiscordRPC::get_singleton()
-                                                                ->emit_signal("relationships_init"); });
-            core->RelationshipManager().OnRelationshipUpdate.Connect([&](discordpp::Relationship const &relationship)
-                                                                     { DiscordRPC::get_singleton()
-                                                                           ->emit_signal("updated_relationship", relationship2dict(relationship)); });
-        }
+        /*
+         result = discordpp::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
+         if (result == discordpp::Result::Ok)
+         {
+             // initialize currentuser
+             core->UserManager().OnCurrentUserUpdate.Connect([]()
+             {discordpp::User user{};
+             core->UserManager().GetCurrentUser(&user); });
+             // signals
+             core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
+             { DiscordRPC::get_singleton()
+             ->emit_signal("activity_join", secret); });
+             core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
+             { DiscordRPC::get_singleton()
+             ->emit_signal("activity_spectate", secret); });
+             core->ActivityManager().OnActivityJoinRequest.Connect([this](discordpp::User const &user)
+                                                                   { DiscordRPC::get_singleton()
+                                                                         ->emit_signal("activity_join_request", user2dict(user)); });
+             core->OverlayManager().OnToggle.Connect([](bool is_locked)
+             { DiscordRPC::get_singleton()
+             ->emit_signal("overlay_toggle", is_locked); });
+             core->RelationshipManager().OnRefresh.Connect([&]()
+             { DiscordRPC::get_singleton()
+             ->emit_signal("relationships_init"); });
+             core->RelationshipManager().OnRelationshipUpdate.Connect([&](discordpp::Relationship const &relationship)
+             { DiscordRPC::get_singleton()
+             ->emit_signal("updated_relationship", relationship2dict(relationship)); });
+         }
+         */
     }
 }
-int64_t DiscordRPC::get_app_id()
+uint64_t DiscordRPC::get_app_id()
 {
     if (app_id != 0)
         return app_id;
@@ -174,9 +133,10 @@ void DiscordRPC::refresh()
 {
     if (get_is_discord_working())
     {
-        activity.GetParty().SetPrivacy(discordpp::ActivityPartyPrivacy::Public);
+        /*activity.GetParty().SetPrivacy(discordpp::ActivityPartyPrivacy::Public);
         activity.SetType(discordpp::ActivityType::Playing);
-        core->ActivityManager().UpdateActivity(activity, [](discordpp::Result result) {});
+        core->ActivityManager().UpdateActivity(activity, [](discordpp::Result result) {});*/
+        return;
     }
     else
         UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
@@ -191,28 +151,12 @@ void DiscordRPC::clear(bool reset_values = false)
             old_app_id = 0;
             set_state("");
             set_details("");
-            set_large_image("");
-            set_large_image_text("");
-            set_small_image("");
-            set_small_image_text("");
-            set_start_timestamp(0);
-            set_end_timestamp(0);
-            set_party_id("");
-            set_current_party_size(0);
-            set_max_party_size(0);
-            set_match_secret("");
-            set_join_secret("");
-            set_spectate_secret("");
-            set_instanced(false);
-            set_is_public_party(false);
             set_is_overlay_locked(false);
-            core->ActivityManager().ClearActivity([](discordpp::Result result) {});
+            // core->ActivityManager().ClearActivity([](discordpp::Result result) {});
         }
         else
             old_app_id = app_id;
         app_id = 0;
-        delete core;
-        core = nullptr;
     }
 }
 
@@ -232,83 +176,92 @@ bool DiscordRPC::get_is_overlay_enabled()
 {
     bool ie;
     if (get_is_discord_working())
-        core->OverlayManager().IsEnabled(&ie);
-    return ie;
+        // core->OverlayManager().IsEnabled(&ie);
+        return ie;
 }
 bool DiscordRPC::get_is_overlay_locked()
 {
     bool il;
     if (get_is_discord_working())
-        core->OverlayManager().IsLocked(&il);
-    return il;
+        // core->OverlayManager().IsLocked(&il);
+        return il;
 }
 void DiscordRPC::set_is_overlay_locked(bool value)
 {
     is_overlay_locked = value;
     if (get_is_discord_working())
-        core->OverlayManager().SetLocked(value, {});
+        // core->OverlayManager().SetLocked(value, {});
+        return;
 }
 void DiscordRPC::open_invite_overlay(bool is_spectate)
 {
     if (get_is_discord_working())
-        core->OverlayManager().OpenActivityInvite(static_cast<discordpp::ActivityActionType>(is_spectate + 1), {});
+        // core->OverlayManager().OpenActivityInvite(static_cast<discordpp::ActivityActionType>(is_spectate + 1), {});
+        return;
 }
 void DiscordRPC::open_server_invite_overlay(String invite_code)
 {
     if (get_is_discord_working())
-        core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
+        // core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
+        return;
 }
 void DiscordRPC::open_voice_settings()
 {
     if (get_is_discord_working())
-        core->OverlayManager().OpenVoiceSettings({});
+        // core->OverlayManager().OpenVoiceSettings({});
+        return;
 }
 
-void DiscordRPC::accept_join_request(int64_t user_id)
+void DiscordRPC::accept_join_request(uint64_t user_id)
 {
     if (get_is_discord_working())
-        core->ActivityManager().SendRequestReply(user_id, static_cast<discordpp::ActivityJoinRequestReply>(1), {});
+        // core->ActivityManager().SendRequestReply(user_id, static_cast<discordpp::ActivityJoinRequestReply>(1), {});
+        return;
 }
-void DiscordRPC::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
+void DiscordRPC::send_invite(uint64_t user_id, bool is_spectate = false, String message_content = "")
 {
     if (get_is_discord_working())
-        core->ActivityManager().SendInvite(user_id, static_cast<discordpp::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
+        // core->ActivityManager().SendInvite(user_id, static_cast<discordpp::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
+        return;
 }
-void DiscordRPC::accept_invite(int64_t user_id)
+void DiscordRPC::accept_invite(uint64_t user_id)
 {
     if (get_is_discord_working())
-        core->ActivityManager().AcceptInvite(user_id, {});
+        // core->ActivityManager().AcceptInvite(user_id, {});
+        return;
 }
 
 void DiscordRPC::register_command(String value)
 {
     if (get_is_discord_working())
-        core->ActivityManager().RegisterCommand(value.utf8().get_data());
+        // core->ActivityManager().RegisterCommand(value.utf8().get_data());
+        return;
 }
 void DiscordRPC::register_steam(int32_t value)
 {
     if (get_is_discord_working())
-        core->ActivityManager().RegisterSteam(value);
+        // core->ActivityManager().RegisterSteam(value);
+        return;
 }
 Dictionary DiscordRPC::get_current_user()
 {
     Dictionary userdict;
     if (get_is_discord_working())
     {
-        discordpp::User user{};
-        core->UserManager().GetCurrentUser(&user);
+        // discordpp::User user{};
+        // core->UserManager().GetCurrentUser(&user);
         return user2dict(user);
     }
     return userdict;
 }
 
-Dictionary DiscordRPC::get_relationship(int64_t user_id)
+Dictionary DiscordRPC::get_relationship(uint64_t user_id)
 {
     if (get_is_discord_working())
     {
-        discordpp::Relationship relationship{};
-        core->RelationshipManager().Get(user_id, &relationship);
-        return relationship2dict(relationship);
+        // discordpp::Relationship relationship{};
+        // core->RelationshipManager().Get(user_id, &relationship);
+        return /*relationship2dict(relationship)*/;
     }
     Dictionary dict;
     return dict;
@@ -317,29 +270,24 @@ Dictionary DiscordRPC::get_relationship(int64_t user_id)
 Array DiscordRPC::get_all_relationships()
 {
     Array all_relationships;
-    core->RelationshipManager().Filter(
+    /*core->RelationshipManager().Filter(
         [](discordpp::Relationship const &relationship) -> bool
-        { return true; });
-    int32_t friendcount{0};
-    core->RelationshipManager().Count(&friendcount);
-    for (int i = 0; i < friendcount; i++)
+        { return true; });*/
+    uint32_t friendcount{0};
+    //core->RelationshipManager().Count(&friendcount);
+    /*for (int i = 0; i < friendcount; i++)
     {
         discordpp::Relationship relationship{};
         core->RelationshipManager().GetAt(i, &relationship);
         all_relationships.append(relationship2dict(relationship));
-    }
+    }*/
     return all_relationships;
 }
 
-int DiscordRPC::get_result_int()
-{
-    return static_cast<int>(result);
-}
-
-Dictionary DiscordRPC::user2dict(discordpp::User user)
+Dictionary DiscordRPC::user2dict(discordpp::UserHandle user)
 {
     Dictionary userdict;
-    userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
+    /*userdict["avatar"] = user.GetAvatar(); // can be empty when user has no avatar
     userdict["is_bot"] = user.GetBot();
     userdict["discriminator"] = user.GetDiscriminator();
     userdict["id"] = user.GetId();
@@ -348,7 +296,7 @@ Dictionary DiscordRPC::user2dict(discordpp::User user)
         userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/embed/avatars/" + std::to_string((userdict["discriminator"].INT % 5) - 1) + ".png").c_str());
     else
         userdict["avatar_url"] = String(std::string("https://cdn.discordapp.com/avatars/" + std::to_string(user.GetId()) + "/" + user.GetAvatar() + ".png").c_str());
-    userdict.make_read_only();
+    userdict.make_read_only();*/
     return userdict;
 }
 
@@ -357,7 +305,7 @@ Dictionary DiscordRPC::relationship2dict(discordpp::RelationshipHandle relations
     Dictionary dict_relationship;
     Dictionary presence;
     Dictionary presence_activity;
-    switch (static_cast<int>(relationship.GetPresence().GetStatus()))
+    /*switch (static_cast<int>(relationship.GetPresence().GetStatus()))
     {
     case 0:
         presence["status"] = "Offline";
@@ -420,7 +368,7 @@ Dictionary DiscordRPC::relationship2dict(discordpp::RelationshipHandle relations
     }
     dict_relationship["user"] = user2dict(relationship.GetUser());
     dict_relationship["presence"] = presence;
-    dict_relationship.make_read_only();
+    dict_relationship.make_read_only();*/
     return dict_relationship;
 }
 

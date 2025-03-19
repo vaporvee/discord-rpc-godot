@@ -31,28 +31,14 @@ public:
 
     // INTERBNAL
     uint64_t old_app_id;
-    Dictionary relationship2dict(discord::Relationship relationship);
-    Dictionary user2dict(discord::User user);
+    Dictionary relationship2dict(discordpp::RelationshipHandle relationship);
+    Dictionary user2dict(discordpp::UserHandle user);
     ///
     void set_app_id(uint64_t value);
     uint64_t get_app_id();
-    uint64_t app_id = 0; // needs to be directly setted to 0 or it will crash randomly
+    uint64_t app_id = 0; // needs to be directly set to 0 or it will crash randomly
     H_SET_GET(String, state)
     H_SET_GET(String, details)
-    H_SET_GET(String, large_image)
-    H_SET_GET(String, large_image_text)
-    H_SET_GET(String, small_image)
-    H_SET_GET(String, small_image_text)
-    H_SET_GET(uint64_t, start_timestamp)
-    H_SET_GET(uint64_t, end_timestamp)
-    H_SET_GET(String, party_id)
-    H_SET_GET(int32_t, current_party_size)
-    H_SET_GET(int32_t, max_party_size)
-    H_SET_GET(String, match_secret)
-    H_SET_GET(String, join_secret)
-    H_SET_GET(String, spectate_secret)
-    H_SET_GET(bool, is_public_party)
-    H_SET_GET(bool, instanced)
     H_SET_GET(bool, is_overlay_locked)
 
     void debug();

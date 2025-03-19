@@ -2,7 +2,7 @@
 #define EDITOR_PRESENCE_H
 
 #include <stdio.h>
-#include "lib/discord_game_sdk/cpp/discord.h"
+#include "discordpp.h"
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/project_settings.hpp>
@@ -28,10 +28,6 @@ public:
     godot::Engine *engine = godot::Engine::get_singleton();
     godot::ProjectSettings *project_settings = godot::ProjectSettings::get_singleton();
     godot::Time *time = godot::Time::get_singleton();
-
-    discord::Core *core{};
-    discord::Result result;
-    discord::Activity activity{};
 
     String state_string;
 
