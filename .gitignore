@@ -23,7 +23,8 @@ build/
 
 #Clean files from setup.py
 src/lib/discord_social_sdk/*
-!src/lib/discord_social_sdk/version.txt
+src/lib/godot-cpp/*
+*.zip
 
 # release
 release/
@@ -31,4 +32,5 @@ project/export/
 
 # venv
 venv/
+
 
