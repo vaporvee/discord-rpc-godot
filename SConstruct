@@ -3,46 +3,38 @@ import os
 
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
+env.Append(CPPPATH=["src/"])
+sources = Glob("src/*.cpp")
+
 if env["platform"] == "macos":
-    discord_library = "libdiscord_game_sdk.dylib"
-    discord_library_second = ""
+    discord_library = "libdiscord_partner_sdk.dylib"
     libexportfolder = "/macos/"
 
 elif env["platform"] in ("linuxbsd", "linux"):
-    discord_library = "libdiscord_game_sdk.so"
-    discord_library_second = ""
+    discord_library = "libdiscord_partner_sdk.so"
     libexportfolder = "/linux/"
 
 elif env["platform"] == "windows":
-    discord_library = "discord_game_sdk.dll"
-    discord_library_second = "discord_game_sdk_x86.dll"
+    discord_library = "discord_partner_sdk.dll"
     libexportfolder = "/windows/"
 
 if env["target"] == "template_debug":
     debugsuffix = "_debug"
+    folder = "debug/"
 else:
     debugsuffix = ""
+    folder = "release/"  #
 
-if env.get("arch") == "arm64":
-    armsuffix = "_arm64"
-else:
-    armsuffix = ""
 
-env.Append(LIBPATH=["src/lib/discord_game_sdk/bin/"])
-sources = Glob("src/lib/discord_game_sdk/cpp/*.cpp")
-env.Append(CPPPATH=["src/lib/discord_game_sdk/cpp/"])
-env.Append(LIBS=["discord_game_sdk"])
-
-env.Append(CPPPATH=["src/"])
-sources += Glob("src/*.cpp")
+env.Append(LIBPATH=["src/lib/discord_social_sdk/lib/" + folder])
+env.Append(LIBS=["discord_partner_sdk"])
 
 env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
 
 library = env.SharedLibrary(
     target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder
-    + "discord_game_sdk_binding"
-    + armsuffix
+    + "discord_partner_sdk_binding"
     + debugsuffix,
     source=sources,
 )
@@ -50,20 +42,9 @@ env.Depends(
     library,
     Command(
         "project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library,
-        "src/lib/discord_game_sdk/bin/" + discord_library,
+        "src/lib/discord_partner_sdk/bin/" + folder + discord_library,
         Copy("$TARGET", "$SOURCE"),
     ),
 )
-if discord_library_second != "":
-    env.Depends(
-        library,
-        Command(
-            "project/addons/discord-rpc-gd/bin/"
-            + libexportfolder
-            + discord_library_second,
-            "src/lib/discord_game_sdk/bin/" + discord_library_second,
-            Copy("$TARGET", "$SOURCE"),
-        ),
-    )
 
 Default(library)

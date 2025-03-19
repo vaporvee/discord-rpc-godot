@@ -2,7 +2,7 @@
 #define EDITOR_PRESENCE_H
 
 #include <stdio.h>
-#include "discordpp.h"
+#include "lib/discord_social_sdk/include/discordpp.h"
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/classes/project_settings.hpp>

@@ -31,10 +31,10 @@ elif choice in no:
         cur_working_dir = os.path.dirname(os.path.realpath(__file__)) + '/project/addons/discord-rpc-gd/bin/macos/'
         os.chdir(cur_working_dir)
         os.system(
-            "lipo -create libdiscord_game_sdk_binding_arm64_debug.dylib libdiscord_game_sdk_binding_debug.dylib -output libdiscord_game_sdk_binding_debug.dylib"
+            "lipo -create libdiscord_partner_sdk_binding_arm64_debug.dylib libdiscord_partner_sdk_binding_debug.dylib -output libdiscord_partner_sdk_binding_debug.dylib"
         )
         os.system(
-            "lipo -create libdiscord_game_sdk_binding_arm64.dylib libdiscord_game_sdk_binding.dylib -output libdiscord_game_sdk_binding.dylib"
+            "lipo -create libdiscord_partner_sdk_binding_arm64.dylib libdiscord_partner_sdk_binding.dylib -output libdiscord_partner_sdk_binding.dylib"
         )
     else:  # Linux
         os.system(
