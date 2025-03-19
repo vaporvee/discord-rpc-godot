@@ -115,8 +115,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a7ofc"]
 _data = {
-"RESET": SubResource("Animation_mmtmn"),
-"pulsate": SubResource("Animation_5u02v")
+&"RESET": SubResource("Animation_mmtmn"),
+&"pulsate": SubResource("Animation_5u02v")
 }
 
 [node name="DebugNodeGroup" type="Node"]

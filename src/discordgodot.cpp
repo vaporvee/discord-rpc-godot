@@ -19,9 +19,7 @@
 
 DiscordRPC *DiscordRPC::singleton = nullptr;
 std::shared_ptr<discordpp::Client> client;
-discordpp::ClientResult result;
 discordpp::Activity activity;
-discordpp::UserHandle user;
 
 void DiscordRPC::_bind_methods()
 {
@@ -52,7 +50,6 @@ void DiscordRPC::_bind_methods()
     BIND_METHOD(open_server_invite_overlay, "invite_code");
     BIND_METHOD(open_voice_settings);
     BIND_METHOD(get_is_discord_working);
-    BIND_METHOD(get_result_int);
 }
 SET_GET(state, activity.SetState(value.utf8().get_data()))
 SET_GET(details, activity.SetDetails(value.utf8().get_data()))
@@ -79,7 +76,7 @@ DiscordRPC *DiscordRPC::get_singleton()
 
 void DiscordRPC::run_callbacks()
 {
-    if (result.Successful() && app_id > 0)
+    if (app_id > 0) //result.Successful() &&
         discordpp::RunCallbacks();
 }
 void DiscordRPC::debug()
@@ -175,16 +172,21 @@ void DiscordRPC::unclear()
 bool DiscordRPC::get_is_overlay_enabled()
 {
     bool ie;
-    if (get_is_discord_working())
+    if (get_is_discord_working()){
         // core->OverlayManager().IsEnabled(&ie);
         return ie;
+    }
+    return ie;
 }
 bool DiscordRPC::get_is_overlay_locked()
 {
     bool il;
     if (get_is_discord_working())
+    {
         // core->OverlayManager().IsLocked(&il);
         return il;
+    }
+    return il;
 }
 void DiscordRPC::set_is_overlay_locked(bool value)
 {
@@ -250,20 +252,20 @@ Dictionary DiscordRPC::get_current_user()
     {
         // discordpp::User user{};
         // core->UserManager().GetCurrentUser(&user);
-        return user2dict(user);
+        return userdict; //user2dict(user)
     }
     return userdict;
 }
 
 Dictionary DiscordRPC::get_relationship(uint64_t user_id)
 {
+    Dictionary dict;
     if (get_is_discord_working())
     {
         // discordpp::Relationship relationship{};
         // core->RelationshipManager().Get(user_id, &relationship);
-        return /*relationship2dict(relationship)*/;
+        return dict /*relationship2dict(relationship)*/;
     }
-    Dictionary dict;
     return dict;
 }
 
@@ -374,5 +376,5 @@ Dictionary DiscordRPC::relationship2dict(discordpp::RelationshipHandle relations
 
 bool DiscordRPC::get_is_discord_working()
 {
-    return result.Successful() && app_id > 0;
+    return app_id > 0; /*result.Successful() &&*/ 
 }

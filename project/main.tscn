@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dyc3kseph4el7"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
+[ext_resource type="Script" uid="uid://e0nds76y78bx" path="res://main.gd" id="1_kl8ri"]
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
-[ext_resource type="Script" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
+[ext_resource type="Script" uid="uid://46tue7u6crd6" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
 
 [node name="Node" type="Node"]
 script = ExtResource("1_kl8ri")

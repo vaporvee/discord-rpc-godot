@@ -59,7 +59,6 @@ public:
     Dictionary get_relationship(uint64_t user_id);
     Array get_all_relationships();
     bool get_is_discord_working();
-    int get_result_int();
 };
 
 #endif

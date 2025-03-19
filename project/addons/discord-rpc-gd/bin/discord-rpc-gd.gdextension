@@ -19,11 +19,11 @@ linux.release.rv64 = "linux/libdiscord_partner_sdk_binding.so"
 [dependencies]
 
 macos = { "macos/libdiscord_partner_sdk.dylib": "" }
-windows.debug.x86_64 = { "windows/discord_partner_sdk.dll": "" }
+windows.debug.x86_64 = { "windows/discord_partner_sdk_debug.dll": "" }
 windows.release.x86_64 = { "windows/discord_partner_sdk.dll": "" }
-linux.debug.x86_64 = { "linux/libdiscord_partner_sdk.so": "" }
+linux.debug.x86_64 = { "linux/libdiscord_partner_sdk_debug.so": "" }
 linux.release.x86_64 = { "linux/libdiscord_partner_sdk.so": "" }
-linux.debug.arm64 = { "linux/libdiscord_partner_sdk.so": "" }
+linux.debug.arm64 = { "linux/libdiscord_partner_sdk_debug.so": "" }
 linux.release.arm64 = { "linux/libdiscord_partner_sdk.so": "" }
-linux.debug.rv64 = { "linux/libdiscord_partner_sdk.so": "" }
+linux.debug.rv64 = { "linux/libdiscord_partner_sdk_debug.so": "" }
 linux.release.rv64 = { "linux/libdiscord_partner_sdk.so": "" }

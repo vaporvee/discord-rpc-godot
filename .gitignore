@@ -25,6 +25,9 @@ build/
 src/lib/discord_social_sdk/*
 src/lib/godot-cpp/*
 *.zip
+*.so
+*.dll
+*.dylib
 
 # release
 release/
