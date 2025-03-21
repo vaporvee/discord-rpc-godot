@@ -73,6 +73,7 @@ void DiscordRPC::run_callbacks()
 }
 void DiscordRPC::debug()
 {
+    auto client = std::make_shared<discordpp::Client>();
 }
 
 void DiscordRPC::set_app_id(uint64_t value)

@@ -18,10 +18,8 @@ elif env["platform"] == "windows":
     discord_library = "discord_partner_sdk.dll"
     libexportfolder = "/windows/"
 
-if env["target"] == "template_debug":
-    debugsuffix = "_debug"
-else:
-    debugsuffix = ""
+    folder = "release/"
+    discord_library_target = discord_library
 
 env.Append(LIBPATH=["src/lib/discord_social_sdk/lib/release/"])
 env.Append(LIBS=["discord_partner_sdk"])
@@ -31,8 +29,7 @@ env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
 library = env.SharedLibrary(
     target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder
-    + "discord_partner_sdk_binding"
-    + debugsuffix,
+    + discord_library,
     source=sources,
 )
 env.Depends(

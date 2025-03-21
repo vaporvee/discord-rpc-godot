@@ -7,7 +7,8 @@
                 "${workspaceFolder}/src/lib/godot-cpp/gen/include",
                 "${workspaceFolder}/src/lib/godot-cpp/include",
                 "${workspaceFolder}/src/lib/godot-cpp/gdextension",
-                "${workspaceFolder}/src/lib/godot-cpp/gen/include"
+                "${workspaceFolder}/src/lib/godot-cpp/gen/include",
+                "${workspaceFolder}/src/lib/discord_social_sdk/include"
             ],
             "defines": [
                 "_DEBUG",

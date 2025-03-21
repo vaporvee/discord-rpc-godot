@@ -34,12 +34,6 @@ debug_dll_dest = "src/lib/discord_social_sdk/lib/debug/"
 os.makedirs(debug_dll_dest, exist_ok=True)
 shutil.copy(debug_dll_src, debug_dll_dest)
 
-include_folder_src = "src/lib/discord_social_sdk/include"
-include_folder_dest = "src"
-shutil.copytree(include_folder_src, include_folder_dest, dirs_exist_ok=True)
-
-shutil.rmtree(include_folder_src, ignore_errors=True)
-
 bin_folder = "src/lib/discord_social_sdk/bin"
 shutil.rmtree(bin_folder, ignore_errors=True)
 
@@ -47,4 +41,4 @@ print(f"Extracted and copied Discord Social SDK version: {extracted_version}")
 
 print("Getting submodules...")
 os.system("git submodule update --init --remote")
-print("Finished setup!")
+print("Finished setup.")
