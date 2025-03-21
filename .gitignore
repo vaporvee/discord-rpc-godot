@@ -24,6 +24,8 @@ build/
 #Clean files from setup.py
 src/lib/discord_social_sdk/*
 src/lib/godot-cpp/*
+discordpp.h
+cdiscord.h
 *.zip
 *.so
 *.dll

@@ -48,7 +48,7 @@ Is party public: {ppublic} (needs to be activated in Discord client settings)
 
 Is instanced: {instanced}
 \"
-	$Panel/Info.text = $Panel/Info.text.replace(\"{ppublic}\",str(DiscordRPC.is_public_party)).replace(\"{instanced}\",str(DiscordRPC.instanced)).replace(\"{ssecret}\",DiscordRPC.spectate_secret).replace(\"{jsecret}\",DiscordRPC.join_secret).replace(\"{msecret}\",DiscordRPC.match_secret).replace(\"{mpartysize}\",str(DiscordRPC.max_party_size)).replace(\"{cpartysize}\",str(DiscordRPC.current_party_size)).replace(\"{partyid}\",DiscordRPC.party_id).replace(\"{id}\",str(DiscordRPC.app_id)).replace(\"{details}\",DiscordRPC.details).replace(\"{state}\",DiscordRPC.state).replace(\"{lkey}\",DiscordRPC.large_image).replace(\"{ltext}\",DiscordRPC.large_image_text).replace(\"{skey}\",DiscordRPC.small_image).replace(\"{stext}\",DiscordRPC.small_image_text).replace(\"{stimestamp}\",str(DiscordRPC.start_timestamp)).replace(\"{etimestamp}\",str(DiscordRPC.end_timestamp))
+	#$Panel/Info.text = $Panel/Info.text.replace(\"{ppublic}\",str(DiscordRPC.is_public_party)).replace(\"{instanced}\",str(DiscordRPC.instanced)).replace(\"{ssecret}\",DiscordRPC.spectate_secret).replace(\"{jsecret}\",DiscordRPC.join_secret).replace(\"{msecret}\",DiscordRPC.match_secret).replace(\"{mpartysize}\",str(DiscordRPC.max_party_size)).replace(\"{cpartysize}\",str(DiscordRPC.current_party_size)).replace(\"{partyid}\",DiscordRPC.party_id).replace(\"{id}\",str(DiscordRPC.app_id)).replace(\"{details}\",DiscordRPC.details).replace(\"{state}\",DiscordRPC.state).replace(\"{lkey}\",DiscordRPC.large_image).replace(\"{ltext}\",DiscordRPC.large_image_text).replace(\"{skey}\",DiscordRPC.small_image).replace(\"{stext}\",DiscordRPC.small_image_text).replace(\"{stimestamp}\",str(DiscordRPC.start_timestamp)).replace(\"{etimestamp}\",str(DiscordRPC.end_timestamp))
 
 var user_request: Dictionary = {};
 
@@ -260,7 +260,7 @@ texture = ExtResource("3_goflf")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Panel/TextureRect"]
 libraries = {
-"": SubResource("AnimationLibrary_a7ofc")
+&"": SubResource("AnimationLibrary_a7ofc")
 }
 
 [connection signal="pressed" from="Panel/PrintCurrentUserOnConsole" to="." method="_on_print_current_user_on_console_pressed"]

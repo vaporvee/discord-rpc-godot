@@ -1,4 +1,4 @@
-#include "lib/discord_social_sdk/include/discordpp.h"
+#include "discordpp.h"
 #include "discordgodot.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
@@ -18,14 +18,10 @@
     }
 
 DiscordRPC *DiscordRPC::singleton = nullptr;
-std::shared_ptr<discordpp::Client> client;
-discordpp::Activity activity;
 
 void DiscordRPC::_bind_methods()
 {
     BIND_SET_GET(app_id, Variant::INT);
-    BIND_SET_GET(state, Variant::STRING);
-    BIND_SET_GET(details, Variant::STRING);
     BIND_SIGNAL(activity_join, PropertyInfo(Variant::STRING, "join_secret"));
     BIND_SIGNAL(activity_spectate, PropertyInfo(Variant::STRING, "spectate_secret"));
     BIND_SIGNAL(activity_join_request, PropertyInfo(Variant::DICTIONARY, "user_requesting"));
@@ -51,8 +47,6 @@ void DiscordRPC::_bind_methods()
     BIND_METHOD(open_voice_settings);
     BIND_METHOD(get_is_discord_working);
 }
-SET_GET(state, activity.SetState(value.utf8().get_data()))
-SET_GET(details, activity.SetDetails(value.utf8().get_data()))
 
 DiscordRPC::DiscordRPC()
 {
@@ -63,8 +57,6 @@ DiscordRPC::DiscordRPC()
 DiscordRPC::~DiscordRPC()
 {
     app_id = 0;
-    client->~Client();
-    client = nullptr;
     ERR_FAIL_COND(singleton != this);
     singleton = nullptr;
 }
@@ -146,8 +138,6 @@ void DiscordRPC::clear(bool reset_values = false)
         if (reset_values)
         {
             old_app_id = 0;
-            set_state("");
-            set_details("");
             set_is_overlay_locked(false);
             // core->ActivityManager().ClearActivity([](discordpp::Result result) {});
         }

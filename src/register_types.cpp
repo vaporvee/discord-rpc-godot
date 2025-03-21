@@ -6,7 +6,7 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/godot.hpp>
 
-#include "lib/discord_social_sdk/include/discordpp.h"
+#include "discordpp.h"
 #include "discordgodot.h"
 #include "editor_presence.h"
 using namespace godot;

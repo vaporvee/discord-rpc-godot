@@ -2,7 +2,7 @@
 #define DISCORDGODOT_H
 
 #include <stdio.h>
-#include "lib/discord_social_sdk/include/discordpp.h"
+#include "discordpp.h"
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
 
@@ -37,8 +37,6 @@ public:
     void set_app_id(uint64_t value);
     uint64_t get_app_id();
     uint64_t app_id = 0; // needs to be directly set to 0 or it will crash randomly
-    H_SET_GET(String, state)
-    H_SET_GET(String, details)
     H_SET_GET(bool, is_overlay_locked)
 
     void debug();

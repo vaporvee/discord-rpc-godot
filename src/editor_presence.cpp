@@ -1,5 +1,5 @@
 #include "editor_presence.h"
-#include "lib/discord_social_sdk/include/discordpp.h"
+#include "discordpp.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>

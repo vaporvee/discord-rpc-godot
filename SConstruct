@@ -20,14 +20,10 @@ elif env["platform"] == "windows":
 
 if env["target"] == "template_debug":
     debugsuffix = "_debug"
-    folder = "debug/"
-    discord_library_target = discord_library.replace(".", f"{debugsuffix}.")
 else:
     debugsuffix = ""
-    folder = "release/"
-    discord_library_target = discord_library
 
-env.Append(LIBPATH=["src/lib/discord_social_sdk/lib/" + folder])
+env.Append(LIBPATH=["src/lib/discord_social_sdk/lib/release/"])
 env.Append(LIBS=["discord_partner_sdk"])
 
 env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
@@ -42,8 +38,8 @@ library = env.SharedLibrary(
 env.Depends(
     library,
     Command(
-        "project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library_target,
-        "src/lib/discord_social_sdk/lib/" + folder + discord_library,
+        "project/addons/discord-rpc-gd/bin/" + libexportfolder + discord_library,
+        "src/lib/discord_social_sdk/lib/release/" + discord_library,
         Copy("$TARGET", "$SOURCE"),
     ),
 )
