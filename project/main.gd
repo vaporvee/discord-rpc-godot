@@ -10,8 +10,9 @@ func _ready() -> void:
 		DiscordRPC.connect("updated_relationship", _on_updated_relationship)
 
 func set_activity() -> void:
-	DiscordRPC.clear(false)
+	#DiscordRPC.clear(false)
 	DiscordRPC.app_id = 1099618430065324082
+	DiscordRPC.debug()
 	#DiscordRPC.details = "A demo activity by vaporvee#1231"
 	#DiscordRPC.state = "Checkpoint 23/23"
 	#

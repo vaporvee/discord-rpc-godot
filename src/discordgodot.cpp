@@ -1,4 +1,4 @@
-#define DISCORDPP_IMPLEMENTATION
+#define DISCORDPP_IMPLEMENTATION // this is way too important to forget
 #include "discordpp.h"
 #include "discordgodot.h"
 #include <godot_cpp/core/class_db.hpp>
@@ -69,12 +69,84 @@ DiscordRPC *DiscordRPC::get_singleton()
 
 void DiscordRPC::run_callbacks()
 {
-    if (app_id > 0) //result.Successful() &&
-        discordpp::RunCallbacks();
+    discordpp::RunCallbacks();
 }
 void DiscordRPC::debug()
 {
     auto client = std::make_shared<discordpp::Client>();
+
+    client->AddLogCallback([](auto message, auto severity)
+                           { UtilityFunctions::print("[" + String(EnumToString(severity)) + "] " + message.c_str()); }, discordpp::LoggingSeverity::Info);
+
+    client->SetStatusChangedCallback([client](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail)
+                                     {
+        UtilityFunctions::print(String("Status changed: ") + discordpp::Client::StatusToString(status).c_str());
+        if (status == discordpp::Client::Status::Ready) {
+          UtilityFunctions::print("Client is ready!\n");
+          UtilityFunctions::print("Friends Count: " + String::num_int64(client->GetRelationships().size()));
+          discordpp::Activity activity;
+          activity.SetType(discordpp::ActivityTypes::Playing);
+          activity.SetState("Debug mode");
+          activity.SetDetails("Godot -> Discord Social SDK");
+          discordpp::ActivityAssets assets;
+          assets.SetSmallImage("boss");
+          assets.SetSmallText("Fighting the boss D:");
+          assets.SetLargeImage("example_game");
+          assets.SetLargeText("Example");
+          activity.SetAssets(assets);
+
+          // Update rich presence
+          client->UpdateRichPresence(activity, [](discordpp::ClientResult result) {
+          if(result.Successful()) {
+              UtilityFunctions::print("Rich Presence updated successfully!");
+          } else {
+              UtilityFunctions::push_error("Rich Presence update failed");
+          }
+          });
+
+          
+        } else if (error != discordpp::Client::Error::None) {
+          UtilityFunctions::push_error("Connection Error: " + String(discordpp::Client::ErrorToString(error).c_str()) + " - Details: " + String::num_int64(errorDetail));
+        } });
+
+    // Generate OAuth2 code verifier for authentication
+    UtilityFunctions::print("Trying to authenticate...");
+    UtilityFunctions::print("Generating code verifier...");
+    auto codeVerifier = client->CreateAuthorizationCodeVerifier();
+
+    // Set up authentication arguments
+    discordpp::AuthorizationArgs args{};
+    args.SetClientId(1099618430065324082);
+    args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
+    args.SetCodeChallenge(codeVerifier.Challenge());
+
+    // Begin authentication process
+    client->Authorize(args, [client, codeVerifier](auto result, auto code, auto redirectUri)
+                      {
+      if (!result.Successful()) {
+        UtilityFunctions::push_error("Authentication Error: " + String(result.Error().c_str()));
+        return;
+      } else {
+        UtilityFunctions::print("Authorization successful! Getting access token...");
+
+        client->GetToken(1099618430065324082, code, codeVerifier.Verifier(), redirectUri,
+          [client](discordpp::ClientResult result,
+          std::string accessToken, // needs to be stored securely
+          std::string refreshToken, // needs to be stored securely
+          discordpp::AuthorizationTokenType tokenType,
+          int32_t expiresIn,
+          std::string scope) {
+            UtilityFunctions::print("Access token received! Establishing connection...");
+            client->UpdateToken(discordpp::AuthorizationTokenType::Bearer, accessToken, [client](discordpp::ClientResult result) {
+                if(result.Successful()) {
+                  UtilityFunctions::print("Token updated, connecting to Discord...");
+                  client->Connect();
+                } else {
+                  UtilityFunctions::push_error("Token update error: " + String(result.Error().c_str()));
+                }
+              });
+        });
+      } });
 }
 
 void DiscordRPC::set_app_id(uint64_t value)
@@ -164,7 +236,8 @@ void DiscordRPC::unclear()
 bool DiscordRPC::get_is_overlay_enabled()
 {
     bool ie;
-    if (get_is_discord_working()){
+    if (get_is_discord_working())
+    {
         // core->OverlayManager().IsEnabled(&ie);
         return ie;
     }
@@ -244,7 +317,7 @@ Dictionary DiscordRPC::get_current_user()
     {
         // discordpp::User user{};
         // core->UserManager().GetCurrentUser(&user);
-        return userdict; //user2dict(user)
+        return userdict; // user2dict(user)
     }
     return userdict;
 }
@@ -268,7 +341,7 @@ Array DiscordRPC::get_all_relationships()
         [](discordpp::Relationship const &relationship) -> bool
         { return true; });*/
     uint32_t friendcount{0};
-    //core->RelationshipManager().Count(&friendcount);
+    // core->RelationshipManager().Count(&friendcount);
     /*for (int i = 0; i < friendcount; i++)
     {
         discordpp::Relationship relationship{};
@@ -368,5 +441,5 @@ Dictionary DiscordRPC::relationship2dict(discordpp::RelationshipHandle relations
 
 bool DiscordRPC::get_is_discord_working()
 {
-    return app_id > 0; /*result.Successful() &&*/ 
+    return app_id > 0; /*result.Successful() &&*/
 }
