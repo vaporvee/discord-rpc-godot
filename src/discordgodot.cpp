@@ -120,8 +120,8 @@ void DiscordRPC::debug()
     args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
     args.SetCodeChallenge(codeVerifier.Challenge());
 
-    // Begin authentication process
-    client->Authorize(args, [client, codeVerifier](auto result, auto code, auto redirectUri)
+    // Begin authentication process // TODO: option to open browser
+    client->Authorize(args, [client, codeVerifier](auto result, auto code, auto redirectUri) 
                       {
       if (!result.Successful()) {
         UtilityFunctions::push_error("Authentication Error: " + String(result.Error().c_str()));
