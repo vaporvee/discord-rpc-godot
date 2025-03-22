@@ -1,3 +1,4 @@
+#define DISCORDPP_IMPLEMENTATION
 #include "discordpp.h"
 #include "discordgodot.h"
 #include <godot_cpp/core/class_db.hpp>

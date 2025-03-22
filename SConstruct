@@ -3,7 +3,7 @@ import os
 
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
-env.Append(CPPPATH=["src/"])
+env.Append(CPPPATH=["src/", "src/lib/discord_social_sdk/include/"])
 sources = Glob("src/*.cpp")
 
 if env["platform"] == "macos":
@@ -18,8 +18,10 @@ elif env["platform"] == "windows":
     discord_library = "discord_partner_sdk.dll"
     libexportfolder = "/windows/"
 
-    folder = "release/"
-    discord_library_target = discord_library
+if env["target"] == "template_debug":
+    debugsuffix = "_debug"
+else:
+    debugsuffix = ""
 
 env.Append(LIBPATH=["src/lib/discord_social_sdk/lib/release/"])
 env.Append(LIBS=["discord_partner_sdk"])
@@ -29,7 +31,8 @@ env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
 library = env.SharedLibrary(
     target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder
-    + discord_library,
+    + "discord_partner_sdk_binding"
+    + debugsuffix,
     source=sources,
 )
 env.Depends(
