@@ -33,11 +33,10 @@ func _enable_plugin() -> void:
 	print("IGNORE RED ERROR MESSAGES BEFORE THE SECOND RESTART!")
 
 func _disable_plugin() -> void:
-	remove_autoload_singleton("DiscordUtilLoader")
 	FileAccess.open("res://addons/discord-rpc-gd/bin/.gdignore",FileAccess.WRITE)
 	remove_custom_type("DiscordSocialSDKDebug")
 	get_editor_interface().get_editor_settings().erase("DiscordSocialSDK/EditorPresence/enabled")
-	push_warning("Please restart the editor to fully disable the DiscordUtil plugin")
+	push_warning("Please restart the editor to fully disable the Discord Social SDK plugin")
 
 func save_and_restart() -> void:
 	get_editor_interface().restart_editor(true)

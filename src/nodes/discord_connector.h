@@ -26,6 +26,8 @@ public:
     H_SET_GET(token_auto_manage, true)
     H_SET_GET(auto_connect, false)
 
+    void connect();
+
     DiscordConnector();
     ~DiscordConnector();
     void _ready() override;

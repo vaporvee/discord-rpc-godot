@@ -19,10 +19,6 @@ boot_splash/fullsize=false
 boot_splash/image="res://assets/discordgodot_cover.png"
 config/icon="res://assets/Logo_V2.png"
 
-[autoload]
-
-PluginManager="*res://plugin_manager.gd"
-
 [debug]
 
 gdscript/warnings/untyped_declaration=1

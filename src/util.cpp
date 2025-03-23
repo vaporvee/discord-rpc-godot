@@ -131,7 +131,7 @@ void DiscordUtil::debug()
       } });
 }
 
-void DiscordUtil::set_app_id(uint64_t value)
+void DiscordUtil::set_app_id(int64_t value)
 {
     app_id = value;
     if (app_id > 0)
@@ -167,7 +167,7 @@ void DiscordUtil::set_app_id(uint64_t value)
          */
     }
 }
-uint64_t DiscordUtil::get_app_id()
+int64_t DiscordUtil::get_app_id()
 {
     if (app_id != 0)
         return app_id;
@@ -261,19 +261,19 @@ void DiscordUtil::open_voice_settings()
         return;
 }
 
-void DiscordUtil::accept_join_request(uint64_t user_id)
+void DiscordUtil::accept_join_request(int64_t user_id)
 {
     if (get_is_discord_working())
         // core->ActivityManager().SendRequestReply(user_id, static_cast<discordpp::ActivityJoinRequestReply>(1), {});
         return;
 }
-void DiscordUtil::send_invite(uint64_t user_id, bool is_spectate = false, String message_content = "")
+void DiscordUtil::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
 {
     if (get_is_discord_working())
         // core->ActivityManager().SendInvite(user_id, static_cast<discordpp::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
         return;
 }
-void DiscordUtil::accept_invite(uint64_t user_id)
+void DiscordUtil::accept_invite(int64_t user_id)
 {
     if (get_is_discord_working())
         // core->ActivityManager().AcceptInvite(user_id, {});
@@ -304,7 +304,7 @@ Dictionary DiscordUtil::get_current_user()
     return userdict;
 }
 
-Dictionary DiscordUtil::get_relationship(uint64_t user_id)
+Dictionary DiscordUtil::get_relationship(int64_t user_id)
 {
     Dictionary dict;
     if (get_is_discord_working())

@@ -28,13 +28,13 @@ public:
     ~DiscordUtil();
 
     // INTERBNAL
-    uint64_t old_app_id;
+    int64_t old_app_id;
     Dictionary relationship2dict(discordpp::RelationshipHandle relationship);
     Dictionary user2dict(discordpp::UserHandle user);
     ///
-    void set_app_id(uint64_t value);
-    uint64_t get_app_id();
-    uint64_t app_id = 0; // needs to be directly set to 0 or it will crash randomly
+    void set_app_id(int64_t value);
+    int64_t get_app_id();
+    int64_t app_id = 0; // needs to be directly set to 0 or it will crash randomly
     H_SET_GET(is_overlay_locked, false)
 
     void debug();
@@ -46,13 +46,13 @@ public:
     void open_invite_overlay(bool is_spectate);
     void open_server_invite_overlay(String invite_code);
     void open_voice_settings();
-    void accept_join_request(uint64_t user_id);
-    void send_invite(uint64_t user_id, bool is_spectate, String message_content);
-    void accept_invite(uint64_t user_id);
+    void accept_join_request(int64_t user_id);
+    void send_invite(int64_t user_id, bool is_spectate, String message_content);
+    void accept_invite(int64_t user_id);
     void register_command(String value);
     void register_steam(int32_t value);
     Dictionary get_current_user();
-    Dictionary get_relationship(uint64_t user_id);
+    Dictionary get_relationship(int64_t user_id);
     Array get_all_relationships();
     bool get_is_discord_working();
 };
