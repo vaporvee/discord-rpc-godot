@@ -1,20 +1,13 @@
 #ifndef EDITOR_PRESENCE_H
 #define EDITOR_PRESENCE_H
 
-#include <stdio.h>
-#include "discordpp.h"
-#include <godot_cpp/classes/node.hpp>
-#include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/time.hpp>
-#include <godot_cpp/classes/tree.hpp>
+#include "discord_social_sdk.h"
 
 using namespace godot;
 
-class EditorPresence : public Node
+class EditorPresence : public DiscordSocialSDK
 {
-    GDCLASS(EditorPresence, Node);
+    GDCLASS(EditorPresence, DiscordSocialSDK);
 
     static EditorPresence *singleton;
 

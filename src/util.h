@@ -1,33 +1,31 @@
 #ifndef DISCORDGODOT_H
 #define DISCORDGODOT_H
 
-#include <stdio.h>
+#include "definitions.h"
 #include "discordpp.h"
+#include <stdio.h>
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
-
-#define H_SET_GET(variable_type, property_name) \
-    variable_type property_name;                \
-    variable_type get_##property_name();        \
-    void set_##property_name(variable_type value);
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
-class DiscordRPC : public Object
+class DiscordUtil : public Object
 {
-    GDCLASS(DiscordRPC, Object);
+    GDCLASS(DiscordUtil, Object);
 
-    static DiscordRPC *singleton;
+    static DiscordUtil *singleton;
 
 protected:
     static void _bind_methods();
 
 public:
-    static DiscordRPC *
+    static DiscordUtil *
     get_singleton();
 
-    DiscordRPC();
-    ~DiscordRPC();
+    DiscordUtil();
+    ~DiscordUtil();
 
     // INTERBNAL
     uint64_t old_app_id;
@@ -37,7 +35,7 @@ public:
     void set_app_id(uint64_t value);
     uint64_t get_app_id();
     uint64_t app_id = 0; // needs to be directly set to 0 or it will crash randomly
-    H_SET_GET(bool, is_overlay_locked)
+    H_SET_GET(is_overlay_locked, false)
 
     void debug();
     void run_callbacks();

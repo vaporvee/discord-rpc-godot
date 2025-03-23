@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GDExtension DiscordRPC Test Project"
+config/name="GDExtension DiscordUtil Test Project"
 config/tags=PackedStringArray("vaporvee")
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.4")
@@ -22,7 +22,6 @@ config/icon="res://assets/Logo_V2.png"
 [autoload]
 
 PluginManager="*res://plugin_manager.gd"
-DiscordRPCLoader="*res://addons/discord-rpc-gd/nodes/discord_autoload.gd"
 
 [debug]
 
@@ -36,6 +35,7 @@ gdscript/warnings/unsafe_call_argument=1
 [display]
 
 window/size/resizable=false
+display_server/driver.linuxbsd="wayland"
 
 [dotnet]
 

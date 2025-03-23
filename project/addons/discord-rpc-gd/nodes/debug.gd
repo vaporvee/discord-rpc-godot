@@ -1,6 +1,6 @@
 ## This is a Debug Node wich will show some usefull info and buttons/input
 ## 
-## The DiscordRPC Debug Node will show info about the current values of its variables and some buttons to change them.
+## The DiscordUtil Debug Node will show info about the current values of its variables and some buttons to change them.
 ##
 ## @tutorial: https://github.com/vaporvee/discord-rpc-godot/wiki
 @tool

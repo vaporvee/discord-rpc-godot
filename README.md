@@ -6,7 +6,7 @@ Discord recently released its new SDK. This plugin will get a huge overhaul and 
 ---
 
 ### This is for the Discord Game SDK NOT the Embedded App SDK
-**Discord RPC Plugin for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
+**Discord Social SDK Plugin for GDScript with an easy-to-use code pattern in Godot Engine 4.1+, with optional Editor Rich Presence! (Compatible with Linux, Windows, & MacOS)**<br><br>
 <br />
 ### [My Discord Server](https://discord.gg/3gqUrtbaur)
 # [Quick start :rocket: (click here)](https://docs.vaporvee.com/discord-rpc-godot#quick-start)

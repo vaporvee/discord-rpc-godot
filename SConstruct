@@ -3,8 +3,8 @@ import os
 
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
-env.Append(CPPPATH=["src/", "src/lib/discord_social_sdk/include/"])
-sources = Glob("src/*.cpp")
+env.Append(CPPPATH=["src/","src/nodes/", "src/lib/discord_social_sdk/include/"])
+sources = Glob("src/*.cpp") + Glob("src/nodes/*.cpp")
 
 if env["platform"] == "macos":
     discord_library = "libdiscord_partner_sdk.dylib"
