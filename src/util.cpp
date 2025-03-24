@@ -4,31 +4,8 @@ DiscordUtil *DiscordUtil::singleton = nullptr;
 
 void DiscordUtil::_bind_methods()
 {
-    BIND_SET_GET(DiscordUtil, app_id, Variant::INT);
-    BIND_SIGNAL(DiscordUtil, activity_join, PropertyInfo(Variant::STRING, "join_secret"));
-    BIND_SIGNAL(DiscordUtil, activity_spectate, PropertyInfo(Variant::STRING, "spectate_secret"));
-    BIND_SIGNAL(DiscordUtil, activity_join_request, PropertyInfo(Variant::DICTIONARY, "user_requesting"));
-    BIND_SIGNAL(DiscordUtil, updated_relationship, PropertyInfo(Variant::DICTIONARY, "relationship"));
-    BIND_SIGNAL(DiscordUtil, overlay_toggle, PropertyInfo(Variant::BOOL, "is_locked"));
-    BIND_SIGNAL(DiscordUtil, relationships_init);
     BIND_METHOD(DiscordUtil, debug);
     BIND_METHOD(DiscordUtil, run_callbacks);
-    BIND_METHOD(DiscordUtil, refresh);
-    ClassDB::bind_method(D_METHOD("clear", "reset_values"), &DiscordUtil::clear, DEFVAL(false));
-    BIND_METHOD(DiscordUtil, unclear);
-    BIND_METHOD(DiscordUtil, register_command, "command");
-    BIND_METHOD(DiscordUtil, register_steam, "steam_id");
-    BIND_METHOD(DiscordUtil, accept_join_request, "user_id");
-    BIND_METHOD(DiscordUtil, send_invite, "user_id", "is_spectate", "message_content");
-    BIND_METHOD(DiscordUtil, accept_invite, "user_id");
-    BIND_METHOD(DiscordUtil, get_current_user);
-    BIND_METHOD(DiscordUtil, get_all_relationships);
-    BIND_METHOD(DiscordUtil, get_is_overlay_enabled);
-    BIND_METHOD(DiscordUtil, get_is_overlay_locked);
-    BIND_METHOD(DiscordUtil, open_invite_overlay, "is_spectate");
-    BIND_METHOD(DiscordUtil, open_server_invite_overlay, "invite_code");
-    BIND_METHOD(DiscordUtil, open_voice_settings);
-    BIND_METHOD(DiscordUtil, get_is_discord_working);
 }
 
 DiscordUtil::DiscordUtil()
@@ -39,7 +16,6 @@ DiscordUtil::DiscordUtil()
 
 DiscordUtil::~DiscordUtil()
 {
-    app_id = 0;
     ERR_FAIL_COND(singleton != this);
     singleton = nullptr;
 }
@@ -131,208 +107,6 @@ void DiscordUtil::debug()
       } });
 }
 
-void DiscordUtil::set_app_id(int64_t value)
-{
-    app_id = value;
-    if (app_id > 0)
-    {
-        /*
-         result = discordpp::Core::Create(value, DiscordCreateFlags_NoRequireDiscord, &core); // after setting app_ID it initializes everything
-         if (result == discordpp::Result::Ok)
-         {
-             // initialize currentuser
-             core->UserManager().OnCurrentUserUpdate.Connect([]()
-             {discordpp::User user{};
-             core->UserManager().GetCurrentUser(&user); });
-             // signals
-             core->ActivityManager().OnActivityJoin.Connect([](const char *secret)
-             { DiscordUtil::get_singleton()
-             ->emit_signal("activity_join", secret); });
-             core->ActivityManager().OnActivitySpectate.Connect([](const char *secret)
-             { DiscordUtil::get_singleton()
-             ->emit_signal("activity_spectate", secret); });
-             core->ActivityManager().OnActivityJoinRequest.Connect([this](discordpp::User const &user)
-                                                                   { DiscordUtil::get_singleton()
-                                                                         ->emit_signal("activity_join_request", user2dict(user)); });
-             core->OverlayManager().OnToggle.Connect([](bool is_locked)
-             { DiscordUtil::get_singleton()
-             ->emit_signal("overlay_toggle", is_locked); });
-             core->RelationshipManager().OnRefresh.Connect([&]()
-             { DiscordUtil::get_singleton()
-             ->emit_signal("relationships_init"); });
-             core->RelationshipManager().OnRelationshipUpdate.Connect([&](discordpp::Relationship const &relationship)
-             { DiscordUtil::get_singleton()
-             ->emit_signal("updated_relationship", relationship2dict(relationship)); });
-         }
-         */
-    }
-}
-int64_t DiscordUtil::get_app_id()
-{
-    if (app_id != 0)
-        return app_id;
-    return old_app_id;
-}
-
-void DiscordUtil::refresh()
-{
-    if (get_is_discord_working())
-    {
-        /*activity.GetParty().SetPrivacy(discordpp::ActivityPartyPrivacy::Public);
-        activity.SetType(discordpp::ActivityType::Playing);
-        core->ActivityManager().UpdateActivity(activity, [](discordpp::Result result) {});*/
-        return;
-    }
-    else
-        UtilityFunctions::push_warning("Discord Activity couldn't be updated. It could be that Discord isn't running!");
-}
-
-void DiscordUtil::clear(bool reset_values = false)
-{
-    if (get_is_discord_working())
-    {
-        if (reset_values)
-        {
-            old_app_id = 0;
-            set_is_overlay_locked(false);
-            // core->ActivityManager().ClearActivity([](discordpp::Result result) {});
-        }
-        else
-            old_app_id = app_id;
-        app_id = 0;
-    }
-}
-
-void DiscordUtil::unclear()
-{
-    if (old_app_id > 0)
-    {
-        set_app_id(old_app_id);
-        refresh();
-        old_app_id = 0;
-    }
-    else
-        UtilityFunctions::push_warning("Discord Activity couldn't be uncleared. Maybe it didn't get cleared before?");
-}
-
-bool DiscordUtil::get_is_overlay_enabled()
-{
-    bool ie;
-    if (get_is_discord_working())
-    {
-        // core->OverlayManager().IsEnabled(&ie);
-        return ie;
-    }
-    return ie;
-}
-bool DiscordUtil::get_is_overlay_locked()
-{
-    bool il;
-    if (get_is_discord_working())
-    {
-        // core->OverlayManager().IsLocked(&il);
-        return il;
-    }
-    return il;
-}
-void DiscordUtil::set_is_overlay_locked(bool value)
-{
-    is_overlay_locked = value;
-    if (get_is_discord_working())
-        // core->OverlayManager().SetLocked(value, {});
-        return;
-}
-void DiscordUtil::open_invite_overlay(bool is_spectate)
-{
-    if (get_is_discord_working())
-        // core->OverlayManager().OpenActivityInvite(static_cast<discordpp::ActivityActionType>(is_spectate + 1), {});
-        return;
-}
-void DiscordUtil::open_server_invite_overlay(String invite_code)
-{
-    if (get_is_discord_working())
-        // core->OverlayManager().OpenGuildInvite(invite_code.utf8().get_data(), {});
-        return;
-}
-void DiscordUtil::open_voice_settings()
-{
-    if (get_is_discord_working())
-        // core->OverlayManager().OpenVoiceSettings({});
-        return;
-}
-
-void DiscordUtil::accept_join_request(int64_t user_id)
-{
-    if (get_is_discord_working())
-        // core->ActivityManager().SendRequestReply(user_id, static_cast<discordpp::ActivityJoinRequestReply>(1), {});
-        return;
-}
-void DiscordUtil::send_invite(int64_t user_id, bool is_spectate = false, String message_content = "")
-{
-    if (get_is_discord_working())
-        // core->ActivityManager().SendInvite(user_id, static_cast<discordpp::ActivityActionType>(is_spectate + 1), message_content.utf8().get_data(), {});
-        return;
-}
-void DiscordUtil::accept_invite(int64_t user_id)
-{
-    if (get_is_discord_working())
-        // core->ActivityManager().AcceptInvite(user_id, {});
-        return;
-}
-
-void DiscordUtil::register_command(String value)
-{
-    if (get_is_discord_working())
-        // core->ActivityManager().RegisterCommand(value.utf8().get_data());
-        return;
-}
-void DiscordUtil::register_steam(int32_t value)
-{
-    if (get_is_discord_working())
-        // core->ActivityManager().RegisterSteam(value);
-        return;
-}
-Dictionary DiscordUtil::get_current_user()
-{
-    Dictionary userdict;
-    if (get_is_discord_working())
-    {
-        // discordpp::User user{};
-        // core->UserManager().GetCurrentUser(&user);
-        return userdict; // user2dict(user)
-    }
-    return userdict;
-}
-
-Dictionary DiscordUtil::get_relationship(int64_t user_id)
-{
-    Dictionary dict;
-    if (get_is_discord_working())
-    {
-        // discordpp::Relationship relationship{};
-        // core->RelationshipManager().Get(user_id, &relationship);
-        return dict /*relationship2dict(relationship)*/;
-    }
-    return dict;
-}
-
-Array DiscordUtil::get_all_relationships()
-{
-    Array all_relationships;
-    /*core->RelationshipManager().Filter(
-        [](discordpp::Relationship const &relationship) -> bool
-        { return true; });*/
-    uint32_t friendcount{0};
-    // core->RelationshipManager().Count(&friendcount);
-    /*for (int i = 0; i < friendcount; i++)
-    {
-        discordpp::Relationship relationship{};
-        core->RelationshipManager().GetAt(i, &relationship);
-        all_relationships.append(relationship2dict(relationship));
-    }*/
-    return all_relationships;
-}
-
 Dictionary DiscordUtil::user2dict(discordpp::UserHandle user)
 {
     Dictionary userdict;
@@ -419,9 +193,4 @@ Dictionary DiscordUtil::relationship2dict(discordpp::RelationshipHandle relation
     dict_relationship["presence"] = presence;
     dict_relationship.make_read_only();*/
     return dict_relationship;
-}
-
-bool DiscordUtil::get_is_discord_working()
-{
-    return app_id > 0; /*result.Successful() &&*/
 }

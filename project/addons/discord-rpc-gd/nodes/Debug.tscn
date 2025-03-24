@@ -14,7 +14,7 @@ func _ready():
 	DiscordUtil.connect(\"activity_join_request\",_on_activity_join_request)
 
 func _process(_delta) -> void:
-	if(DiscordUtil.get_is_discord_working()):
+	if(false):
 		$Panel/TextureRect.self_modulate = Color(\"#3eff8d\")
 		if !animation_player.is_playing():
 			animation_player.play(\"pulsate\")
@@ -55,28 +55,6 @@ var user_request: Dictionary = {};
 func _on_activity_join_request(user_requesting: Dictionary) -> void:
 	print(user_requesting)
 	user_request = user_requesting
-
-func _on_accept_join_request_pressed() -> void:
-	if(!user_request.is_empty()):
-		DiscordUtil.accept_join_request(user_request.id)
-
-func _on_invite_with_user_id_text_submitted(new_text: String) -> void:
-	DiscordUtil.send_invite(int(new_text),true,\"this is a test invite sent from godot\")
-
-func _on_accept_with_user_id_text_submitted(new_text: String) -> void:
-	DiscordUtil.accept_invite(int(new_text))
-
-func _on_print_current_user_on_console_pressed() -> void:
-	print(DiscordUtil.get_current_user())
-
-func _on_toggle_sdk_toggled(button_pressed: bool) -> void:
-	if(button_pressed):
-		DiscordUtil.unclear()
-	else:
-		DiscordUtil.clear(false)
-
-func _on_print_friends_pressed() -> void:
-	print(DiscordUtil.get_all_relationships())
 "
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8abo6"]

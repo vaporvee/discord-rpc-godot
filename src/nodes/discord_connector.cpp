@@ -8,6 +8,7 @@ void DiscordConnector::_bind_methods()
     BIND_SET_GET(DiscordConnector, auto_connect, Variant::BOOL);
     BIND_SET_GET(DiscordConnector, token_auto_manage, Variant::BOOL);
     BIND_METHOD(DiscordConnector, connect);
+    BIND_SIGNAL(user_connected, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
 }
 DiscordConnector::DiscordConnector()
 {
@@ -28,7 +29,7 @@ void DiscordConnector::_ready()
     if (!Engine::get_singleton()->is_editor_hint() && !editor_process)
     {
         if (auto_connect)
-            connect();
+            connect_user();
     }
 }
 
@@ -70,7 +71,7 @@ bool DiscordConnector::get_auto_connect()
     return auto_connect;
 }
 
-void DiscordConnector::connect()
+void DiscordConnector::connect_user()
 {
     auto codeVerifier = client->CreateAuthorizationCodeVerifier();
 
@@ -88,15 +89,20 @@ void DiscordConnector::connect()
       } else {
         client->GetToken(app_id, code, codeVerifier.Verifier(), redirectUri,
           [this](discordpp::ClientResult result,
-          std::string accessToken, // needs to be stored securely
-          std::string refreshToken, // needs to be stored securely
+          std::string accessToken,
+          std::string refreshToken,
           discordpp::AuthorizationTokenType tokenType,
           int32_t expiresIn,
           std::string scope) {
+            if (result.Successful()) {
+            DiscordConnector::get_singleton()->emit_signal("user_connected", accessToken.c_str(), refreshToken.c_str(), expiresIn);
+            } else {
+              UtilityFunctions::push_error("Access token error: " + String(result.Error().c_str()));
+              return;
+            }
             client->UpdateToken(discordpp::AuthorizationTokenType::Bearer, accessToken, [this](discordpp::ClientResult result) {
                 if(result.Successful()) {
                     client->Connect();
-                    UtilityFunctions::print("TODO: connection success signal");
                 } else {
                   UtilityFunctions::push_error("Token update error: " + String(result.Error().c_str()));
                 }
