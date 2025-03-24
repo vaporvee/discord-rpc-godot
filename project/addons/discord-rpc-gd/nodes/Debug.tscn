@@ -10,9 +10,6 @@ script/source = "extends Node
 
 @onready var animation_player: AnimationPlayer = $Panel/TextureRect/AnimationPlayer
 
-func _ready():
-	DiscordUtil.connect(\"activity_join_request\",_on_activity_join_request)
-
 func _process(_delta) -> void:
 	if(false):
 		$Panel/TextureRect.self_modulate = Color(\"#3eff8d\")

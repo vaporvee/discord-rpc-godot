@@ -8,6 +8,9 @@
 #define SET_GET(class_name, variable, setter, ...) decltype(class_name::variable) class_name::get_##variable() { return variable; } void class_name::set_##variable(decltype(class_name::variable) value) { variable = value; setter; }
 
 #define RESOLVE_TYPE(default_value) \
-    typename std::conditional<std::is_same<decltype(default_value), int>::value, int64_t, decltype(default_value)>::type
+    typename std::conditional<std::is_same<decltype(default_value), const char (&)[1]>::value, godot::String, \
+    typename std::conditional<std::is_same<decltype(default_value), bool>::value, bool, \
+    typename std::conditional<std::is_integral<decltype(default_value)>::value, int64_t, \
+    decltype(default_value)>::type>::type>::type
 
 #define H_SET_GET(property_name, default_value) private: RESOLVE_TYPE(default_value) property_name = default_value; public: RESOLVE_TYPE(default_value) get_##property_name(); void set_##property_name(RESOLVE_TYPE(default_value) value);

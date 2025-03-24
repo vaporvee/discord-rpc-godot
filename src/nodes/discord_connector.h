@@ -2,6 +2,7 @@
 #define DISCORD_CONNECTOR_H
 
 #include "discord_social_sdk.h"
+#include "../util.h"
 
 using namespace godot;
 
@@ -23,10 +24,20 @@ public:
     std::shared_ptr<discordpp::Client> client;
 
     H_SET_GET(app_id, 0)
+    H_SET_GET(encryption_key, "")
     H_SET_GET(token_auto_manage, true)
     H_SET_GET(auto_connect, false)
 
+    String access_token;
+    String refresh_token;
+    int64_t expires_in;
+    String get_access_token();
+    String get_refresh_token();
+    int64_t get_expires_in();
+
     void connect_user();
+    void update_user_token(String access_token);
+    String refresh_user_token(String refresh_token);
 
     DiscordConnector();
     ~DiscordConnector();

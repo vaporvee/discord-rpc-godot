@@ -43,8 +43,9 @@ text = "[center][font s=60]DiscordUtil Test"
 script = ExtResource("6_ujijw")
 
 [node name="DiscordConnector" type="DiscordConnector" parent="."]
-app_id = 1099618430065324082
 auto_connect = true
+app_id = 1099618430065324082
+encryption_key = "H8jOL;.+F9B7&/jLb:Yr_,V'He/nRQw.wII8GE1$l_P,&YG)Yc"
 script = ExtResource("3_h2yge")
 
 [connection signal="user_connected" from="DiscordConnector" to="DiscordConnector" method="_on_user_connected"]
