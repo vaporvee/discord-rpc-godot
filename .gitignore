@@ -38,4 +38,5 @@ project/export/
 # venv
 venv/
 
-
+# docs
+src/gen/

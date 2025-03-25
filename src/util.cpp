@@ -210,31 +210,34 @@ String DiscordUtil::generate_auto_encryption_key()
 
 void DiscordUtil::save_tokens(String access_token, String refresh_token, int64_t expires_in, String auto_encryption_key)
 {
-    ConfigFile config;
-    config.set_value("tokens", "access_token", access_token);
-    config.set_value("tokens", "refresh_token", refresh_token);
-    config.set_value("tokens", "expires_in", expires_in);
-    config.save_encrypted_pass("user://discord_data.binary", auto_encryption_key);
+    Ref<ConfigFile> config;
+	config.instantiate();
+    config->set_value("tokens", "access_token", access_token);
+    config->set_value("tokens", "refresh_token", refresh_token);
+    config->set_value("tokens", "expires_in", expires_in);
+    config->save_encrypted_pass("user://discord_data.binary", auto_encryption_key);
 }
 
 void DiscordUtil::delete_tokens()
 {
-    ConfigFile config;
-    config.save("user://discord_data.binary");
+    Ref<ConfigFile> config;
+	config.instantiate();
+    config->save("user://discord_data.binary");
 }
 
-ConfigFile DiscordUtil::get_tokens(String auto_encryption_key)
+Ref<ConfigFile> DiscordUtil::get_tokens(String auto_encryption_key)
 {
-    ConfigFile config;
+    Ref<ConfigFile> config;
+    config.instantiate();
     if (!FileAccess::file_exists("user://discord_data.binary"))
     {
-        return ConfigFile();
+        return config;
     }
-    Error err = config.load_encrypted_pass("user://discord_data.binary", auto_encryption_key);
+    Error err = config->load_encrypted_pass("user://discord_data.binary", auto_encryption_key);
     if (err != OK)
     {
-        config.save("user://discord_data.binary");
-        return ConfigFile();
+        config->save("user://discord_data.binary");
+        return config;
     }
     return config;
 }

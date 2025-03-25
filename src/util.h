@@ -35,7 +35,7 @@ public:
     void save_tokens(String access_token, String refresh_token, int64_t expires_in, String auto_encryption_key);
     String generate_auto_encryption_key();
     void delete_tokens();
-    ConfigFile get_tokens(String auto_encryption_key);
+    Ref<ConfigFile> get_tokens(String auto_encryption_key);
 
     void debug();
     void run_callbacks();
