@@ -32,10 +32,10 @@ public:
     Dictionary relationship2dict(discordpp::RelationshipHandle relationship);
     Dictionary user2dict(discordpp::UserHandle user);
 
-    void save_tokens(String access_token, String refresh_token, int64_t expires_in, String encryption_key);
-    String generate_encryption_key();
+    void save_tokens(String access_token, String refresh_token, int64_t expires_in, String auto_encryption_key);
+    String generate_auto_encryption_key();
     void delete_tokens();
-    ConfigFile get_tokens(String encryption_key);
+    ConfigFile get_tokens(String auto_encryption_key);
 
     void debug();
     void run_callbacks();

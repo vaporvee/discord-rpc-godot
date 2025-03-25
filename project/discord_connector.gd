@@ -7,7 +7,7 @@ func _on_user_updated() -> void:
 	print_debug("USER UPDATED")
 
 func _on_user_connection_failed(error: String) -> void:
-	push_error("User connection failed! Error: %s", error)
+	push_error("User connection failed! Error: " + error)
 
 func _on_user_update_failed(error: String) -> void:
-	push_error("User update failed! Error: %s", error)
+	push_error("User update failed! Error: " + error)

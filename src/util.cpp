@@ -6,8 +6,8 @@ void DiscordUtil::_bind_methods()
 {
     BIND_METHOD(DiscordUtil, debug);
     BIND_METHOD(DiscordUtil, run_callbacks);
-    BIND_METHOD(DiscordUtil, save_tokens, "access_token", "refresh_token", "expires_in", "encryption_key");
-    BIND_METHOD(DiscordUtil, generate_encryption_key);
+    BIND_METHOD(DiscordUtil, save_tokens, "access_token", "refresh_token", "expires_in", "auto_encryption_key");
+    BIND_METHOD(DiscordUtil, generate_auto_encryption_key);
 }
 
 DiscordUtil::DiscordUtil()
@@ -197,7 +197,7 @@ Dictionary DiscordUtil::relationship2dict(discordpp::RelationshipHandle relation
     return dict_relationship;
 }
 
-String DiscordUtil::generate_encryption_key()
+String DiscordUtil::generate_auto_encryption_key()
 {
     const char *charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"$%&/()=?*+#-.,;:_'";
     String key;
@@ -208,13 +208,13 @@ String DiscordUtil::generate_encryption_key()
     return key;
 }
 
-void DiscordUtil::save_tokens(String access_token, String refresh_token, int64_t expires_in, String encryption_key)
+void DiscordUtil::save_tokens(String access_token, String refresh_token, int64_t expires_in, String auto_encryption_key)
 {
     ConfigFile config;
     config.set_value("tokens", "access_token", access_token);
     config.set_value("tokens", "refresh_token", refresh_token);
     config.set_value("tokens", "expires_in", expires_in);
-    config.save_encrypted_pass("user://discord_data.binary", encryption_key);
+    config.save_encrypted_pass("user://discord_data.binary", auto_encryption_key);
 }
 
 void DiscordUtil::delete_tokens()
@@ -223,14 +223,14 @@ void DiscordUtil::delete_tokens()
     config.save("user://discord_data.binary");
 }
 
-ConfigFile DiscordUtil::get_tokens(String encryption_key)
+ConfigFile DiscordUtil::get_tokens(String auto_encryption_key)
 {
     ConfigFile config;
     if (!FileAccess::file_exists("user://discord_data.binary"))
     {
         return ConfigFile();
     }
-    Error err = config.load_encrypted_pass("user://discord_data.binary", encryption_key);
+    Error err = config.load_encrypted_pass("user://discord_data.binary", auto_encryption_key);
     if (err != OK)
     {
         config.save("user://discord_data.binary");
