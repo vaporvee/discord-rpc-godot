@@ -16,5 +16,6 @@ void uninitialize_DiscordUtil_module();
 #include "nodes/discord_social_sdk.h"
 #include "nodes/editor_presence.h"
 #include "nodes/discord_connector.h"
+#include "nodes/discord_activity.h"
 
 #endif // REGISTER_TYPES_H
