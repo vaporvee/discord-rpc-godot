@@ -49,3 +49,6 @@ encryption_key = "H8jOL;.+F9B7&/jLb:Yr_,V'He/nRQw.wII8GE1$l_P,&YG)Yc"
 script = ExtResource("3_h2yge")
 
 [connection signal="user_connected" from="DiscordConnector" to="DiscordConnector" method="_on_user_connected"]
+[connection signal="user_connection_failed" from="DiscordConnector" to="DiscordConnector" method="_on_user_connection_failed"]
+[connection signal="user_update_failed" from="DiscordConnector" to="DiscordConnector" method="_on_user_update_failed"]
+[connection signal="user_updated" from="DiscordConnector" to="DiscordConnector" method="_on_user_updated"]

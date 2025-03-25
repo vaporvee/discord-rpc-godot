@@ -9,11 +9,14 @@ void DiscordConnector::_bind_methods()
     BIND_SET_GET(DiscordConnector, encryption_key, Variant::STRING, godot::PROPERTY_HINT_PASSWORD);
     BIND_SET_GET(DiscordConnector, token_auto_manage, Variant::BOOL);
     BIND_METHOD(DiscordConnector, connect_user);
-    BIND_METHOD(DiscordConnector, update_user_token);
+    BIND_METHOD(DiscordConnector, update_user_token, "access_token");
     BIND_METHOD(DiscordConnector, get_access_token);
     BIND_METHOD(DiscordConnector, get_refresh_token);
     BIND_METHOD(DiscordConnector, get_expires_in);
     BIND_SIGNAL(user_connected, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
+    BIND_SIGNAL(user_connection_failed, PropertyInfo(Variant::STRING, "error"));
+    BIND_SIGNAL(user_updated);
+    BIND_SIGNAL(user_update_failed, PropertyInfo(Variant::STRING, "error"));
 }
 DiscordConnector::DiscordConnector()
 {
@@ -142,10 +145,10 @@ void DiscordConnector::connect_user()
             {
                 DiscordUtil::get_singleton()->save_tokens(accessToken.c_str(), refreshToken.c_str(), expiresIn, encryption_key);
             }
-            } else {
-              UtilityFunctions::push_error("Access token error: " + String(result.Error().c_str()));
-              return;
-            }
+        } else {
+            emit_signal("user_connection_failed", result.Error().c_str());
+            return;
+          }
             update_user_token(accessToken.c_str());
         });
       } });
@@ -157,8 +160,9 @@ void DiscordConnector::update_user_token(String access_token)
                         {
         if(result.Successful()) {
             client->Connect();
+            emit_signal("user_updated");
         } else {
-          UtilityFunctions::push_error("Token update error: " + String(result.Error().c_str()));
+          emit_signal("user_update_failed", result.Error().c_str());
         } });
 }
 
