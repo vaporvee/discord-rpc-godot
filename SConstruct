@@ -4,7 +4,14 @@ import os
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
 env.Append(CPPPATH=["src/","src/nodes/", "src/lib/discord_social_sdk/include/"])
-sources = Glob("src/*.cpp") + Glob("src/nodes/*.cpp")
+sources = [Glob("src/*.cpp"), Glob("src/nodes/*.cpp")]
+
+if env["target"] in ["editor", "template_debug"]:
+    try:
+        doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
+        sources.append(doc_data)
+    except AttributeError:
+        print("Not including class reference as we're targeting a pre-4.3 baseline.")
 
 if env["platform"] == "macos":
     discord_library = "libdiscord_partner_sdk.dylib"

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DiscordConnector" inherits="DiscordSocialSDK" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="connect_user">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="refresh_user_token">
+			<return type="void" />
+			<param index="0" name="current_refresh_token" type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="update_user_token">
+			<return type="void" />
+			<param index="0" name="access_token" type="String" />
+			<description>
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="app_id" type="int" setter="set_app_id" getter="get_app_id" default="0">
+		</member>
+		<member name="auto_connect" type="bool" setter="set_auto_connect" getter="get_auto_connect" default="false">
+		</member>
+		<member name="auto_encryption_key" type="String" setter="set_auto_encryption_key" getter="get_auto_encryption_key" default="&quot;&quot;">
+		</member>
+		<member name="auto_token_manage" type="bool" setter="set_auto_token_manage" getter="get_auto_token_manage" default="false">
+		</member>
+	</members>
+	<signals>
+		<signal name="user_connected">
+			<param index="0" name="access_token" type="String" />
+			<param index="1" name="refresh_token" type="String" />
+			<param index="2" name="expires_in" type="int" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_connection_failed">
+			<param index="0" name="error" type="String" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_token_refresh_failed">
+			<param index="0" name="error" type="String" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_token_refreshed">
+			<param index="0" name="access_token" type="String" />
+			<param index="1" name="refresh_token" type="String" />
+			<param index="2" name="expires_in" type="int" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_update_failed">
+			<param index="0" name="error" type="String" />
+			<description>
+			</description>
+		</signal>
+		<signal name="user_updated">
+			<description>
+			</description>
+		</signal>
+	</signals>
+</class>

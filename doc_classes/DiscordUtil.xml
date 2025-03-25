@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DiscordUtil" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+	</brief_description>
+	<description>
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="debug">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="generate_auto_encryption_key">
+			<return type="String" />
+			<description>
+			</description>
+		</method>
+		<method name="run_callbacks">
+			<return type="void" />
+			<description>
+			</description>
+		</method>
+		<method name="save_tokens">
+			<return type="void" />
+			<param index="0" name="access_token" type="String" />
+			<param index="1" name="refresh_token" type="String" />
+			<param index="2" name="expires_in" type="int" />
+			<param index="3" name="auto_encryption_key" type="String" />
+			<description>
+			</description>
+		</method>
+	</methods>
+</class>

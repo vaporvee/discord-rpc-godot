@@ -45,7 +45,7 @@ script = ExtResource("6_ujijw")
 [node name="DiscordConnector" type="DiscordConnector" parent="."]
 app_id = 1099618430065324082
 auto_connect = true
-auto_encryption_key = "nS\"#&bOk4?bFAD0h(h,5=dIp&7o#r#TGKAywD%Gd2IKa%gk0qf"
+auto_token_manage = true
 script = ExtResource("3_h2yge")
 
 [connection signal="user_connected" from="DiscordConnector" to="DiscordConnector" method="_on_user_connected"]

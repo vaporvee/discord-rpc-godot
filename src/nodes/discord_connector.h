@@ -36,6 +36,8 @@ public:
     void update_user_token(String access_token);
     void refresh_user_token(String refresh_token);
 
+    void refresh_auto_encryption_key();
+
     DiscordConnector();
     ~DiscordConnector();
     void _ready() override;

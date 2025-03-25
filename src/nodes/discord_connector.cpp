@@ -7,8 +7,8 @@ void DiscordConnector::_bind_methods()
     BIND_SET_GET(DiscordConnector, app_id, Variant::STRING, godot::PROPERTY_HINT_RANGE, "-99999,99999,or_less,or_greater,hide_slider");
     ADD_GROUP("Automatic", "auto_");
     BIND_SET_GET(DiscordConnector, auto_connect, Variant::BOOL);
-    BIND_SET_GET(DiscordConnector, auto_encryption_key, Variant::STRING, godot::PROPERTY_HINT_PASSWORD);
     BIND_SET_GET(DiscordConnector, auto_token_manage, Variant::BOOL);
+    BIND_SET_GET(DiscordConnector, auto_encryption_key, Variant::STRING, godot::PROPERTY_HINT_NONE, "", godot::PROPERTY_USAGE_NO_EDITOR);
     BIND_METHOD(DiscordConnector, connect_user);
     BIND_METHOD(DiscordConnector, update_user_token, "access_token");
     BIND_METHOD(DiscordConnector, refresh_user_token, "current_refresh_token");
@@ -55,10 +55,17 @@ void DiscordConnector::_ready()
         }
         else
         {
-            if (!Engine::get_singleton()->is_editor_hint() && !editor_process)
+            if (!Engine::get_singleton()->is_editor_hint())
             {
-                if (auto_connect)
+                if (auto_encryption_key.is_empty() && auto_token_manage)
+                {
+                    DiscordUtil::get_singleton()->delete_tokens();
+                    auto_encryption_key = DiscordUtil::get_singleton()->generate_auto_encryption_key();
+                }
+                if (auto_connect && !editor_process)
+                {
                     connect_user();
+                }
             }
         }
     }
@@ -69,11 +76,6 @@ void DiscordConnector::_process(double delta)
     if (!Engine::get_singleton()->is_editor_hint() && !editor_process)
     {
         discordpp::RunCallbacks();
-    }
-    if (auto_encryption_key == "" && auto_token_manage)
-    {
-        DiscordUtil::get_singleton()->delete_tokens();
-        auto_encryption_key = DiscordUtil::get_singleton()->generate_auto_encryption_key();
     }
 }
 
