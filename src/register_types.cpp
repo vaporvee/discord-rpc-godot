@@ -14,6 +14,7 @@ void initialize_DiscordUtil_module(ModuleInitializationLevel p_level)
         Engine::get_singleton()->register_singleton("DiscordUtil", DiscordUtil::get_singleton());
         ClassDB::register_class<EditorPresence>();
         ClassDB::register_class<DiscordConnector>();
+        ClassDB::register_abstract_class<DiscordConnected>();
         ClassDB::register_class<DiscordActivity>();
     }
 }
