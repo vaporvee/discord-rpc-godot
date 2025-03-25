@@ -9,6 +9,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/config_file.hpp>
+#include <godot_cpp/classes/file_access.hpp>
 
 using namespace godot;
 

@@ -226,6 +226,10 @@ void DiscordUtil::delete_tokens()
 ConfigFile DiscordUtil::get_tokens(String encryption_key)
 {
     ConfigFile config;
+    if (!FileAccess::file_exists("user://discord_data.binary"))
+    {
+        return ConfigFile();
+    }
     Error err = config.load_encrypted_pass("user://discord_data.binary", encryption_key);
     if (err != OK)
     {
