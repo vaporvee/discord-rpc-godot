@@ -1,0 +1,9 @@
+short_name = "discord-sdk-godot"
+name = "Discord Social SDK for Godot"
+major = 2
+minor = 0
+patch = 0
+status = "dev"
+module_config = ""
+website = "https://docs.vaporvee.com/"
+docs = "latest"
