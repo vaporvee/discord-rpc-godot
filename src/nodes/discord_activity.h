@@ -14,9 +14,9 @@ protected:
     static void _bind_methods();
 
 public:
-    Ref<ActivityResource> activity;
-    Ref<ActivityResource> get_activity();
-    void set_activity(Ref<ActivityResource> value);
+    TypedArray<ActivityResource> activities;
+    TypedArray<ActivityResource> get_activities();
+    void set_activities(TypedArray<ActivityResource> value);
 
     DiscordActivity();
     ~DiscordActivity();

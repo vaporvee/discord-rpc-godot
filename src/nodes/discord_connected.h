@@ -14,7 +14,7 @@ protected:
     static void _bind_methods();
 
 private:
-NodePath root_connector; // Change to NodePath object
+    NodePath root_connector; // Change to NodePath object
 
 public:
     DiscordConnector *connector;

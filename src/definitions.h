@@ -14,3 +14,5 @@
     decltype(default_value)>::type>::type>::type
 
 #define H_SET_GET(property_name, default_value) private: RESOLVE_TYPE(default_value) property_name = default_value; public: RESOLVE_TYPE(default_value) get_##property_name(); void set_##property_name(RESOLVE_TYPE(default_value) value);
+
+#define MAKE_RESOURCE_TYPE_HINT(m_type) vformat("%s/%s:%s", Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, m_type)

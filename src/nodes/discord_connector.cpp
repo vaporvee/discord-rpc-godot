@@ -12,11 +12,13 @@ void DiscordConnector::_bind_methods()
     BIND_METHOD(DiscordConnector, refresh_user_token, "current_refresh_token");
     BIND_SIGNAL(user_connected, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
     BIND_SIGNAL(user_connection_failed, PropertyInfo(Variant::STRING, "error"));
-    BIND_SIGNAL(user_updated);
+    BIND_SIGNAL(connection_ready);
+    BIND_SIGNAL(connection_error, PropertyInfo(Variant::STRING, "error"));
     BIND_SIGNAL(user_update_failed, PropertyInfo(Variant::STRING, "error"));
     BIND_SIGNAL(user_token_refreshed, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
     BIND_SIGNAL(user_token_refresh_failed, PropertyInfo(Variant::STRING, "error"));
 }
+
 DiscordConnector::DiscordConnector()
 {
 }
@@ -27,6 +29,17 @@ DiscordConnector::~DiscordConnector()
 void DiscordConnector::_ready()
 {
     client = std::make_shared<discordpp::Client>();
+
+    client->SetStatusChangedCallback([this](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail) {
+        if (status == discordpp::Client::Status::Ready)
+        {
+            emit_signal("connection_ready");
+        }
+        if (error != discordpp::Client::Error::None)
+        {
+            emit_signal("connection_error", String(discordpp::Client::ErrorToString(error).c_str()));
+        }
+    });
 
     if (Engine::get_singleton()->is_editor_hint() || editor_process)
         return;
@@ -138,7 +151,6 @@ void DiscordConnector::connect_user()
           int32_t expiresIn,
           std::string scope) {
             if (result.Successful()) {
-            emit_signal("user_connected", accessToken.c_str(), refreshToken.c_str(), expiresIn);
             if (auto_token_manage)
             {
                 DiscordUtil::get_singleton()->save_tokens(accessToken.c_str(), refreshToken.c_str(), expiresIn, auto_encryption_key);
@@ -158,7 +170,6 @@ void DiscordConnector::update_user_token(String access_token)
                         {
         if(result.Successful()) {
             client->Connect();
-            emit_signal("user_updated");
         } else {
           emit_signal("user_update_failed", result.Error().c_str());
         } });

@@ -2,7 +2,10 @@
 
 void DiscordActivity::_bind_methods()
 {
-    BIND_SET_GET(DiscordActivity, activity, Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, "ActivityResource");
+    
+    ClassDB::bind_method(D_METHOD("get_activities"), &DiscordActivity::get_activities);
+    ClassDB::bind_method(D_METHOD("set_activities", "value"), &DiscordActivity::set_activities);
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "activities", PROPERTY_HINT_ARRAY_TYPE, MAKE_RESOURCE_TYPE_HINT("ActivityResource")), "set_activities", "get_activities");
 }
 DiscordActivity::DiscordActivity()
 {
@@ -11,12 +14,12 @@ DiscordActivity::~DiscordActivity()
 {
 }
 
-Ref<ActivityResource> DiscordActivity::get_activity()
+TypedArray<ActivityResource> DiscordActivity::get_activities()
 {
-    return activity;
+    return activities;
 }
 
-void DiscordActivity::set_activity(Ref<ActivityResource> value)
+void DiscordActivity::set_activities(TypedArray<ActivityResource> value)
 {
-    activity = value;
+    activities = value;
 }
