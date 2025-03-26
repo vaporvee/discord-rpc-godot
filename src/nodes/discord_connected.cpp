@@ -43,7 +43,9 @@ void DiscordConnected::_enter_tree()
         }
         else
         {
-            connector = get_node<DiscordConnector>(root_connector);
+            if (get_node_or_null(root_connector)){
+                connector = get_node<DiscordConnector>(root_connector);
+            }
         }
     }
 }

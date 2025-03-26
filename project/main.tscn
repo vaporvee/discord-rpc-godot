@@ -49,7 +49,7 @@ auto_token_manage = true
 script = ExtResource("3_h2yge")
 
 [node name="DiscordActivity" type="DiscordActivity" parent="DiscordConnector"]
-root_connector = NodePath("/root/@EditorNode@21257/@Panel@14/@VBoxContainer@15/DockHSplitLeftL/DockHSplitLeftR/DockHSplitMain/@VBoxContainer@26/DockVSplitCenter/@VSplitContainer@54/@VBoxContainer@55/@EditorMainScreen@102/MainScreen/@CanvasItemEditor@11479/@VSplitContainer@11131/@HSplitContainer@11133/@HSplitContainer@11135/@Control@11136/@SubViewportContainer@11137/@SubViewport@11138/Node/DiscordConnector")
+root_connector = NodePath("..")
 
 [connection signal="user_connected" from="DiscordConnector" to="DiscordConnector" method="_on_user_connected"]
 [connection signal="user_connection_failed" from="DiscordConnector" to="DiscordConnector" method="_on_user_connection_failed"]
