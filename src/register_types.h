@@ -17,6 +17,8 @@ void uninitialize_DiscordUtil_module();
 #include "nodes/editor_presence.h"
 #include "nodes/discord_connector.h"
 #include "nodes/discord_connected.h"
+#include "nodes/discord_lobby.h"
+#include "nodes/discord_linked_channel.h"
 #include "nodes/discord_activity.h"
 #include "resources/activity.h"
 

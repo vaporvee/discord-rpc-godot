@@ -81,7 +81,7 @@ void DiscordConnector::_ready()
 
 void DiscordConnector::_process(double delta)
 {
-    if (!Engine::get_singleton()->is_editor_hint() && !editor_process)
+    if (!Engine::get_singleton()->is_editor_hint() && !editor_process && client)
     {
         discordpp::RunCallbacks();
     }

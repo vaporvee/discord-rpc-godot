@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
 [ext_resource type="Script" uid="uid://kmubk5a6i385" path="res://discord_connector.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://del0aaf7txxn6" path="res://discord_lobby.gd" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://46tue7u6crd6" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
 
 [node name="Node" type="Node"]
@@ -50,6 +51,10 @@ script = ExtResource("3_h2yge")
 
 [node name="DiscordActivity" type="DiscordActivity" parent="DiscordConnector"]
 root_connector = NodePath("..")
+
+[node name="DiscordLobby" type="DiscordLobby" parent="DiscordConnector"]
+root_connector = NodePath("..")
+script = ExtResource("4_1bvp3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(789, 330.5)
