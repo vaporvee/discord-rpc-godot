@@ -70,7 +70,9 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
