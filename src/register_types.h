@@ -18,5 +18,6 @@ void uninitialize_DiscordUtil_module();
 #include "nodes/discord_connector.h"
 #include "nodes/discord_connected.h"
 #include "nodes/discord_activity.h"
+#include "resources/activity.h"
 
 #endif // REGISTER_TYPES_H

@@ -1,7 +1,5 @@
 #include "discord_connector.h"
 
-DiscordConnector *DiscordConnector::singleton = nullptr;
-
 void DiscordConnector::_bind_methods()
 {
     BIND_SET_GET(DiscordConnector, app_id, Variant::STRING, godot::PROPERTY_HINT_RANGE, "-99999,99999,or_less,or_greater,hide_slider");
@@ -21,15 +19,9 @@ void DiscordConnector::_bind_methods()
 }
 DiscordConnector::DiscordConnector()
 {
-    singleton = this;
 }
 DiscordConnector::~DiscordConnector()
 {
-    singleton = nullptr;
-}
-DiscordConnector *DiscordConnector::get_singleton()
-{
-    return singleton;
 }
 
 void DiscordConnector::_ready()

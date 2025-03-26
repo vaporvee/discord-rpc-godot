@@ -10,8 +10,6 @@ class DiscordConnected : public DiscordSocialSDK
 {
     GDCLASS(DiscordConnected, DiscordSocialSDK);
 
-    static DiscordConnected *singleton;
-
 protected:
     static void _bind_methods();
 
@@ -19,9 +17,6 @@ private:
 NodePath root_connector; // Change to NodePath object
 
 public:
-    static DiscordConnected *
-    get_singleton();
-    
     DiscordConnector *connector;
 
     NodePath get_root_connector(); // Adjust return type

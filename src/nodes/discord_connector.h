@@ -10,15 +10,10 @@ class DiscordConnector : public DiscordSocialSDK
 {
     GDCLASS(DiscordConnector, DiscordSocialSDK);
 
-    static DiscordConnector *singleton;
-
 protected:
     static void _bind_methods();
 
 public:
-    static DiscordConnector *
-    get_singleton();
-
     bool editor_process = false;
 
     std::shared_ptr<discordpp::Client> client;

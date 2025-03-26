@@ -2,6 +2,7 @@
 #define DISCORD_ACTIVITY_H
 
 #include "discord_connected.h"
+#include "../resources/activity.h"
 
 using namespace godot;
 
@@ -9,14 +10,13 @@ class DiscordActivity : public DiscordConnected
 {
     GDCLASS(DiscordActivity, DiscordConnected);
 
-    static DiscordActivity *singleton;
-
 protected:
     static void _bind_methods();
 
 public:
-    static DiscordActivity *
-    get_singleton();
+    Ref<ActivityResource> activity;
+    Ref<ActivityResource> get_activity();
+    void set_activity(Ref<ActivityResource> value);
 
     DiscordActivity();
     ~DiscordActivity();

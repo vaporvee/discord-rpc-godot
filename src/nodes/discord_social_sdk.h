@@ -21,14 +21,10 @@ class DiscordSocialSDK : public Node
 {
     GDCLASS(DiscordSocialSDK, Node);
 
-    static DiscordSocialSDK *singleton;
-
 protected:
     static void _bind_methods();
 
 public:
-    static DiscordSocialSDK *
-    get_singleton();
 
     DiscordSocialSDK();
     ~DiscordSocialSDK();

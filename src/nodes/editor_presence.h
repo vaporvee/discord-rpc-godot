@@ -9,15 +9,10 @@ class EditorPresence : public DiscordSocialSDK
 {
     GDCLASS(EditorPresence, DiscordSocialSDK);
 
-    static EditorPresence *singleton;
-
 protected:
     static void _bind_methods();
 
 public:
-    static EditorPresence *
-    get_singleton();
-
     godot::Engine *engine = godot::Engine::get_singleton();
     godot::ProjectSettings *project_settings = godot::ProjectSettings::get_singleton();
     godot::Time *time = godot::Time::get_singleton();

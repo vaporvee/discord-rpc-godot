@@ -1,22 +1,14 @@
 #include "discord_connected.h"
 
-DiscordConnected *DiscordConnected::singleton = nullptr;
-
 void DiscordConnected::_bind_methods()
 {
     BIND_SET_GET(DiscordConnected, root_connector, Variant::NODE_PATH, godot::PROPERTY_HINT_NODE_PATH_VALID_TYPES, "DiscordConnector");
 }
 DiscordConnected::DiscordConnected()
 {
-    singleton = this;
 }
 DiscordConnected::~DiscordConnected()
 {
-    singleton = nullptr;
-}
-DiscordConnected *DiscordConnected::get_singleton()
-{
-    return singleton;
 }
 
 NodePath DiscordConnected::get_root_connector()

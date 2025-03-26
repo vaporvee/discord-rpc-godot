@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyc3kseph4el7"]
+[gd_scene load_steps=5 format=3 uid="uid://dyc3kseph4el7"]
 
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
 [ext_resource type="Script" uid="uid://kmubk5a6i385" path="res://discord_connector.gd" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://46tue7u6crd6" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h2yge"]
 
 [node name="Node" type="Node"]
 
@@ -50,6 +52,11 @@ script = ExtResource("3_h2yge")
 
 [node name="DiscordActivity" type="DiscordActivity" parent="DiscordConnector"]
 root_connector = NodePath("..")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(789, 330.5)
+scale = Vector2(0.408203, 0.408203)
+sprite_frames = SubResource("SpriteFrames_h2yge")
 
 [connection signal="user_connected" from="DiscordConnector" to="DiscordConnector" method="_on_user_connected"]
 [connection signal="user_connection_failed" from="DiscordConnector" to="DiscordConnector" method="_on_user_connection_failed"]

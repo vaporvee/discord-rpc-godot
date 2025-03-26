@@ -1,21 +1,13 @@
 #include "editor_presence.h"
 
-EditorPresence *EditorPresence::singleton = nullptr;
-
 void EditorPresence::_bind_methods()
 {
 }
 EditorPresence::EditorPresence()
 {
-    singleton = this;
 }
 EditorPresence::~EditorPresence()
 {
-    singleton = nullptr;
-}
-EditorPresence *EditorPresence::get_singleton()
-{
-    return singleton;
 }
 
 void EditorPresence::_ready()

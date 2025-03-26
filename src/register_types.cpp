@@ -16,6 +16,7 @@ void initialize_DiscordUtil_module(ModuleInitializationLevel p_level)
         ClassDB::register_class<DiscordConnector>();
         ClassDB::register_abstract_class<DiscordConnected>();
         ClassDB::register_class<DiscordActivity>();
+        ClassDB::register_class<ActivityResource>();
     }
 }
 

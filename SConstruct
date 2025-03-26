@@ -3,8 +3,8 @@ import os
 
 env = SConscript("src/lib/godot-cpp/SConstruct")
 
-env.Append(CPPPATH=["src/","src/nodes/", "src/lib/discord_social_sdk/include/"])
-sources = [Glob("src/*.cpp"), Glob("src/nodes/*.cpp")]
+env.Append(CPPPATH=["src/","src/nodes/", "src/resources/", "src/lib/discord_social_sdk/include/"])
+sources = [Glob("src/*.cpp"), Glob("src/nodes/*.cpp"), Glob("src/resources/*.cpp")]
 
 if env["target"] in ["editor", "template_debug"]:
     try:

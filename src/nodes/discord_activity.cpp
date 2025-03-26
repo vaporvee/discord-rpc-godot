@@ -1,19 +1,22 @@
 #include "discord_activity.h"
 
-DiscordActivity *DiscordActivity::singleton = nullptr;
-
 void DiscordActivity::_bind_methods()
 {
+    BIND_SET_GET(DiscordActivity, activity, Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, "ActivityResource");
 }
 DiscordActivity::DiscordActivity()
 {
-    singleton = this;
 }
 DiscordActivity::~DiscordActivity()
 {
-    singleton = nullptr;
 }
-DiscordActivity *DiscordActivity::get_singleton()
+
+Ref<ActivityResource> DiscordActivity::get_activity()
 {
-    return singleton;
+    return activity;
+}
+
+void DiscordActivity::set_activity(Ref<ActivityResource> value)
+{
+    activity = value;
 }
