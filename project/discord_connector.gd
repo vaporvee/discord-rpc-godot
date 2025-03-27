@@ -13,4 +13,4 @@ func _on_connection_error(error: String) -> void:
 
 func _on_connection_ready() -> void:
 	print_debug("CONNECTION READY")
-	discord_activity.update_rich_presence()
+	discord_activity.update()

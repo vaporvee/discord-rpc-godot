@@ -21,5 +21,6 @@ void uninitialize_DiscordUtil_module();
 #include "nodes/discord_linked_channel.h"
 #include "nodes/discord_activity.h"
 #include "resources/rich_presence.h"
+#include "resources/party_invite.h"
 
 #endif // REGISTER_TYPES_H

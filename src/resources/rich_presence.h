@@ -19,13 +19,9 @@ public:
 
 	H_SET_GET(state, "")
 	H_SET_GET(details, "")
-	StringName large_image;
-	StringName get_large_image();
-	void set_large_image(StringName value);
+	H_SET_GET(large_image, "")
 	H_SET_GET(large_text, "")
-	StringName small_image;
-	StringName get_small_image();
-	void set_small_image(StringName value);
+	H_SET_GET(small_image, "")
 	H_SET_GET(small_text, "")
 	H_SET_GET(timestamps_start, 0)
 	H_SET_GET(timestamps_end, 0)

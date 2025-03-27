@@ -19,6 +19,7 @@ void initialize_DiscordUtil_module(ModuleInitializationLevel p_level)
         ClassDB::register_class<DiscordLinkedChannel>();
         ClassDB::register_class<DiscordActivity>();
         ClassDB::register_class<RichPresence>();
+        ClassDB::register_class<PartyInvite>();
     }
 }
 

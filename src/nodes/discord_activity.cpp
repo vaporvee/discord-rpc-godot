@@ -3,7 +3,8 @@
 void DiscordActivity::_bind_methods()
 {
     BIND_SET_GET(DiscordActivity, rich_presence, Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, "RichPresence");
-    BIND_METHOD(DiscordActivity, update_rich_presence);
+    BIND_SET_GET(DiscordActivity, party_invite, Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, "PartyInvite");
+    BIND_METHOD(DiscordActivity, update);
 }
 DiscordActivity::DiscordActivity()
 {
@@ -22,7 +23,17 @@ void DiscordActivity::set_rich_presence(Ref<RichPresence> value)
     rich_presence = value;
 }
 
-void DiscordActivity::update_rich_presence()
+Ref<PartyInvite> DiscordActivity::get_party_invite()
+{
+    return party_invite;
+}
+
+void DiscordActivity::set_party_invite(Ref<PartyInvite> value)
+{
+    party_invite = value;
+}
+
+void DiscordActivity::update()
 {
     if(rich_presence.is_valid()){
         discordpp::Activity activity;
@@ -34,7 +45,22 @@ void DiscordActivity::update_rich_presence()
         assets.SetLargeImage(String(rich_presence->get_large_image()).utf8().get_data());
         assets.SetLargeText(rich_presence->get_large_text().utf8().get_data());
         activity.SetAssets(assets);
-        
+        discordpp::ActivityTimestamps timestamps;
+        timestamps.SetStart(rich_presence->get_timestamps_start());
+        timestamps.SetEnd(rich_presence->get_timestamps_end());
+        activity.SetTimestamps(timestamps);
+
+        discordpp::ActivityParty party;
+        party.SetCurrentSize(party_invite->get_current_size());
+        party.SetMaxSize(party_invite->get_max_size());
+        party.SetId(party_invite->get_id().utf8().get_data());
+        party.SetPrivacy(party_invite->get_is_public_party() ? discordpp::ActivityPartyPrivacy::Public : discordpp::ActivityPartyPrivacy::Private);
+        discordpp::ActivitySecrets secrets;
+        secrets.SetJoin(party_invite->get_join_secret().utf8().get_data());
+        activity.SetSecrets(secrets);
+        activity.SetParty(party);
+        //TODO: Supported platforms
+        //activity.SetSupportedPlatforms();
         connector->client->UpdateRichPresence(activity, [](discordpp::ClientResult result){});
     }
 }

@@ -5,20 +5,18 @@ void RichPresence::_bind_methods()
     BIND_SET_GET(RichPresence, state, Variant::STRING);
     BIND_SET_GET(RichPresence, details, Variant::STRING);
     ADD_GROUP("Large Image", "large_");
-    BIND_SET_GET(RichPresence, large_image, Variant::STRING_NAME);
+    BIND_SET_GET(RichPresence, large_image, Variant::STRING);
     BIND_SET_GET(RichPresence, large_text, Variant::STRING);
     ADD_GROUP("Small Image", "small_");
-    BIND_SET_GET(RichPresence, small_image, Variant::STRING_NAME);
+    BIND_SET_GET(RichPresence, small_image, Variant::STRING);
     BIND_SET_GET(RichPresence, small_text, Variant::STRING);
 }
 
-RichPresence::RichPresence()
-{
-}
+RichPresence::RichPresence() {}
 
-void RichPresence::set_state(String p_state)
+void RichPresence::set_state(String value)
 {
-    state = p_state;
+    state = value;
 }
 
 String RichPresence::get_state()
@@ -36,12 +34,12 @@ String RichPresence::get_details()
     return details;
 }
 
-void RichPresence::set_large_image(StringName value)
+void RichPresence::set_large_image(String value)
 {
     large_image = value;
 }
 
-StringName RichPresence::get_large_image()
+String RichPresence::get_large_image()
 {
     return large_image;
 }
@@ -56,12 +54,12 @@ String RichPresence::get_large_text()
     return large_text;
 }
 
-void RichPresence::set_small_image(StringName value)
+void RichPresence::set_small_image(String value)
 {
     small_image = value;
 }
 
-StringName RichPresence::get_small_image()
+String RichPresence::get_small_image()
 {
     return small_image;
 }

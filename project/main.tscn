@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyc3kseph4el7"]
+[gd_scene load_steps=6 format=3 uid="uid://dyc3kseph4el7"]
 
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
 [ext_resource type="Script" uid="uid://kmubk5a6i385" path="res://discord_connector.gd" id="3_h2yge"]
@@ -7,10 +7,15 @@
 [sub_resource type="RichPresence" id="RichPresence_h2yge"]
 state = "Inside a Node"
 details = "Godot -> Discord Social SDK"
-large_image = &"example_game"
+large_image = "example_game"
 large_text = "Example"
-small_image = &"boss"
+small_image = "boss"
 small_text = "Fighting the boss D:"
+
+[sub_resource type="PartyInvite" id="PartyInvite_h2yge"]
+id = "test"
+join_secret = "test2"
+is_public_party = true
 
 [node name="Node" type="Node"]
 
@@ -57,6 +62,7 @@ script = ExtResource("3_h2yge")
 
 [node name="DiscordActivity" type="DiscordActivity" parent="DiscordConnector"]
 rich_presence = SubResource("RichPresence_h2yge")
+party_invite = SubResource("PartyInvite_h2yge")
 root_connector = NodePath("..")
 
 [node name="DiscordLobby" type="DiscordLobby" parent="DiscordConnector"]

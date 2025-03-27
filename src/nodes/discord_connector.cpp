@@ -27,9 +27,14 @@ DiscordConnector::~DiscordConnector()
 
 void DiscordConnector::_ready()
 {
+
+    if (Engine::get_singleton()->is_editor_hint() || editor_process)
+        return;
+
     client = std::make_shared<discordpp::Client>();
 
-    client->SetStatusChangedCallback([this](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail) {
+    client->SetStatusChangedCallback([this](discordpp::Client::Status status, discordpp::Client::Error error, int32_t errorDetail)
+                                     {
         if (status == discordpp::Client::Status::Ready)
         {
             emit_signal("connection_ready");
@@ -37,44 +42,11 @@ void DiscordConnector::_ready()
         if (error != discordpp::Client::Error::None)
         {
             emit_signal("connection_error", String(discordpp::Client::ErrorToString(error).c_str()));
-        }
-    });
+        } });
 
-    if (Engine::get_singleton()->is_editor_hint() || editor_process)
-        return;
-
-    if (auto_token_manage)
+    if (auto_connect)
     {
-        if (auto_encryption_key.is_empty())
-        {
-            auto_encryption_key = DiscordUtil::get_singleton()->generate_auto_encryption_key();
-        }
-
-        Ref<godot::ConfigFile> config = DiscordUtil::get_singleton()->get_tokens(auto_encryption_key);
-        if (config->has_section_key("tokens", "access_token") &&
-            config->has_section_key("tokens", "refresh_token") &&
-            config->has_section_key("tokens", "expires_in"))
-        {
-            access_token = config->get_value("tokens", "access_token");
-            refresh_token = config->get_value("tokens", "refresh_token");
-            expires_in = config->get_value("tokens", "expires_in");
-            token_connect(access_token);
-        }
-        else
-        {
-            DiscordUtil::get_singleton()->delete_tokens();
-            if (auto_connect)
-            {
-                auth();
-            }
-        }
-    }
-    else
-    {
-        if (auto_connect)
-        {
-            auth();
-        }
+        auth();
     }
 }
 
@@ -128,11 +100,35 @@ String DiscordConnector::get_auto_encryption_key()
 
 void DiscordConnector::auth()
 {
+    if (auto_token_manage)
+    {
+        if (auto_encryption_key.is_empty())
+        {
+            auto_encryption_key = DiscordUtil::get_singleton()->generate_auto_encryption_key();
+        }
+        Ref<godot::ConfigFile> config = DiscordUtil::get_singleton()->get_tokens(auto_encryption_key);
+        if (config->has_section_key("tokens", "access_token") &&
+            config->has_section_key("tokens", "refresh_token") &&
+            config->has_section_key("tokens", "expires_in"))
+        {
+            access_token = config->get_value("tokens", "access_token");
+            refresh_token = config->get_value("tokens", "refresh_token");
+            expires_in = config->get_value("tokens", "expires_in");
+            token_connect(access_token);
+            return;
+        }
+        else
+        {
+            DiscordUtil::get_singleton()->delete_tokens();
+        }
+    }
+
     auto codeVerifier = client->CreateAuthorizationCodeVerifier();
 
     discordpp::AuthorizationArgs args{};
     args.SetClientId(app_id);
     args.SetScopes(discordpp::Client::GetDefaultPresenceScopes());
+    
     args.SetCodeChallenge(codeVerifier.Challenge());
 
     // Begin authentication process // TODO: option to open browser
