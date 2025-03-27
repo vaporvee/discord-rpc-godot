@@ -2,7 +2,7 @@
 #define DISCORD_ACTIVITY_H
 
 #include "discord_connected.h"
-#include "../resources/activity.h"
+#include "../resources/rich_presence.h"
 
 using namespace godot;
 
@@ -14,9 +14,11 @@ protected:
     static void _bind_methods();
 
 public:
-    TypedArray<ActivityResource> activities;
-    TypedArray<ActivityResource> get_activities();
-    void set_activities(TypedArray<ActivityResource> value);
+    Ref<RichPresence> rich_presence;
+    Ref<RichPresence> get_rich_presence();
+    void set_rich_presence(Ref<RichPresence> value);
+
+    void update_rich_presence();
 
     DiscordActivity();
     ~DiscordActivity();

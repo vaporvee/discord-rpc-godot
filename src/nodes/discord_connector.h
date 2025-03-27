@@ -20,16 +20,16 @@ public:
 
     H_SET_GET(app_id, 0)
     H_SET_GET(auto_encryption_key, "")
-    H_SET_GET(auto_token_manage, false)
+    H_SET_GET(auto_token_manage, true)
     H_SET_GET(auto_connect, false)
 
     String access_token;
     String refresh_token;
     int64_t expires_in;
 
-    void connect_user();
-    void update_user_token(String access_token);
-    void refresh_user_token(String refresh_token);
+    void auth();
+    void token_connect(String access_token);
+    void token_refresh(String refresh_token);
 
     void refresh_auto_encryption_key();
 

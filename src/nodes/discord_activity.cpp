@@ -2,10 +2,8 @@
 
 void DiscordActivity::_bind_methods()
 {
-    
-    ClassDB::bind_method(D_METHOD("get_activities"), &DiscordActivity::get_activities);
-    ClassDB::bind_method(D_METHOD("set_activities", "value"), &DiscordActivity::set_activities);
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "activities", PROPERTY_HINT_ARRAY_TYPE, MAKE_RESOURCE_TYPE_HINT("ActivityResource")), "set_activities", "get_activities");
+    BIND_SET_GET(DiscordActivity, rich_presence, Variant::OBJECT, PROPERTY_HINT_RESOURCE_TYPE, "RichPresence");
+    BIND_METHOD(DiscordActivity, update_rich_presence);
 }
 DiscordActivity::DiscordActivity()
 {
@@ -14,12 +12,29 @@ DiscordActivity::~DiscordActivity()
 {
 }
 
-TypedArray<ActivityResource> DiscordActivity::get_activities()
+Ref<RichPresence> DiscordActivity::get_rich_presence()
 {
-    return activities;
+    return rich_presence;
 }
 
-void DiscordActivity::set_activities(TypedArray<ActivityResource> value)
+void DiscordActivity::set_rich_presence(Ref<RichPresence> value)
 {
-    activities = value;
+    rich_presence = value;
+}
+
+void DiscordActivity::update_rich_presence()
+{
+    if(rich_presence.is_valid()){
+        discordpp::Activity activity;
+        activity.SetState(rich_presence->get_state().utf8().get_data());
+        activity.SetDetails(rich_presence->get_details().utf8().get_data());
+        discordpp::ActivityAssets assets;
+        assets.SetSmallImage(String(rich_presence->get_small_image()).utf8().get_data());
+        assets.SetSmallText(rich_presence->get_small_text().utf8().get_data());
+        assets.SetLargeImage(String(rich_presence->get_large_image()).utf8().get_data());
+        assets.SetLargeText(rich_presence->get_large_text().utf8().get_data());
+        activity.SetAssets(assets);
+        
+        connector->client->UpdateRichPresence(activity, [](discordpp::ClientResult result){});
+    }
 }

@@ -7,16 +7,15 @@ void DiscordConnector::_bind_methods()
     BIND_SET_GET(DiscordConnector, auto_connect, Variant::BOOL);
     BIND_SET_GET(DiscordConnector, auto_token_manage, Variant::BOOL);
     BIND_SET_GET(DiscordConnector, auto_encryption_key, Variant::STRING, godot::PROPERTY_HINT_NONE, "", godot::PROPERTY_USAGE_NO_EDITOR);
-    BIND_METHOD(DiscordConnector, connect_user);
-    BIND_METHOD(DiscordConnector, update_user_token, "access_token");
-    BIND_METHOD(DiscordConnector, refresh_user_token, "current_refresh_token");
-    BIND_SIGNAL(user_connected, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
-    BIND_SIGNAL(user_connection_failed, PropertyInfo(Variant::STRING, "error"));
+    BIND_METHOD(DiscordConnector, auth);
+    BIND_METHOD(DiscordConnector, token_connect, "access_token");
+    BIND_METHOD(DiscordConnector, token_refresh, "current_refresh_token");
+    BIND_SIGNAL(authenticated, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
+    BIND_SIGNAL(authentication_failed, PropertyInfo(Variant::STRING, "error"));
     BIND_SIGNAL(connection_ready);
     BIND_SIGNAL(connection_error, PropertyInfo(Variant::STRING, "error"));
-    BIND_SIGNAL(user_update_failed, PropertyInfo(Variant::STRING, "error"));
-    BIND_SIGNAL(user_token_refreshed, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
-    BIND_SIGNAL(user_token_refresh_failed, PropertyInfo(Variant::STRING, "error"));
+    BIND_SIGNAL(token_refreshed, PropertyInfo(Variant::STRING, "access_token"), PropertyInfo(Variant::STRING, "refresh_token"), PropertyInfo(Variant::INT, "expires_in"));
+    BIND_SIGNAL(token_refresh_failed, PropertyInfo(Variant::STRING, "error"));
 }
 
 DiscordConnector::DiscordConnector()
@@ -59,14 +58,14 @@ void DiscordConnector::_ready()
             access_token = config->get_value("tokens", "access_token");
             refresh_token = config->get_value("tokens", "refresh_token");
             expires_in = config->get_value("tokens", "expires_in");
-            update_user_token(access_token);
+            token_connect(access_token);
         }
         else
         {
             DiscordUtil::get_singleton()->delete_tokens();
             if (auto_connect)
             {
-                connect_user();
+                auth();
             }
         }
     }
@@ -74,7 +73,7 @@ void DiscordConnector::_ready()
     {
         if (auto_connect)
         {
-            connect_user();
+            auth();
         }
     }
 }
@@ -127,7 +126,7 @@ String DiscordConnector::get_auto_encryption_key()
     return auto_encryption_key;
 }
 
-void DiscordConnector::connect_user()
+void DiscordConnector::auth()
 {
     auto codeVerifier = client->CreateAuthorizationCodeVerifier();
 
@@ -140,7 +139,7 @@ void DiscordConnector::connect_user()
     client->Authorize(args, [this, codeVerifier](auto result, auto code, auto redirectUri)
                       {
       if (!result.Successful()) {
-        emit_signal("user_connection_failed", result.Error().c_str());
+        emit_signal("authentication_failed", result.Error().c_str());
         return;
       } else {
         client->GetToken(app_id, code, codeVerifier.Verifier(), redirectUri,
@@ -156,40 +155,40 @@ void DiscordConnector::connect_user()
                 DiscordUtil::get_singleton()->save_tokens(accessToken.c_str(), refreshToken.c_str(), expiresIn, auto_encryption_key);
             }
         } else {
-            emit_signal("user_connection_failed", result.Error().c_str());
+            emit_signal("authenticated", result.Error().c_str());
             return;
           }
-            update_user_token(accessToken.c_str());
+            token_connect(accessToken.c_str());
         });
       } });
 }
 
-void DiscordConnector::update_user_token(String access_token)
+void DiscordConnector::token_connect(String access_token)
 {
     client->UpdateToken(discordpp::AuthorizationTokenType::Bearer, access_token.utf8().get_data(), [this](discordpp::ClientResult result)
                         {
         if(result.Successful()) {
             client->Connect();
         } else {
-          emit_signal("user_update_failed", result.Error().c_str());
+          emit_signal("connection_error", result.Error().c_str());
         } });
 }
 
-void DiscordConnector::refresh_user_token(String current_refresh_token)
+void DiscordConnector::token_refresh(String current_refresh_token)
 {
     client->RefreshToken(std::stoull(refresh_token.utf8().get_data()), refresh_token.utf8().get_data(), [this, current_refresh_token](discordpp::ClientResult result, std::string accessToken, std::string refreshToken, discordpp::AuthorizationTokenType tokenType, int32_t expiresIn, std::string scopes)
                          {
         if (result.Successful())
         {
-            emit_signal("user_token_refreshed", accessToken.c_str(), refreshToken.c_str(), expiresIn);
+            emit_signal("token_refreshed", accessToken.c_str(), refreshToken.c_str(), expiresIn);
             if (auto_token_manage)
             {
                 DiscordUtil::get_singleton()->save_tokens(accessToken.c_str(), refreshToken.c_str(), expiresIn, auto_encryption_key);
-                update_user_token(accessToken.c_str());
+                token_connect(accessToken.c_str());
             }
         }
         else
         {
-            emit_signal("user_token_refresh_failed", result.Error().c_str());
+            emit_signal("token_refresh_failed", result.Error().c_str());
         } });
 }

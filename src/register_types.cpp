@@ -18,7 +18,7 @@ void initialize_DiscordUtil_module(ModuleInitializationLevel p_level)
         ClassDB::register_class<DiscordLobby>();
         ClassDB::register_class<DiscordLinkedChannel>();
         ClassDB::register_class<DiscordActivity>();
-        ClassDB::register_class<ActivityResource>();
+        ClassDB::register_class<RichPresence>();
     }
 }
 
