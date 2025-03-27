@@ -35,8 +35,9 @@ void DiscordActivity::set_party_invite(Ref<PartyInvite> value)
 
 void DiscordActivity::update()
 {
-    if(rich_presence.is_valid()){
-        discordpp::Activity activity;
+    discordpp::Activity activity;
+    if (rich_presence.is_valid())
+    {
         activity.SetState(rich_presence->get_state().utf8().get_data());
         activity.SetDetails(rich_presence->get_details().utf8().get_data());
         discordpp::ActivityAssets assets;
@@ -49,7 +50,9 @@ void DiscordActivity::update()
         timestamps.SetStart(rich_presence->get_timestamps_start());
         timestamps.SetEnd(rich_presence->get_timestamps_end());
         activity.SetTimestamps(timestamps);
-
+    }
+    if (party_invite.is_valid())
+    {
         discordpp::ActivityParty party;
         party.SetCurrentSize(party_invite->get_current_size());
         party.SetMaxSize(party_invite->get_max_size());
@@ -59,8 +62,9 @@ void DiscordActivity::update()
         secrets.SetJoin(party_invite->get_join_secret().utf8().get_data());
         activity.SetSecrets(secrets);
         activity.SetParty(party);
-        //TODO: Supported platforms
-        //activity.SetSupportedPlatforms();
-        connector->client->UpdateRichPresence(activity, [](discordpp::ClientResult result){});
+        // TODO: Supported platforms
+        // activity.SetSupportedPlatforms();
+        // TODO: Error on invalid values inside getters
     }
+    connector->client->UpdateRichPresence(activity, [](discordpp::ClientResult result) {});
 }

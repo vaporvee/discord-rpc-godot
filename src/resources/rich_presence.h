@@ -9,16 +9,16 @@
 
 using namespace godot;
 
-class RichPresence : public Resource {
+class RichPresence : public Resource
+{
 	GDCLASS(RichPresence, Resource);
 
 protected:
 	static void _bind_methods();
 
 public:
-
-	H_SET_GET(state, "")
 	H_SET_GET(details, "")
+	H_SET_GET(state, "")
 	H_SET_GET(large_image, "")
 	H_SET_GET(large_text, "")
 	H_SET_GET(small_image, "")
@@ -26,7 +26,7 @@ public:
 	H_SET_GET(timestamps_start, 0)
 	H_SET_GET(timestamps_end, 0)
 
-    RichPresence();
+	RichPresence();
 };
 
 #endif
