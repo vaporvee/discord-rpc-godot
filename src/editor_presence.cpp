@@ -43,13 +43,39 @@ void EditorPresence::_ready()
 
 void EditorPresence::_process(double delta)
 {
-    if (state_string.utf8() != activity.GetState())
+    godot::Node *edited_scene_root = get_tree()->get_edited_scene_root();
+
+    if (edited_scene_root != nullptr)
     {
-        godot::Node *edited_scene_root = get_tree()->get_edited_scene_root();
-        activity.SetState(String("Editing: \"" + edited_scene_root->get_scene_file_path() + "\"").replace("res://", "").utf8());
-        if (result == discord::Result::Ok)
-            core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        godot::String scene_path = edited_scene_root->get_scene_file_path();
+
+        if (scene_path.is_empty())
+        {
+            state_string = "Editing: (not saved scene)";
+        }
+        else
+        {
+            state_string = "Editing: \"" + scene_path.replace("res://", "") + "\"";
+        }
+
+        if (state_string.utf8() != activity.GetState())
+        {
+            activity.SetState(state_string.utf8());
+            if (result == discord::Result::Ok)
+                core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        }
     }
+    else
+    {
+        godot::String default_state = "No Scene Loaded";
+        if (default_state.utf8() != activity.GetState())
+        {
+            activity.SetState(default_state.utf8());
+            if (result == discord::Result::Ok)
+                core->ActivityManager().UpdateActivity(activity, [](discord::Result result) {});
+        }
+    }
+
     if (result == discord::Result::Ok)
         core->RunCallbacks();
 }
