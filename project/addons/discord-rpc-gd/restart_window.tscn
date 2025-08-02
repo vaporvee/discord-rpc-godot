@@ -31,8 +31,8 @@ visible = true
 transient = false
 unresizable = true
 theme = SubResource("Theme_swwco")
-ok_button_text = "Restart"
-cancel_button_text = "Save and restart"
+ok_button_text = "Save and restart"
+cancel_button_text = "Later"
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 5

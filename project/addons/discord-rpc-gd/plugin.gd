@@ -26,8 +26,7 @@ func _enable_plugin() -> void:
 	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-rpc-gd/bin/.gdignore"):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-rpc-gd/bin/.gdignore")
 	add_autoload_singleton("DiscordRPCLoader","res://addons/discord-rpc-gd/nodes/discord_autoload.gd")
-	restart_window.connect("confirmed", save_no_restart)
-	restart_window.connect("canceled", save_and_restart)
+	restart_window.connect("confirmed", save_and_restart)
 	get_editor_interface().popup_dialog_centered(restart_window)
 	print("IGNORE RED ERROR MESSAGES BEFORE THE SECOND RESTART!")
 
@@ -41,9 +40,6 @@ func _disable_plugin() -> void:
 func save_and_restart() -> void:
 	get_editor_interface().restart_editor(true)
 
-func save_no_restart() -> void:
-	get_editor_interface().restart_editor(false)
-	
 var editor_presence: Node
 func _on_editor_settings_changed() -> void:
 	plugin_cfg.set_value("Discord","editor_presence",get_editor_interface().get_editor_settings().get_setting("DiscordRPC/EditorPresence/enabled"))
