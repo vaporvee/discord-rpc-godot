@@ -1,4 +1,3 @@
-# [Transfered to git.vaporvee.com/vaporvee/discord-rpc-godot](https://git.vaporvee.com/vaporvee/discord-rpc-godot)
 <img src="/project/assets/discordgodot_banner.png" alt="Project Banner" />
 
 Discord recently released its new SDK. This plugin will get a huge overhaul and new docs as soon as possible.
