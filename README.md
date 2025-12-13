@@ -22,6 +22,7 @@ Discord recently released its new SDK. This plugin will get a huge overhaul and 
 - Relationship Manager (Get friendlist and its updates)
 - Overlay management
 - Editor Presence (optional)
+<br>
 <img width="600px" src="https://raw.githubusercontent.com/vaporvee/discord-sdk-godot/main/project/assets/GodotEditorPresenceBanner.png">
 <br />
 
