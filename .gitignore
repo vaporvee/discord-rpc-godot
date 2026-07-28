@@ -3,10 +3,14 @@
 *.os
 *.o
 
+# Generated GDExtension doc data (built from doc_classes/*.xml)
+src/gen/
+
 # SConstruct
 .sconf_temp
 .sconsign.dblite
 *.pyc
+custom.py
 
 
 # MacOS
@@ -30,4 +34,3 @@ project/export/
 
 # venv
 venv/
-

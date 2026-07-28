@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1slhdnlsv2qt"]
+[gd_scene format=3 uid="uid://c1slhdnlsv2qt"]
 
 [ext_resource type="Texture2D" uid="uid://dnfq6kug4x6o2" path="res://addons/discord-rpc-gd/nodes/assets/Checked.svg" id="2_q6tao"]
 [ext_resource type="Texture2D" uid="uid://compmm3kviqqe" path="res://addons/discord-rpc-gd/nodes/assets/Unchecked.svg" id="3_5cyem"]
@@ -10,9 +10,6 @@ script/source = "extends Node
 
 @onready var animation_player: AnimationPlayer = $Panel/TextureRect/AnimationPlayer
 
-func _ready():
-	DiscordRPC.connect(\"activity_join_request\",_on_activity_join_request)
-
 func _process(_delta) -> void:
 	if(DiscordRPC.get_is_discord_working()):
 		$Panel/TextureRect.self_modulate = Color(\"#3eff8d\")
@@ -23,7 +20,7 @@ func _process(_delta) -> void:
 		$Panel/TextureRect.self_modulate = Color(\"#797979\")
 		$Panel/TextureRect/AnimationPlayer.stop()
 		debug_text_update()
-		
+
 
 func debug_text_update() -> void:
 	$Panel/Info.text = \"Application ID : {id}
@@ -115,24 +112,21 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a7ofc"]
 _data = {
-"RESET": SubResource("Animation_mmtmn"),
-"pulsate": SubResource("Animation_5u02v")
+&"RESET": SubResource("Animation_mmtmn"),
+&"pulsate": SubResource("Animation_5u02v")
 }
 
-[node name="DebugNodeGroup" type="Node"]
+[node name="DebugNodeGroup" type="Node" unique_id=57129544]
 editor_description = "This is a Debug Node wich will show (only if the project runs) some usefull info and buttons/input"
 script = SubResource("GDScript_ak1tp")
 
-[node name="Panel" type="Panel" parent="."]
-anchors_preset = -1
-anchor_right = 0.373
+[node name="Panel" type="Panel" parent="." unique_id=498754864]
+anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = -5.0
-offset_right = 0.303955
-grow_horizontal = 2
+offset_right = 422.0
 grow_vertical = 2
 
-[node name="Info" type="RichTextLabel" parent="Panel"]
+[node name="Info" type="RichTextLabel" parent="Panel" unique_id=873721505]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 21.0
@@ -163,7 +157,7 @@ Is instanced: {instanced}
 "
 fit_content = true
 
-[node name="PrintCurrentUserOnConsole" type="Button" parent="Panel"]
+[node name="PrintCurrentUserOnConsole" type="Button" parent="Panel" unique_id=82666807]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -175,7 +169,7 @@ offset_bottom = 171.375
 grow_vertical = 2
 text = "Print current user on console"
 
-[node name="PrintFriends" type="Button" parent="Panel"]
+[node name="PrintFriends" type="Button" parent="Panel" unique_id=1270234448]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -187,7 +181,7 @@ offset_bottom = 207.5
 grow_vertical = 2
 text = "Print friends on console"
 
-[node name="AcceptJoinRequest" type="Button" parent="Panel"]
+[node name="AcceptJoinRequest" type="Button" parent="Panel" unique_id=687048700]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -199,7 +193,7 @@ offset_bottom = 243.875
 grow_vertical = 2
 text = "ACCEPT REQUEST"
 
-[node name="InviteWithUserID" type="LineEdit" parent="Panel"]
+[node name="InviteWithUserID" type="LineEdit" parent="Panel" unique_id=1284751293]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -212,7 +206,7 @@ grow_vertical = 2
 size_flags_horizontal = 0
 placeholder_text = "Invite with user_id here"
 
-[node name="AcceptWithUserID" type="LineEdit" parent="Panel"]
+[node name="AcceptWithUserID" type="LineEdit" parent="Panel" unique_id=1072260423]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -224,7 +218,7 @@ offset_bottom = 317.875
 grow_vertical = 2
 placeholder_text = "Accept Invite with user_id here"
 
-[node name="ToggleSDK" type="CheckButton" parent="Panel"]
+[node name="ToggleSDK" type="CheckButton" parent="Panel" unique_id=820468352]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -240,7 +234,7 @@ theme_override_icons/checked = ExtResource("2_q6tao")
 theme_override_icons/unchecked = ExtResource("3_5cyem")
 button_pressed = true
 
-[node name="TextureRect" type="TextureRect" parent="Panel"]
+[node name="TextureRect" type="TextureRect" parent="Panel" unique_id=1887405308]
 self_modulate = Color(0.47451, 0.47451, 0.47451, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -258,10 +252,8 @@ scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(29.0693, 29.0693)
 texture = ExtResource("3_goflf")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel/TextureRect"]
-libraries = {
-"": SubResource("AnimationLibrary_a7ofc")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel/TextureRect" unique_id=140453395]
+libraries/ = SubResource("AnimationLibrary_a7ofc")
 
 [connection signal="pressed" from="Panel/PrintCurrentUserOnConsole" to="." method="_on_print_current_user_on_console_pressed"]
 [connection signal="pressed" from="Panel/PrintFriends" to="." method="_on_print_friends_pressed"]

@@ -2,19 +2,15 @@
 #define EDITOR_PRESENCE_H
 
 #include <stdio.h>
-#include "lib/discord_game_sdk/cpp/discord.h"
-#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
-#include <godot_cpp/classes/project_settings.hpp>
-#include <godot_cpp/classes/engine.hpp>
-#include <godot_cpp/classes/time.hpp>
-#include <godot_cpp/classes/tree.hpp>
+#include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
 
-class EditorPresence : public Node
+class EditorPresence : public Object
 {
-    GDCLASS(EditorPresence, Node);
+    GDCLASS(EditorPresence, Object);
 
     static EditorPresence *singleton;
 
@@ -25,20 +21,11 @@ public:
     static EditorPresence *
     get_singleton();
 
-    godot::Engine *engine = godot::Engine::get_singleton();
-    godot::ProjectSettings *project_settings = godot::ProjectSettings::get_singleton();
-    godot::Time *time = godot::Time::get_singleton();
-
-    discord::Core *core{};
-    discord::Result result;
-    discord::Activity activity{};
-
-    String state_string;
-
     EditorPresence();
     ~EditorPresence();
-    void _ready() override;
-    void _process(double delta) override;
+    void start();
+    void stop();
+    void tick(String edited_scene_path);
 };
 
 #endif

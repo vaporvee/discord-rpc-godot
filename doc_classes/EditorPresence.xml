@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="EditorPresence" inherits="Object" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Engine singleton that shows the Godot editor itself as a Discord Rich Presence activity.
+	</brief_description>
+	<description>
+		[b]EditorPresence[/b] is a singleton automatically registered by the discord-rpc-gd GDExtension, separate from [DiscordRPC]. It powers the optional "Discord Editor Presence" setting: while enabled, it shows what project/scene you're currently editing as your Discord activity.
+		This is driven entirely by discord-rpc-gd's own plugin script and editor settings. You normally don't need to call these methods directly from your own code.
+	</description>
+	<tutorials>
+		<link title="Editor Presence">https://docs.vaporvee.com/discord-rpc-godot/editor-presence</link>
+	</tutorials>
+	<methods>
+		<method name="start">
+			<return type="void" />
+			<description>
+				Connects to Discord and starts showing editor activity. Called when the "Discord Editor Presence" editor setting is turned on.
+			</description>
+		</method>
+		<method name="stop">
+			<return type="void" />
+			<description>
+				Disconnects from Discord and clears the editor activity. Called when the "Discord Editor Presence" editor setting is turned off, and automatically when the extension unloads.
+			</description>
+		</method>
+		<method name="tick">
+			<return type="void" />
+			<param index="0" name="edited_scene_path" type="String" />
+			<description>
+				Updates the shown activity to reflect [param edited_scene_path] (the currently edited scene's file path, or an empty string if none is open) and processes pending Discord callbacks. Expected to be called every frame while editor presence is active. Does nothing if [method start] hasn't been called yet.
+			</description>
+		</method>
+	</methods>
+</class>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="DiscordRPC" inherits="Object" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Engine singleton for Discord Rich Presence.
+	</brief_description>
+	<description>
+		[b]DiscordRPC[/b] is a singleton automatically registered by the DiscordRpcGodot GDExtension. It wraps the Discord Game SDK's Activity, Overlay, and Relationship managers to let a game show a Rich Presence activity in Discord, accept and send invites, and read the current user's friend list.
+		Set [member app_id] first. Nothing else works until it's set to a valid Discord Application ID. Always refresh after changing the values with [method refresh].
+		[codeblock]
+		func _ready():
+		    app_id = 1234567890123456
+		    details = "A demo activity"
+		    state = "Checkpoint 23/23"
+		    large_image = "game"
+		    large_image_text = "Try it now!"
+		    start_timestamp = int(Time.get_unix_time_from_system())
+		    refresh()
+		[/codeblock]
+	</description>
+	<tutorials>
+		<link title="Quick start">https://docs.vaporvee.com/discord-rpc-godot/getting-started</link>
+		<link title="Activities">https://docs.vaporvee.com/discord-rpc-godot/activities</link>
+		<link title="Users">https://docs.vaporvee.com/discord-rpc-godot/users</link>
+	</tutorials>
+	<methods>
+		<method name="accept_invite">
+			<return type="void" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Accepts a pending game invite from the user with the given Discord [param user_id].
+			</description>
+		</method>
+		<method name="accept_join_request">
+			<return type="void" />
+			<param index="0" name="user_id" type="int" />
+			<description>
+				Accepts a join request from the user with the given Discord [param user_id]. Use this after receiving the [signal activity_join_request] signal, once you've decided the requester can join.
+			</description>
+		</method>
+		<method name="clear">
+			<return type="void" />
+			<param index="0" name="reset_values" type="bool" default="false" />
+			<description>
+				Disables the current activity. A [param reset_values] of [code]true[/code] clears all values too, and the activity can no longer be restored with [method unclear]. Leave it [code]false[/code] to keep the values and be able to restore them later.
+			</description>
+		</method>
+		<method name="debug">
+			<return type="void" />
+			<description>
+				Creates a throwaway test activity with hardcoded sample values, for verifying the plugin can talk to Discord at all. Not meant for real use in a game, use [member app_id] and the activity properties directly instead.
+			</description>
+		</method>
+		<method name="get_all_relationships">
+			<return type="Array" />
+			<description>
+				Returns every entry in the current user's relationship list as an [Array] of [Dictionary] entries, each shaped like the dictionary returned by [method get_current_user] plus a [code]"type"[/code] key ([code]"Friend"[/code], [code]"Blocked"[/code], [code]"PendingIncoming"[/code], [code]"PendingOutgoing"[/code], [code]"Implicit"[/code], or [code]"None"[/code]) and a [code]"presence"[/code] key describing what that user is currently doing.
+				Wait for the [signal relationships_init] signal before calling this, the list may not be populated yet right after connecting.
+			</description>
+		</method>
+		<method name="get_current_user">
+			<return type="Dictionary" />
+			<description>
+				Retrieves data about the currently connected Discord user account, as a read-only [Dictionary] with keys [code]"id"[/code] (int), [code]"username"[/code] (String, without the discriminator), [code]"discriminator"[/code] (int), [code]"is_bot"[/code] (bool), [code]"avatar"[/code] (String, the raw avatar hash, can be empty when the user has no avatar), and [code]"avatar_url"[/code] (String, generates a default avatar URL when no custom avatar exists).
+				Results may not be accurate until the game fully establishes its connection to Discord.
+			</description>
+		</method>
+		<method name="get_is_discord_working">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the plugin currently has a live connection to the Discord client. Most other methods do nothing when this is [code]false[/code]. If it stays [code]false[/code], check that Discord is running and that [member app_id] is a valid application ID.
+			</description>
+		</method>
+		<method name="get_is_overlay_enabled">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the user has the Discord overlay enabled for this game.
+			</description>
+		</method>
+		<method name="get_is_overlay_locked">
+			<return type="bool" />
+			<description>
+				Returns [code]true[/code] if the Discord overlay is currently locked (input capture disabled).
+			</description>
+		</method>
+		<method name="get_result_int">
+			<return type="int" />
+			<description>
+				Returns the raw integer value of the last Discord SDK result, where [code]0[/code] means [code]Ok[/code]. Mainly useful for debugging connection issues.
+			</description>
+		</method>
+		<method name="open_invite_overlay">
+			<return type="void" />
+			<param index="0" name="is_spectate" type="bool" />
+			<description>
+				Opens Discord's built-in invite overlay so the user can invite friends to join, or spectate if [param is_spectate] is [code]true[/code], their current activity.
+			</description>
+		</method>
+		<method name="open_server_invite_overlay">
+			<return type="void" />
+			<param index="0" name="invite_code" type="String" />
+			<description>
+				Opens Discord's overlay to let the user accept a server invite identified by [param invite_code].
+			</description>
+		</method>
+		<method name="open_voice_settings">
+			<return type="void" />
+			<description>
+				Opens Discord's voice settings overlay.
+			</description>
+		</method>
+		<method name="refresh">
+			<return type="void" />
+			<description>
+				Required after modifying the activity properties to reload the RPC. Always refresh after changing the values, changes are not sent to Discord automatically.
+			</description>
+		</method>
+		<method name="register_command">
+			<return type="void" />
+			<param index="0" name="command" type="String" />
+			<description>
+				Registers the local command Discord should run when a friend clicks "Play Game" on this activity, e.g. the full path to this game's executable.
+			</description>
+		</method>
+		<method name="register_steam">
+			<return type="void" />
+			<param index="0" name="steam_id" type="int" />
+			<description>
+				Registers this game's Steam App ID with Discord, as an alternative to [method register_command] for the "Play Game" invite button when the game is distributed on Steam.
+			</description>
+		</method>
+		<method name="run_callbacks">
+			<return type="void" />
+			<description>
+				Processes pending Discord SDK callbacks and events. This happens normally inside the bundled [code]DiscordRPCLoader[/code] autoload, so you normally don't need to call it yourself.
+			</description>
+		</method>
+		<method name="send_invite">
+			<return type="void" />
+			<param index="0" name="user_id" type="int" />
+			<param index="1" name="is_spectate" type="bool" />
+			<param index="2" name="message_content" type="String" />
+			<description>
+				Sends a game invite, or spectate invite if [param is_spectate] is [code]true[/code], to the user with the given Discord [param user_id], with [param message_content] as the accompanying message.
+			</description>
+		</method>
+		<method name="unclear">
+			<return type="void" />
+			<description>
+				Reactivates a previously cleared activity, restoring it exactly as it was before [method clear] was called with [code]reset_values[/code] left [code]false[/code].
+			</description>
+		</method>
+	</methods>
+	<members>
+		<member name="app_id" type="int" setter="set_app_id" getter="get_app_id" default="0">
+			The Discord Application ID from the Discord Developer Portal, mandatory to be able to use anything in the plugin.
+		</member>
+		<member name="current_party_size" type="int" setter="set_current_party_size" getter="get_current_party_size" default="0">
+			Current player count in the party shown in the activity.
+		</member>
+		<member name="details" type="String" setter="set_details" getter="get_details" default="&quot;&quot;">
+			The first text line visible in the Activity.
+		</member>
+		<member name="end_timestamp" type="int" setter="set_end_timestamp" getter="get_end_timestamp" default="0">
+			Unix timestamp used to enable a "remaining time" display in the activity.
+		</member>
+		<member name="instanced" type="bool" setter="set_instanced" getter="get_instanced" default="false">
+			Indicates an instanced context, like a specific match. Required for spectating to work.
+		</member>
+		<member name="is_public_party" type="bool" setter="set_is_public_party" getter="get_is_public_party" default="false">
+			Allows joinability without requests.
+		</member>
+		<member name="join_secret" type="String" setter="set_join_secret" getter="get_join_secret" default="&quot;&quot;">
+			Unique hash for join interactions. Generate this yourself, it's meant to be a payload only your own game understands.
+		</member>
+		<member name="large_image" type="String" setter="set_large_image" getter="get_large_image" default="&quot;&quot;">
+			Image key from Art Assets for the large image shown in the activity.
+		</member>
+		<member name="large_image_text" type="String" setter="set_large_image_text" getter="get_large_image_text" default="&quot;&quot;">
+			Hover text for [member large_image].
+		</member>
+		<member name="match_secret" type="String" setter="set_match_secret" getter="get_match_secret" default="&quot;&quot;">
+			Unique hash for match/spectate interactions.
+		</member>
+		<member name="max_party_size" type="int" setter="set_max_party_size" getter="get_max_party_size" default="0">
+			Maximum allowed players in the party shown in the activity.
+		</member>
+		<member name="party_id" type="String" setter="set_party_id" getter="get_party_id" default="&quot;&quot;">
+			Unique party identifier.
+		</member>
+		<member name="small_image" type="String" setter="set_small_image" getter="get_small_image" default="&quot;&quot;">
+			Image key from Art Assets for the small image shown in the activity.
+		</member>
+		<member name="small_image_text" type="String" setter="set_small_image_text" getter="get_small_image_text" default="&quot;&quot;">
+			Hover text for [member small_image].
+		</member>
+		<member name="spectate_secret" type="String" setter="set_spectate_secret" getter="get_spectate_secret" default="&quot;&quot;">
+			Unique hash for spectate interactions, separate from [member join_secret].
+		</member>
+		<member name="start_timestamp" type="int" setter="set_start_timestamp" getter="get_start_timestamp" default="0">
+			Unix timestamp used to enable an "elapsed time" display in the activity.
+		</member>
+		<member name="state" type="String" setter="set_state" getter="get_state" default="&quot;&quot;">
+			The second text line visible in the Activity.
+		</member>
+	</members>
+	<signals>
+		<signal name="activity_join">
+			<param index="0" name="join_secret" type="String" />
+			<description>
+				Triggered when joining via invite. Receives the [param join_secret] from the inviting party.
+			</description>
+		</signal>
+		<signal name="activity_join_request">
+			<param index="0" name="user_requesting" type="Dictionary" />
+			<description>
+				Fires when a user requests to join via the Discord button. [param user_requesting] is shaped like [method get_current_user]'s return value. Call [method accept_join_request] to let them in.
+			</description>
+		</signal>
+		<signal name="activity_spectate">
+			<param index="0" name="spectate_secret" type="String" />
+			<description>
+				Triggered for spectate requests. Receives the [param spectate_secret] from the target match.
+			</description>
+		</signal>
+		<signal name="overlay_toggle">
+			<param index="0" name="is_locked" type="bool" />
+			<description>
+				Emitted when the Discord overlay's lock state changes, matching what [method get_is_overlay_locked] would now return.
+			</description>
+		</signal>
+		<signal name="relationships_init">
+			<description>
+				Emitted once the current user's relationship list has finished loading and [method get_all_relationships] is safe to call.
+			</description>
+		</signal>
+		<signal name="updated_relationship">
+			<param index="0" name="relationship" type="Dictionary" />
+			<description>
+				Emitted whenever an entry in the current user's relationship list changes. [param relationship] has the same shape as one entry of [method get_all_relationships]'s return value.
+			</description>
+		</signal>
+	</signals>
+</class>

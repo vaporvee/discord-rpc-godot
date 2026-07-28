@@ -38,6 +38,10 @@ sources += Glob("src/*.cpp")
 
 env.Append(CPPDEFINES=["HOT_RELOAD_ENABLED"])
 
+if env["target"] in ["editor", "template_debug"]:
+    doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
+    sources.append(doc_data)
+
 library = env.SharedLibrary(
     target="project/addons/discord-rpc-gd/bin/"
     + libexportfolder

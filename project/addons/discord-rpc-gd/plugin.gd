@@ -4,7 +4,6 @@ extends EditorPlugin
 const DiscordRPCDebug: GDScript = preload("res://addons/discord-rpc-gd/nodes/debug.gd")
 const DiscordRPCDebug_icon: Texture2D = preload("res://addons/discord-rpc-gd/Debug.svg")
 var loaded_DiscordRPCDebug: DiscordRPCDebug = DiscordRPCDebug.new()
-var restart_window: ConfirmationDialog = preload("res://addons/discord-rpc-gd/restart_window.tscn").instantiate()
 var plugin_cfg: ConfigFile = ConfigFile.new()
 const plugin_data_filename: String = "/plugin_data.cfg"
 
@@ -23,34 +22,33 @@ func _exit_tree() -> void:
 		get_editor_interface().get_editor_settings().erase("DiscordRPC/EditorPresence/enabled")
 
 func _enable_plugin() -> void:
-	if FileAccess.file_exists(ProjectSettings.globalize_path("res://") + "addons/discord-rpc-gd/bin/.gdignore"):
-		DirAccess.remove_absolute(ProjectSettings.globalize_path("res://") + "addons/discord-rpc-gd/bin/.gdignore")
 	add_autoload_singleton("DiscordRPCLoader","res://addons/discord-rpc-gd/nodes/discord_autoload.gd")
-	restart_window.connect("confirmed", save_no_restart)
-	restart_window.connect("canceled", save_and_restart)
-	get_editor_interface().popup_dialog_centered(restart_window)
-	print("IGNORE RED ERROR MESSAGES BEFORE THE SECOND RESTART!")
+	get_editor_interface().get_resource_filesystem().scan()
 
 func _disable_plugin() -> void:
 	remove_autoload_singleton("DiscordRPCLoader")
-	FileAccess.open("res://addons/discord-rpc-gd/bin/.gdignore",FileAccess.WRITE)
 	remove_custom_type("DiscordRPCDebug")
 	get_editor_interface().get_editor_settings().erase("DiscordRPC/EditorPresence/enabled")
-	push_warning("Please restart the editor to fully disable the DiscordRPC plugin")
+	editor_presence_active = false
+	get_editor_interface().get_resource_filesystem().scan()
 
-func save_and_restart() -> void:
-	get_editor_interface().restart_editor(true)
+var editor_presence_active: bool = false
 
-func save_no_restart() -> void:
-	get_editor_interface().restart_editor(false)
-	
-var editor_presence: Node
+func _process(_delta: float) -> void:
+	if not editor_presence_active:
+		return
+	var edited_scene_path: String = ""
+	var edited_scene_root: Node = get_editor_interface().get_edited_scene_root()
+	if edited_scene_root != null:
+		edited_scene_path = edited_scene_root.scene_file_path
+	Engine.get_singleton("EditorPresence").tick(edited_scene_path)
+
 func _on_editor_settings_changed() -> void:
 	plugin_cfg.set_value("Discord","editor_presence",get_editor_interface().get_editor_settings().get_setting("DiscordRPC/EditorPresence/enabled"))
 	plugin_cfg.save(get_editor_interface().get_editor_paths().get_data_dir() + plugin_data_filename)
-	if ClassDB.class_exists("EditorPresence") && editor_presence == null:
-		editor_presence = ClassDB.instantiate("EditorPresence")
-	if get_editor_interface().get_editor_settings().has_setting("DiscordRPC/EditorPresence/enabled") && get_editor_interface().get_editor_settings().get_setting("DiscordRPC/EditorPresence/enabled"):
-		add_child(editor_presence)
-	else:
-		editor_presence.queue_free()
+	var should_be_active: bool = get_editor_interface().get_editor_settings().has_setting("DiscordRPC/EditorPresence/enabled") && get_editor_interface().get_editor_settings().get_setting("DiscordRPC/EditorPresence/enabled")
+	if should_be_active and not editor_presence_active:
+		Engine.get_singleton("EditorPresence").start()
+	elif not should_be_active and editor_presence_active:
+		Engine.get_singleton("EditorPresence").stop()
+	editor_presence_active = should_be_active

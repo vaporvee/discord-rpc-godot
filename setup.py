@@ -1,8 +1,48 @@
-import zipfile
-from distutils.dir_util import copy_tree
-import shutil
+#!/usr/bin/env python3
 import os
+import shutil
+import subprocess
 import sys
+import zipfile
+from shutil import copytree
+
+
+def _compiler_has_static_libstdcpp() -> bool:
+    compiler = shutil.which("g++") or shutil.which("gcc")
+    if compiler is None:
+        return True
+    result = subprocess.run(
+        [compiler, "-print-file-name=libstdc++.a"], capture_output=True, text=True
+    )
+    static_lib_path = result.stdout.strip()
+    return bool(static_lib_path) and static_lib_path != "libstdc++.a" and os.path.isfile(static_lib_path)
+
+
+def _disable_static_cpp_linking() -> None:
+    custom_py_path = os.path.join("src", "lib", "godot-cpp", "custom.py")
+    with open(custom_py_path, "a") as f:
+        f.write("use_static_cpp = False\n")
+    print(f"Disabled static libstdc++ linking in {custom_py_path}")
+
+
+def ensure_static_libstdcpp() -> None:
+    if not sys.platform.startswith("linux"):
+        return
+    if _compiler_has_static_libstdcpp():
+        return
+
+    print("libstdc++.a not found")
+    if shutil.which("brew"):
+        os.system("brew install gcc")
+        if _compiler_has_static_libstdcpp():
+            return
+    else:
+        print("install libstdc++-static (Fedora/RHEL) or gcc (Arch) manually")
+
+    _disable_static_cpp_linking()
+
+
+ensure_static_libstdcpp()
 
 with zipfile.ZipFile("src/lib/discord_game_sdk.zip", "r") as zip_ref:
     zip_ref.extractall("src/lib/discord_game_sdk/")
@@ -13,7 +53,9 @@ with open("src/lib/discord_game_sdk/cpp/types.h", "r+") as f:
     f.seek(0)
     f.write("#include <cstdint>\n" + s)
 
-copy_tree("src/lib/discord_game_sdk/lib/", "src/lib/discord_game_sdk/bin/")
+copytree(
+    "src/lib/discord_game_sdk/lib/", "src/lib/discord_game_sdk/bin/", dirs_exist_ok=True
+)
 os.rename(
     "src/lib/discord_game_sdk/bin/aarch64/discord_game_sdk.dylib",
     "src/lib/discord_game_sdk/bin/aarch64/discord_game_sdk_aarch64.dylib",
@@ -31,9 +73,21 @@ os.rename(
     "src/lib/discord_game_sdk/bin/x86_64/discord_game_sdk.dll.lib",
     "src/lib/discord_game_sdk/bin/x86_64/discord_game_sdk.lib",
 )
-copy_tree("src/lib/discord_game_sdk/bin/aarch64/", "src/lib/discord_game_sdk/bin/")
-copy_tree("src/lib/discord_game_sdk/bin/x86/", "src/lib/discord_game_sdk/bin/")
-copy_tree("src/lib/discord_game_sdk/bin/x86_64/", "src/lib/discord_game_sdk/bin/")
+copytree(
+    "src/lib/discord_game_sdk/bin/aarch64/",
+    "src/lib/discord_game_sdk/bin/",
+    dirs_exist_ok=True,
+)
+copytree(
+    "src/lib/discord_game_sdk/bin/x86/",
+    "src/lib/discord_game_sdk/bin/",
+    dirs_exist_ok=True,
+)
+copytree(
+    "src/lib/discord_game_sdk/bin/x86_64/",
+    "src/lib/discord_game_sdk/bin/",
+    dirs_exist_ok=True,
+)
 
 shutil.rmtree("src/lib/discord_game_sdk/c/", ignore_errors=True)
 shutil.rmtree("src/lib/discord_game_sdk/csharp/", ignore_errors=True)

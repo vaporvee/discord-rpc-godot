@@ -1,13 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyc3kseph4el7"]
+[gd_scene format=3 uid="uid://dyc3kseph4el7"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_kl8ri"]
+[ext_resource type="Script" uid="uid://c4j86wusp7nrr" path="res://main.gd" id="1_kl8ri"]
 [ext_resource type="Texture2D" uid="uid://b3qm246m7pnsx" path="res://assets/Logo_V2.png" id="2_gd222"]
-[ext_resource type="Script" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
+[ext_resource type="Script" uid="uid://ltaag7t33ol8" path="res://addons/discord-rpc-gd/nodes/debug.gd" id="6_ujijw"]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" unique_id=1637121281]
 script = ExtResource("1_kl8ri")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2049346421]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,28 +17,35 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 color = Color(0.345098, 0.396078, 0.94902, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 4
-position = Vector2(789, 330.5)
-scale = Vector2(0.408203, 0.408203)
-texture = ExtResource("2_gd222")
+[node name="DiscordRPCDebug" type="Node" parent="." unique_id=641498361]
+script = ExtResource("6_ujijw")
 
-[node name="DiscordRPC Test" type="RichTextLabel" parent="."]
+[node name="VSplitContainer" type="VSplitContainer" parent="." unique_id=1265058671]
 anchors_preset = -1
-anchor_left = 0.293
-anchor_top = 0.59
-anchor_right = 0.736
-anchor_bottom = 0.727
-offset_left = 208.464
-offset_top = 22.18
-offset_right = 209.128
-offset_bottom = 22.4039
-grow_horizontal = 2
+anchor_left = 0.4722222
+anchor_top = 0.25925925
+anchor_right = 0.90625
+anchor_bottom = 0.7407407
+offset_bottom = 3.0517578e-05
+grow_horizontal = 0
 grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="VSplitContainer" unique_id=1844993030]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("2_gd222")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="DiscordRPC Test" type="RichTextLabel" parent="VSplitContainer" unique_id=1509369433]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 bbcode_enabled = true
 text = "[center][font s=60]DiscordRPC Test"
-
-[node name="DiscordRPCDebug" type="Node" parent="."]
-script = ExtResource("6_ujijw")

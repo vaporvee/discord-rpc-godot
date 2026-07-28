@@ -2,6 +2,7 @@
 #include "lib/discord_game_sdk/cpp/discord.h"
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
+#include <string>
 
 #define BIND_METHOD(method, ...) godot::ClassDB::bind_method(D_METHOD(#method, ##__VA_ARGS__), &DiscordRPC::method)
 #define BIND_SET_GET(property_name, variant_type)                                                                  \
