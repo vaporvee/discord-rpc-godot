@@ -1,4 +1,4 @@
-<img src="/project/assets/discordgodot_banner.png" alt="Project Banner" />
+<img src="https://codeberg.org/DiscordSdkGodot/RPC-Legacy/raw/branch/main/project/assets/discordgodot_banner.png" alt="Project Banner" />
 
 Discord recently released its new SDK. This plugin will get a huge overhaul and new docs as soon as possible.
     <a href="https://discord.com/blog/announcing-discord-social-sdk-to-power-game-comms" target="_blank">Discord's anouncement</a>
@@ -22,7 +22,7 @@ Discord recently released its new SDK. This plugin will get a huge overhaul and 
 - Relationship Manager (Get friendlist and its updates)
 - Overlay management
 - Editor Presence (optional)
-<br>
+<br><br>
 <img width="600px" src="https://raw.githubusercontent.com/vaporvee/discord-sdk-godot/main/project/assets/GodotEditorPresenceBanner.png">
 <br />
 
