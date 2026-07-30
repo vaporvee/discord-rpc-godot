@@ -22,11 +22,11 @@ elif choice in no:
     print("Building for: '%s'" % (system))
     if system == "Windows": # Windows
         os.system(
-            "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
+            "python -m SCons platform=windows && python -m SCons platform=windows target=template_release && godot project/project.godot"
         )
     elif system == "Darwin":  # macOS
         os.system(
-            "python -m SCons target=template_release arch=x86_64 && python -m SCons target=template_debug arch=x86_64 && python -m SCons target=template_release arch=arm64 && python -m SCons target=template_debug arch=arm64 && godot project/project.godot"
+            "python -m SCons platform=macos target=template_release arch=x86_64 && python -m SCons platform=macos target=template_debug arch=x86_64 && python -m SCons platform=macos target=template_release arch=arm64 && python -m SCons platform=macos target=template_debug arch=arm64 && godot project/project.godot"
         )
         # Create universal binaries
         cur_working_dir = os.path.dirname(os.path.realpath(__file__)) + '/project/addons/discord-rpc-gd/bin/macos/'
@@ -39,7 +39,7 @@ elif choice in no:
         )
     else:  # Linux
         os.system(
-            "python -m SCons && python -m SCons target=template_release && godot project/project.godot"
+            "python -m SCons platform=linux target=template_release && python -m SCons platform=linux target=template_debug && godot project/project.godot"
         )
 else:
     sys.stdout.write("Please respond with 'yes' or 'no'")

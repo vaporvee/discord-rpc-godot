@@ -53,6 +53,15 @@ with open("src/lib/discord_game_sdk/cpp/types.h", "r+") as f:
     f.seek(0)
     f.write("#include <cstdint>\n" + s)
 
+# Patch the SDKs Windows.h include to lowercase, since mingw-w64 installs
+# it as windows.h and Linux filesystems are case-sensitive
+for header in ("cpp/ffi.h", "cpp/types.h"):
+    header_path = os.path.join("src/lib/discord_game_sdk", header)
+    with open(header_path, "r") as f:
+        s = f.read()
+    with open(header_path, "w") as f:
+        f.write(s.replace("#include <Windows.h>", "#include <windows.h>"))
+
 copytree(
     "src/lib/discord_game_sdk/lib/", "src/lib/discord_game_sdk/bin/", dirs_exist_ok=True
 )
