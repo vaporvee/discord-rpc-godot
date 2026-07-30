@@ -32,10 +32,10 @@ if shutil.which("godot"):
     os.system("cd project && godot --headless --export-release \"Windows Desktop\"")
     os.system("cd project && godot --headless --export-release \"macOS\"")
 
-temp_dir = "release/temp_export_dir"
-os.makedirs(temp_dir, exist_ok=True)
 for platform in export_platforms:
-    shutil.copytree(f"project/export/{platform}", os.path.join(temp_dir, platform), dirs_exist_ok=True)
-shutil.make_archive('release/Demo-Export', 'zip', temp_dir)
-shutil.rmtree(temp_dir)
-print("Demo-Export.zip has been created successfully.")
+    # macOS already exports directly to a zip, so just copy it instead of re-zipping it
+    if platform == "macos":
+        shutil.copyfile("project/export/macos/discord-rpc-godot-demo.zip", f"release/Demo-Export-{platform}.zip")
+    else:
+        shutil.make_archive(f"release/Demo-Export-{platform}", "zip", f"project/export/{platform}")
+    print(f"Demo-Export-{platform}.zip has been created successfully.")

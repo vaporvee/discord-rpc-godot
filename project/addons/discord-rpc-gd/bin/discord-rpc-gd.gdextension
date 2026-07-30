@@ -8,8 +8,8 @@ reloadable = true
 
 macos.debug = "macos/libdiscord_game_sdk_binding_debug.dylib"
 macos.release = "macos/libdiscord_game_sdk_binding.dylib"
-windows.debug.x86_64 = "windows/discord_game_sdk_binding_debug.dll"
-windows.release.x86_64 = "windows/discord_game_sdk_binding.dll"
+windows.debug.x86_64 = "windows/libdiscord_game_sdk_binding_debug.dll"
+windows.release.x86_64 = "windows/libdiscord_game_sdk_binding.dll"
 linux.debug.x86_64 = "linux/libdiscord_game_sdk_binding_debug.so"
 linux.release.x86_64 = "linux/libdiscord_game_sdk_binding.so"
 linux.debug.arm64 = "linux/libdiscord_game_sdk_binding_debug.so"
